@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add</title>
+</head>
+<body>
+    <h2>Add a product</h2>
+
+    <p>Ten: <input type="text" name="tenHH" id="tenHH"></p>
+
+    <p>Mo ta: <textarea name="moTaHH" id="moTaHH" cols="30" rows="7"></textarea></p>
+
+    <p>Gia: <input type="number" name="giaHH" id="giaHH"></p>
+
+    <p>So luong: <input type="number" name="soLuongHH" id="soLuongHH"></p>
+
+    <p>Hinh anh: <input type="file" name="hinhAnhHH" id="hinhAnhHH"></p>
+
+    <button id="themHHBtn">Add</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.getElementById('themHHBtn').onclick = function() {
+            var hinhAnh = document.getElementById('hinhAnhHH').files[0];
+            var ten = document.getElementById('tenHH').value;
+            var moTa = document.getElementById('moTaHH').value;
+            var gia = document.getElementById('giaHH').value *1;
+            var soLuong = document.getElementById('soLuongHH').value *1;
+
+            var formData = new FormData();
+            if(hinhAnh != undefined)
+            {
+                formData.append('hinhanh', hinhAnh);
+            }
+            formData.append('ten', ten);
+            formData.append('mota', moTa);
+            formData.append('gia', gia);
+            formData.append('soluong', soLuong);
+
+            axios({
+                method: 'POST',
+                url: 'http://localhost:8000/api/add',
+                data: formData
+            })
+            .then(function(data) {
+                alert('Tạo hàng hóa thành công');
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+        }
+    </script>
+</body>
+</html>
