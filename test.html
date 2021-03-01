@@ -9,6 +9,7 @@
 <body>
     <h2>Add a product</h2>
 
+    <form action="http://localhost:8000/api/tinh_thanh" method="post">
     <p>Ten: <input type="text" name="tenHH" id="tenHH"></p>
 
     <p>Mo ta: <textarea name="moTaHH" id="moTaHH" cols="30" rows="7"></textarea></p>
@@ -18,7 +19,8 @@
     <p>So luong: <input type="number" name="soLuongHH" id="soLuongHH"></p>
 
     <p>Hinh anh: <input type="file" name="hinhAnhHH" id="hinhAnhHH"></p>
-
+    <input type="submit" value="submit">
+</form>
     <button id="themHHBtn">Add</button>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -36,14 +38,15 @@
                 formData.append('hinhanh', hinhAnh);
             }
             formData.append('ten', ten);
-            formData.append('mota', moTa);
-            formData.append('gia', gia);
-            formData.append('soluong', soLuong);
+            formData.append('loai', moTa);
+            // formData.append('mota', moTa);
+            // formData.append('gia', gia);
+            // formData.append('soluong', soLuong);
 
             axios({
                 method: 'POST',
-                url: 'http://localhost:8000/api/add',
-                data: formData
+                url: 'http://localhost:8000/api/tinh_thanh',
+                data: { firstName: 'Fred', lastName: 'Flintstone' }
             })
             .then(function(data) {
                 alert('Tạo hàng hóa thành công');
@@ -51,7 +54,9 @@
             .catch(function(error) {
                 console.log(error);
             });
+            
         }
+        
     </script>
 </body>
 </html>

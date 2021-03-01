@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var tinhThanhPhoSchema = new mongoose.Schema({
+    _id: String,
     ten: String,
     loai: String
 }, {

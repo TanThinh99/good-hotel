@@ -1,0 +1,56 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(http-equiv='X-UA-Compatible', content='IE=edge')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  title Add
+body
+    h2 Add a product
+    form(action='http://localhost:8000/api/tinh_thanh', method='post', enctype="multipart/form-data")
+        p
+            | Ten: 
+            input#tenHH(type='text', name='tenHH')
+        p
+            | Mo ta: 
+            textarea#moTaHH(name='moTaHH', cols='30', rows='7')
+        p
+            | Gia: 
+            input#giaHH(type='number', name='giaHH')
+        p
+            | So luong: 
+            input#soLuongHH(type='number', name='soLuongHH')
+        p
+            | Hinh anh: 
+            input#hinhAnhHH(type='file', name='hinhAnhHH' multiple)
+        input(type='submit', value='submit')
+    button#themHHBtn Add
+    script(src='https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js')
+    script.
+        document.getElementById('themHHBtn').onclick = function() {
+        var hinhAnh = document.getElementById('hinhAnhHH').files;
+        var ten = document.getElementById('tenHH').value;
+        var moTa = document.getElementById('moTaHH').value;
+        var gia = document.getElementById('giaHH').value *1;
+        var soLuong = document.getElementById('soLuongHH').value *1;
+        var formData = new FormData();
+        if(hinhAnh != undefined)
+        {
+            formData.append('hinhanh', hinhAnh);
+        }
+        formData.append('ten', ten);
+        formData.append('loai', moTa);
+        formData.append('mota', moTa);
+        formData.append('gia', gia);
+        formData.append('soluong', soLuong);
+        axios({
+        method: 'POST',
+        url: 'http://localhost:8000/api/tinh_thanh',
+        data: formData
+        })
+        .then(function(data) {
+            alert('Tạo hàng hóa thành công');
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+        }

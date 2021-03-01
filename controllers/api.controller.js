@@ -5,6 +5,7 @@ module.exports.get = async function(req, res) {
     res.json(cities);
 }
 
+// router.post('/add', uploads.single('hinhanh'), apiCtrl.callAPI);
 module.exports.callAPI = async function(req, res) {
     req.body.hinhanh = req.file.filename;
     console.log(req.body);

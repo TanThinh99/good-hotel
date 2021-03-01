@@ -4,9 +4,15 @@
   "description": "��#\u0000 \u0000g\u0000o\u0000o\u0000d\u0000-\u0000h\u0000o\u0000t\u0000e\u0000l\u0000\r\u0000 \u0000",
   "main": "app.js",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "js-sha256": "^0.9.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.17",
-    "multer": "^1.4.2"
+    "multer": "^1.4.2",
+    "pug": "^3.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
