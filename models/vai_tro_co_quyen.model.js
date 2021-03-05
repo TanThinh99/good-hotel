@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
 var vaiTroCoQuyenSchema = new mongoose.Schema({
-    _id: String,
     ma_vai_tro: String,
     ma_quyen: String
 }, {

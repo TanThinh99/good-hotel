@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
 var taiKhoanSchema = new mongoose.Schema({
-    _id: String,
     ho_ten: String,
     gioi_tinh: Boolean,
     email: String,

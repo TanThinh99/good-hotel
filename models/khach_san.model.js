@@ -1,15 +1,14 @@
 var mongoose = require('mongoose');
 
 var khachSanSchema = new mongoose.Schema({
-    _id: String,
     ten: String,
     dia_chi: String,
     so_dien_thoai: String,
     google_map: String,
-    gia: Int32Array,
-    diem_trung_binh: Float32Array,
-    so_luong_binh_luan: Int8Array,
-    so_phong_con_lai: Int8Array,
+    gia: Number,
+    diem_trung_binh: Number,
+    so_luong_binh_luan: Number,
+    so_phong_con_lai: Number,
     maxp: String
 }, {
     versionKey: false

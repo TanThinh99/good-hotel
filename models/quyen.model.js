@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
 var quyenSchema = new mongoose.Schema({
-    _id: String,
     ten: String
 }, {
     versionKey: false

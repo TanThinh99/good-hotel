@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
 var vaiTroSchema = new mongoose.Schema({
-    _id: String,
     ten: String,
     disabled: Boolean
 }, {

@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
 var tienNghiKhachSanSchema = new mongoose.Schema({
-    _id: String,
     ma_tien_nghi: String,
     ma_khach_san: String
 }, {
