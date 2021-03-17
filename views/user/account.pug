@@ -1,0 +1,246 @@
+extends layout/base.pug
+
+block title 
+    <title>Thông tin cá nhân</title>
+
+block header 
+    <link rel="stylesheet" href="css/mycss/info-control.css">
+
+block content
+    // Blog Details Section Begin
+    section.blog-details.spad(style='padding-top: 33px;')
+        .container
+            .row
+                .col-lg-2.col-md-4.order-md-1.order-1
+                    .infoNav.active-nav(onclick="ChooseControl(this, 'infoContent')")
+                        span
+                            i.fa.fa-info-circle
+                            | &nbsp;&nbsp;Th&ocirc;ng tin
+                    .infoNav(onclick="ChooseControl(this, 'accountContent')")
+                        span
+                            i.fa.fa-user-circle
+                            | &nbsp;&nbsp;T&agrave;i kho&#x1EA3;n
+                    .infoNav(onclick="ChooseControl(this, 'checkRoomContent')")
+                        span
+                            i.fa.fa-file-text
+                            | &nbsp;&nbsp;H&oacute;a &dstrok;&#x1A1;n
+                    .infoNav(onclick="ChooseControl(this, '')")
+                        span
+                            i.fa.fa-sign-out
+                            | &nbsp;&nbsp;&Dstrok;&abreve;ng xu&#x1EA5;t
+                .col-lg-10.col-md-8.order-md-1.order-2
+                    .contentTitle Thong tin ca nhan
+                    // Thong tin ca nhan
+                    #infoContent.mainContent
+                        .row
+                            .col-sm-4(style='text-align: center;')
+                                img#avatarImg(src='https://thevocaloids.files.wordpress.com/2018/02/artworks-000140855275-ysu9n0-t500x500.jpg?w=640' alt='' style='width: 100%; max-height: 350px;')
+                                br
+                                input#avatar(type='file' name='avatar' accept='image/*' hidden='')
+                                label#avatarBtn(for='myfile' onclick="document.getElementById('avatar').click()")
+                                    i.fa.fa-upload.mr-2
+                                    | Avatar
+                            .col-sm-8
+                                table
+                                    tr
+                                        td.infoTitle
+                                            label(for='name') H&#x1ECD; v&agrave; t&ecirc;n
+                                        td
+                                            input#name.form-control(type='text' name='name' value='Nguyễn Tấn Thịnh')
+                                    tr
+                                        td.infoTitle Gi&#x1EDB;i t&iacute;nh
+                                        td
+                                            .custom-control.custom-radio.custom-control-inline
+                                                input#namRadio.custom-control-input(type='radio' name='genral' value='nam')
+                                                label.custom-control-label(for='namRadio') Nam
+                                            .custom-control.custom-radio.custom-control-inline
+                                                input#nuRadio.custom-control-input(type='radio' name='genral' value='nu')
+                                                label.custom-control-label(for='nuRadio') N&#x1EEF;
+                                    tr
+                                        td.infoTitle
+                                            label(for='phone') S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i
+                                        td
+                                            input#phone.form-control(type='text' name='phone' value='0926589657')
+                                    tr
+                                        td.infoTitle(style='vertical-align: top;')
+                                            label(for='address') &Dstrok;&#x1ECB;a ch&#x1EC9;
+                                        td
+                                            .row
+                                                .col-12
+                                                    .form-group.form-inline
+                                                        label(for='exampleInputEmail1') T&#x1EC9;nh, th&agrave;nh ph&#x1ED1;
+                                                        select#exampleInputEmail1.ml-2(name='')
+                                                            option(value='' selected='') -- Ch&#x1ECD;n T&#x1EC9;nh, th&agrave;nh ph&#x1ED1; --
+                                                            option(value='') T&#x1EC9;nh An Giang
+                                                            option(value='') T&#x1EC9;nh Ki&ecirc;n Giang
+                                                            option(value='') T&#x1EC9;nh H&agrave; Giang
+                                                .col-12
+                                                    .form-group.form-inline
+                                                        label(for='exampleInputEmail1') Qu&#x1EAD;n, huy&#x1EC7;n
+                                                        select#exampleInputEmail1.ml-2(name='')
+                                                            option(value='' selected='') -- Ch&#x1ECD;n Qu&#x1EAD;n, huy&#x1EC7;n --
+                                                            option(value='') T&#x1EC9;nh An Giang
+                                                            option(value='') T&#x1EC9;nh Ki&ecirc;n Giang
+                                                            option(value='') T&#x1EC9;nh H&agrave; Giang
+                                                .col-12
+                                                    .form-group.form-inline
+                                                        label(for='exampleInputEmail1') X&atilde;, ph&#x1B0;&#x1EDD;ng, th&#x1ECB; tr&#x1EA5;n
+                                                        select#exampleInputEmail1.ml-2(name='')
+                                                            option(value='' selected='') -- Ch&#x1ECD;n X&atilde;, ph&#x1B0;&#x1EDD;ng, th&#x1ECB; tr&#x1EA5;n --
+                                                            option(value='') T&#x1EC9;nh An Giang
+                                                            option(value='') T&#x1EC9;nh Ki&ecirc;n Giang
+                                                            option(value='') T&#x1EC9;nh H&agrave; Giang
+                                                .col-12
+                                                    .form-group.form-inline
+                                                        label(for='exampleInputEmail1') S&#x1ED1; nh&agrave;, t&ecirc;n &dstrok;&#x1B0;&#x1EDD;ng
+                                                        input#exampleInputEmail1.form-control.ml-2.w-50(type='text' name='')
+                                    tr
+                                        td
+                                        td(style='text-align: right;')
+                                            button.btn.btn-success
+                                                i.fa.fa-pencil-square-o.mr-1(aria-hidden='true')
+                                                | C&#x1EAD;p nh&#x1EAD;t
+                    // Tài khoản
+                    #accountContent.mainContent(style='display:none;')
+                        .row
+                            .col-12
+                                table
+                                    tr
+                                        td.infoTitle
+                                            label(for='email') Email
+                                        td
+                                            input#email.form-control(type='text' name='email' value='abc1@gmail.com')
+                                    tr
+                                        td.infoTitle
+                                            label(for='username') T&ecirc;n &dstrok;&abreve;ng nh&#x1EAD;p
+                                        td
+                                            input#username.form-control(type='text' name='username' value='abc1' readonly='')
+                                    tr
+                                        td.infoTitle
+                                            label(for='pass1') M&#x1EAD;t kh&#x1EA9;u
+                                        td
+                                            input#pass1.form-control(type='password' name='pass1' value='absj')
+                                    tr
+                                        td.infoTitle
+                                            label(for='pass2') Nh&#x1EAD;p l&#x1EA1;i m&#x1EAD;t kh&#x1EA9;u
+                                        td
+                                            input#pass2.form-control(type='password' name='pass2' value='absj')
+                                    tr
+                                        td
+                                        td(style='text-align: right;')
+                                            button.btn.btn-success
+                                                i.fa.fa-pencil-square-o.mr-1(aria-hidden='true')
+                                                | C&#x1EAD;p nh&#x1EAD;t
+                    // Lịch sử đặt phòng
+                    #checkRoomContent.mainContent(style='display:none;')
+                        .row.icon-examples
+                            .col-lg-11.col-md-6.mx-auto.bill
+                                .row
+                                    .col-md-7
+                                        h4.title Th&ocirc;ng tin kh&aacute;ch s&#x1EA1;n
+                                        p T&ecirc;n: &Dstrok;&#x1EC7; Nh&#x1EA5;t
+                                        p S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i: 0236541258
+                                        p &Dstrok;&#x1ECB;a ch&#x1EC9;: An H&ograve;a, Ch&acirc;u Th&agrave;nh, An Giang
+                                    .col-md-5
+                                        h4.title Th&ocirc;ng tin lo&#x1EA1;i ph&ograve;ng
+                                        p Lo&#x1EA1;i ph&ograve;ng: VIP
+                                        p
+                                            | Ng&agrave;y &dstrok;&#x1EB7;t ph&ograve;ng: 
+                                            em 2020-08-06 15:23:56
+                                        p
+                                            | Ng&agrave;y h&#x1EBF;t h&#x1EA1;n: 
+                                            em 2020-08-09
+                                .mt-2
+                                    button.btn.btn-success.mr-2
+                                        i.fa.fa-info-circle.mr-1(aria-hidden='true')
+                                        | Xem chi ti&#x1EBF;t
+                                    button.btn.btn-danger
+                                        i.fa.fa-ban.mr-1(aria-hidden='true')
+                                        | H&#x1EE7;y &dstrok;&#x1EB7;t ph&ograve;ng
+                            .col-lg-11.col-md-6.mx-auto.bill
+                                .row
+                                    .col-md-7
+                                        h4.title Th&ocirc;ng tin kh&aacute;ch s&#x1EA1;n
+                                        p T&ecirc;n: &Dstrok;&#x1EC7; Nh&#x1EA5;t
+                                        p S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i: 0236541258
+                                        p &Dstrok;&#x1ECB;a ch&#x1EC9;: An H&ograve;a, Ch&acirc;u Th&agrave;nh, An Giang
+                                    .col-md-5
+                                        h4.title Th&ocirc;ng tin lo&#x1EA1;i ph&ograve;ng
+                                        p Lo&#x1EA1;i ph&ograve;ng: VIP
+                                        p
+                                            | Ng&agrave;y &dstrok;&#x1EB7;t ph&ograve;ng: 
+                                            em 2020-08-06 15:23:56
+                                        p
+                                            | Ng&agrave;y h&#x1EBF;t h&#x1EA1;n: 
+                                            em 2020-08-09
+                                .mt-2
+                                    button.btn.btn-success.mr-2
+                                        i.fa.fa-info-circle.mr-1(aria-hidden='true')
+                                        | Xem chi ti&#x1EBF;t
+                                    button.btn.btn-danger
+                                        i.fa.fa-ban.mr-1(aria-hidden='true')
+                                        | H&#x1EE7;y &dstrok;&#x1EB7;t ph&ograve;ng
+                            .col-lg-11.col-md-6.mx-auto.bill
+                                .row
+                                    .col-md-7
+                                        h4.title Th&ocirc;ng tin kh&aacute;ch s&#x1EA1;n
+                                        p T&ecirc;n: &Dstrok;&#x1EC7; Nh&#x1EA5;t
+                                        p S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i: 0236541258
+                                        p &Dstrok;&#x1ECB;a ch&#x1EC9;: An H&ograve;a, Ch&acirc;u Th&agrave;nh, An Giang
+                                    .col-md-5
+                                        h4.title Th&ocirc;ng tin lo&#x1EA1;i ph&ograve;ng
+                                        p Lo&#x1EA1;i ph&ograve;ng: VIP
+                                        p
+                                            | Ng&agrave;y &dstrok;&#x1EB7;t ph&ograve;ng: 
+                                            em 2020-08-06 15:23:56
+                                        p
+                                            | Ng&agrave;y h&#x1EBF;t h&#x1EA1;n: 
+                                            em 2020-08-09
+                                .mt-2
+                                    button.btn.btn-success.mr-2
+                                        i.fa.fa-info-circle.mr-1(aria-hidden='true')
+                                        | Xem chi ti&#x1EBF;t
+                                    button.btn.btn-danger
+                                        i.fa.fa-ban.mr-1(aria-hidden='true')
+                                        | H&#x1EE7;y &dstrok;&#x1EB7;t ph&ograve;ng
+                            .col-lg-11.col-md-6.mx-auto.bill
+                                .row
+                                    .col-md-7
+                                        h4.title Th&ocirc;ng tin kh&aacute;ch s&#x1EA1;n
+                                        p T&ecirc;n: &Dstrok;&#x1EC7; Nh&#x1EA5;t
+                                        p S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i: 0236541258
+                                        p &Dstrok;&#x1ECB;a ch&#x1EC9;: An H&ograve;a, Ch&acirc;u Th&agrave;nh, An Giang
+                                    .col-md-5
+                                        h4.title Th&ocirc;ng tin lo&#x1EA1;i ph&ograve;ng
+                                        p Lo&#x1EA1;i ph&ograve;ng: VIP
+                                        p
+                                            | Ng&agrave;y &dstrok;&#x1EB7;t ph&ograve;ng: 
+                                            em 2020-08-06 15:23:56
+                                        p
+                                            | Ng&agrave;y h&#x1EBF;t h&#x1EA1;n: 
+                                            em 2020-08-09
+                                .mt-2
+                                    button.btn.btn-success.mr-2
+                                        i.fa.fa-info-circle.mr-1(aria-hidden='true')
+                                        | Xem chi ti&#x1EBF;t
+                                    button.btn.btn-danger
+                                        i.fa.fa-ban.mr-1(aria-hidden='true')
+                                        | H&#x1EE7;y &dstrok;&#x1EB7;t ph&ograve;ng
+                            
+                            nav(aria-label='Page navigation example' style='margin: 20px auto auto;')
+                                ul.pagination.justify-content-center
+                                    li.page-item.disabled
+                                        a.page-link(href='#' aria-label='Previous')
+                                            span(aria-hidden='true') &laquo;
+                                    li.page-item.active
+                                        a.page-link(href='#') 1
+                                    li.page-item
+                                        a.page-link(href='#') 2
+                                    li.page-item
+                                        a.page-link(href='#') 3
+                                    li.page-item
+                                        a.page-link(href='#' aria-label='Next')
+                                            span(aria-hidden='true') &raquo;
+
+block script 
+    script(src="js/myJS/account.js") 

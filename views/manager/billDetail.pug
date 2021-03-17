@@ -1,0 +1,67 @@
+extends layout/base.pug
+
+block title
+    title Chi tiet hoa don
+
+block header
+
+block content
+
+    // Header
+    .header.bg-primary.pb-6
+        .container-fluid
+            .header-body
+                .row.align-items-center.py-4
+                    .col-lg-6.col-7
+                        h6.h2.text-white.d-inline-block.mb-0 Chi ti&#x1EBF;t h&oacute;a &dstrok;&#x1A1;n
+                        nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
+                            ol.breadcrumb.breadcrumb-links.breadcrumb-dark
+                                li.breadcrumb-item
+                                    a(href='#')
+                                        i.fas.fa-home
+                                li.breadcrumb-item(aria-current='page') H&oacute;a &dstrok;&#x1A1;n &dstrok;&#x1EB7;t ph&ograve;ng
+                                li.breadcrumb-item.active(aria-current='page') Chi ti&#x1EBF;t
+
+    // Page content
+    .container-fluid.mt--6
+        .row.justify-content-center
+            .col
+                .card
+                    .card-header.bg-transparent
+                        h3.mb-0 H&oacute;a &dstrok;&#x1A1;n &dstrok;&#x1EB7;t ph&ograve;ng
+                    .card-body
+                        .row.icon-examples
+                            .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto
+                                h2(style='margin-bottom: 20px;') Th&ocirc;ng tin lo&#x1EA1;i ph&ograve;ng
+                                .row
+                                    .col-md-6
+                                        p Kh&aacute;ch s&#x1EA1;n: &Dstrok;&#x1EC7; nh&#x1EA5;t kh&aacute;ch s&#x1EA1;n
+                                        p Lo&#x1EA1;i ph&ograve;ng: VIP
+                                        p Ti&#x1EC1;n thanh to&aacute;n tr&#x1B0;&#x1EDB;c: 121.000 &Dstrok;&#x1ED3;ng
+                                        p Gi&aacute; &dstrok;&#x1EB7;t ph&ograve;ng: 1.000.000 &Dstrok;&#x1ED3;ng
+                                    .col-md-6
+                                        p
+                                            | Ng&agrave;y &dstrok;&#x1EB7;t ph&ograve;ng: 
+                                            em 2020-08-06 15:23:56
+                                        p
+                                            | Ng&agrave;y h&#x1EBF;t h&#x1EA1;n: 
+                                            em 2020-08-09
+                                        p
+                                            | Ng&agrave;y tr&#x1EA3; ph&ograve;ng: 
+                                            em 2020-08-12 11:12:44
+                            .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto
+                                h2(style='margin-bottom: 20px;') Th&ocirc;ng tin kh&aacute;ch h&agrave;ng
+                                .row
+                                    .col-md-6
+                                        p M&atilde; t&agrave;i kho&#x1EA3;n: s1d5f4d2d1s4d5s4
+                                        p H&#x1ECD; t&ecirc;n: Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
+                                        p Gi&#x1EDB;i t&iacute;nh: Nam
+                                    .col-md-6
+                                        p Email: abc@gmail.com
+                                        p S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i: 0235641256
+                                        p &Dstrok;&#x1ECB;a ch&#x1EC9;: An H&ograve;a, Ch&acirc;u Th&agrave;nh, An Giang
+        
+        // Footer
+        include layout/footer.pug
+        
+block script 

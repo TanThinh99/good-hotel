@@ -1,0 +1,78 @@
+.banner-item {
+    position: relative;
+}
+
+.banner-item img {
+    height: 500px;
+}
+
+.banner-text {
+    position: absolute;
+}
+
+.hero {
+    padding-bottom: 34px;
+}
+
+/* MODAL */
+.modal .nav-link {
+    color:rgb(0, 174, 255);
+}
+
+.modal .nav-link:hover {
+    background-color: rgb(197, 255, 155);
+}
+
+.modal .nav-link.active {
+    color: white;
+    background-color: greenyellow;
+}
+
+/* HOTELS */
+.hotel-item {
+    background: #f4f4f4;
+    padding: 3px;
+    border-radius: 2px;
+    transition: 0.3s;
+    margin-bottom: 34px;
+}
+
+.hotel-item:hover {
+    box-shadow: 2px 3px 4px 3px greenyellow;
+}
+
+.latest-product__item__text span {
+    display: inline;
+}
+
+.latest-product__item__text p {
+	border-top: 1px solid rgb(230, 230, 230);
+	color: black;
+    padding-top: 9px;
+    margin-bottom: 12px;
+}
+
+.latest-product__item__text .hotelName {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.latest-product__item__text .score {
+    font-size: 14px;
+    font-weight: normal;
+    border-radius: 35px;
+    padding: 0px 9px;
+    display: inline-block;
+    background-color: yellowgreen;
+    color: white;
+}
+
+.latest-product__item__text .level {
+    font-weight: bold;
+    margin-left: 6px;
+}
+
+.latest-product__item__pic img {
+    height: 170px;
+    width: 170px;
+}

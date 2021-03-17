@@ -1,0 +1,134 @@
+extends layout/base.pug
+
+block title 
+    title Argon Dashboard - Free Dashboard for Bootstrap 4
+
+block header 
+    link(rel='stylesheet' href='/assets_manager/css/mycss/index.css')
+
+block content 
+    // Header
+    .header.bg-primary.pb-6
+        .container-fluid
+            .header-body
+                .row.align-items-center.py-4
+                    .col-lg-6.col-7
+                        h6.h2.text-white.d-inline-block.mb-0 Th&ocirc;ng tin
+                        nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
+                            ol.breadcrumb.breadcrumb-links.breadcrumb-dark
+                                li.breadcrumb-item
+                                    a(href='#')
+                                        i.fas.fa-home
+                                li.breadcrumb-item.active(aria-current='page') Th&ocirc;ng tin
+                    //- .col-lg-6.col-5.text-right
+                    //-     a.btn.btn-sm.btn-neutral(href='#') New
+                    //-     a.btn.btn-sm.btn-neutral(href='#') Filters
+    
+    // Page content
+    .container-fluid.mt--6
+        .row.justify-content-center
+            .col
+                .card
+                    .card-header.bg-transparent
+                        h3.mb-0 Th&ocirc;ng tin kh&aacute;ch s&#x1EA1;n
+                    .card-body
+                        .row.icon-examples
+                            .col-md-11.col-md-6.mx-auto
+                                .form-group
+                                    label(for='exampleInputEmail1') T&ecirc;n kh&aacute;ch s&#x1EA1;n
+                                    input#exampleInputEmail1.form-control(type='text' aria-describedby='emailHelp')
+                            .col-md-11.col-md-6.mx-auto
+                                .form-group
+                                    label(for='exampleInputEmail1') S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i
+                                    input#exampleInputEmail1.form-control(type='text' aria-describedby='emailHelp')
+                            .col-md-11.col-md-6.mx-auto
+                                .form-group
+                                    label(for='exampleInputEmail1') &Dstrok;&#x1ECB;a ch&#x1EC9;
+                                    .row.mx-auto
+                                        .col-8
+                                            .form-group.form-inline
+                                                label(for='exampleInputEmail1') T&#x1EC9;nh, th&agrave;nh ph&#x1ED1;
+                                                select#exampleInputEmail1.custom-select.ml-2(name='')
+                                                    option(value='' selected='') -- Ch&#x1ECD;n T&#x1EC9;nh, th&agrave;nh ph&#x1ED1; --
+                                                    option(value='') T&#x1EC9;nh An Giang
+                                                    option(value='') T&#x1EC9;nh Ki&ecirc;n Giang
+                                                    option(value='') T&#x1EC9;nh H&agrave; Giang
+                                        .col-8
+                                            .form-group.form-inline
+                                                label(for='exampleInputEmail1') Qu&#x1EAD;n, huy&#x1EC7;n
+                                                select#exampleInputEmail1.custom-select.ml-2(name='')
+                                                    option(value='' selected='') -- Ch&#x1ECD;n Qu&#x1EAD;n, huy&#x1EC7;n --
+                                                    option(value='') T&#x1EC9;nh An Giang
+                                                    option(value='') T&#x1EC9;nh Ki&ecirc;n Giang
+                                                    option(value='') T&#x1EC9;nh H&agrave; Giang
+                                        .col-8
+                                            .form-group.form-inline
+                                                label(for='exampleInputEmail1') X&atilde;, ph&#x1B0;&#x1EDD;ng, th&#x1ECB; tr&#x1EA5;n
+                                                select#exampleInputEmail1.custom-select.ml-2(name='')
+                                                    option(value='' selected='') -- Ch&#x1ECD;n X&atilde;, ph&#x1B0;&#x1EDD;ng, th&#x1ECB; tr&#x1EA5;n --
+                                                    option(value='') T&#x1EC9;nh An Giang
+                                                    option(value='') T&#x1EC9;nh Ki&ecirc;n Giang
+                                                    option(value='') T&#x1EC9;nh H&agrave; Giang
+                                        .col-12
+                                            .form-group.form-inline
+                                                label(for='exampleInputEmail1') S&#x1ED1; nh&agrave;, t&ecirc;n &dstrok;&#x1B0;&#x1EDD;ng
+                                                input#exampleInputEmail1.form-control.ml-2.w-50(type='text' name='')
+                                    // <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            .col-md-11.col-md-6.mx-auto
+                                .form-group
+                                    label(for='exampleInputEmail1') B&#x1EA3;n &dstrok;&#x1ED3; Google Map
+                                    input#exampleInputEmail1.form-control(type='text' aria-describedby='emailHelp')
+                            .col-md-11.col-md-6.mx-auto
+                                button.btn.btn-success
+                                    i.ni.ni-check-bold
+                                    |                     C&#x1EAD;p nh&#x1EAD;t
+            .col-12
+                .card
+                    .card-header.bg-transparent
+                        h3.mb-0.row
+                            .col-6 H&igrave;nh &#x1EA3;nh c&#x1EE7;a kh&aacute;ch s&#x1EA1;n
+                            .col-6.text-right
+                                button.btn.btn-light(data-toggle='modal' data-target='#exampleModal') T&#x1EA3;i l&ecirc;n h&igrave;nh &#x1EA3;nh
+                    .card-body
+                        .row.icon-examples
+                            .col-md-11.col-md-6.mx-auto
+                                .images
+                                    .containImages
+                                        img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                        img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                        img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                .imageBox
+                                    img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                    span.delBtn
+                                        i.fa.fa-trash(aria-hidden='true')
+                                    span.closeBtn
+                                        i.fa.fa-times(aria-hidden='true')
+                                    span.fullScreenBtn
+                                        i.fa.fa-arrows-alt(aria-hidden='true')
+        
+        // Footer
+        include layout/footer.pug
+
+    // Modal
+    #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        h5#exampleModalLabel.modal-title T&#x1EA3;i l&ecirc;n h&igrave;nh &#x1EA3;nh
+                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') &times;
+                    .modal-body.upload-file-modal
+                        input#fileupload(type='file' name='' multiple='' accept='image/*' hidden='')
+                        .text-center
+                            button.btn.btn-warning(onclick="document.getElementById('fileupload').click()")
+                                i.fa.fa-picture-o(aria-hidden='true')
+                                |                   Ch&#x1ECD;n h&igrave;nh &#x1EA3;nh
+                        #dvPreview
+                    .modal-footer
+                        button.btn.btn-primary(type='button')
+                            i.fa.fa-upload(aria-hidden='true')
+                            | Save changes
+                        button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+
+block script
+    script(src="/assets_manager/js/myjs/hotel.js") 

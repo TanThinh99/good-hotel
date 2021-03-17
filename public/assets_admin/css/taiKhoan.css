@@ -1,0 +1,46 @@
+.account {
+    font-size: 15px;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    color: #32325d;
+    border-radius: 6px;
+    background-color: #f6f9fc;
+}
+
+.account:hover {
+    background-color: #fff;
+    box-shadow: rgb(0 0 0 / 10%) 0 0 0 1px, rgb(0 0 0 / 10%) 0 4px 16px;
+}
+
+.account .user-avatar {
+    height: 80px;
+    max-width: 120px;
+    border-radius: 3px;
+    margin-bottom: 16px;
+}
+
+.account p {
+    margin-bottom: 7px;
+}
+
+.custom-modal {
+    padding: 20px 0px 8px 0px;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+}
+
+.custom-modal img {
+    width: 100%;
+    padding: 23px 0px 0px 8px;
+    max-height: 200px;
+}
+
+.custom-modal .info  {
+    margin-bottom: 17px;
+}
+
+.custom-modal .info .title {
+    font-weight: bold;
+}

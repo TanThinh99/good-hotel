@@ -1,4 +1,5 @@
 var tienNghiKSModel = require('./../../models/tien_nghi_khach_san.model');
+var taiKhoanModel = require('./../../models/tai_khoan.model');
 
 module.exports.List = async function(req, res) {
     var doc = await tienNghiKSModel.find();
@@ -6,9 +7,11 @@ module.exports.List = async function(req, res) {
 }
 
 module.exports.Add = async function(req, res) {
+    var decode = res.locals.decode;
+    var account = await taiKhoanModel.findById(decode.id).exec();
     var obj = {
         ma_tien_nghi: req.body.ma_tien_nghi,
-        ma_khach_san: req.body.ma_khach_san
+        ma_khach_san: account.ma_khach_san
     }
     var doc = await tienNghiKSModel.insertMany([obj]);
     res.json(doc);
@@ -17,16 +20,6 @@ module.exports.Add = async function(req, res) {
 module.exports.Detail = async function(req, res) {
     var id = req.params.id;
     var doc = await tienNghiKSModel.findById(id).exec();
-    res.json(doc);
-}
-
-module.exports.Update = async function(req, res) {
-    var id = req.params.id;
-    var obj = {
-        ma_tien_nghi: req.body.ma_tien_nghi,
-        ma_khach_san: req.body.ma_khach_san
-    }
-    var doc = await tienNghiKSModel.findByIdAndUpdate(id, obj, {new: true});
     res.json(doc);
 }
 

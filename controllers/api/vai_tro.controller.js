@@ -1,6 +1,7 @@
 var vaiTroModel = require('./../../models/vai_tro.model');
 var taiKhoanModel = require('./../../models/tai_khoan.model');
 var vaiTroCoQuyenModel = require('./../../models/vai_tro_co_quyen.model');
+const vaiTroCoQuyen = require('./../../models/vai_tro_co_quyen.model');
 
 module.exports.List = async function(req, res) {
     var doc = await vaiTroModel.find();
@@ -49,4 +50,10 @@ module.exports.Delete = async function(req, res) {
         doc.save();
         res.json(doc);
     }
+}
+
+module.exports.HavePermission = async function(req, res) {
+    var id = req.params.id;
+    var docs = await vaiTroCoQuyen.find({ ma_vai_tro: id }).populate('ma_quyen');
+    res.json(docs);
 }

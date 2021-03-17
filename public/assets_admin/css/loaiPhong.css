@@ -1,0 +1,65 @@
+.roomType {
+    height: 170px;
+    width: 100%;
+    background-color: rgb(243, 243, 243);
+    padding: 10px 0px 10px 10px;
+    margin-bottom: 40px;
+}
+
+.images {
+    width: 100%;
+    height: 117px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.images .containImages {
+    width: 1000px;
+}
+
+.images .containImages img {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+}
+
+.images .containImages .active {
+    border: 3px solid rgb(2, 255, 200);
+}
+
+.imageBox {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 350px;
+    background-color: rgb(243, 243, 243);
+    text-align: center;
+    margin-top: 15px;
+}
+
+.imageBox img {
+    max-width: 100%;
+    height: 350px;
+}
+
+.imageBox .delBtn {
+    position: absolute;
+    top: 10px;
+    right: 60px;
+    font-size: 33px;
+    cursor: pointer;
+    color: rgb(192, 192, 192);
+}
+
+.imageBox .closeBtn {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 33px;
+    cursor: pointer;
+    color: rgb(192, 192, 192);
+}
+
+.imageBox .delBtn:hover, .imageBox .closeBtn:hover {
+    color: rgb(75, 75, 75);
+}

@@ -20,16 +20,6 @@ module.exports.Detail = async function(req, res) {
     res.json(doc);
 }
 
-module.exports.Update = async function(req, res) {
-    var id = req.params.id;
-    var obj = {
-        ma_vai_tro: req.body.ma_vai_tro,
-        ma_quyen: req.body.ma_quyen
-    }
-    var doc = await vaiTroCoQuyenModel.findByIdAndUpdate(id, obj, {new: true});
-    res.json(doc);
-}
-
 module.exports.Delete = async function(req, res) {
     var id = req.params.id;
     var doc = await vaiTroCoQuyenModel.findByIdAndDelete(id);

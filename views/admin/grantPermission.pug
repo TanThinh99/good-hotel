@@ -1,0 +1,98 @@
+extends layout/base.pug
+
+block title
+    title Cap quyen
+
+block header
+    link(rel='stylesheet' href='/assets_admin/css/capQuyen.css')
+
+block content
+    // Header
+    .header.bg-primary.pb-6
+        .container-fluid
+            .header-body
+                .row.align-items-center.py-4
+                    .col-lg-6.col-7
+                        h6.h2.text-white.d-inline-block.mb-0 Vai tr&ograve;
+                        nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
+                            ol.breadcrumb.breadcrumb-links.breadcrumb-dark
+                                li.breadcrumb-item
+                                    a(href='#')
+                                        i.fas.fa-home
+                                li.breadcrumb-item(aria-current='page') Vai tr&ograve;
+                                li.breadcrumb-item(aria-current='page') Admin
+                                li.breadcrumb-item.active(aria-current='page') C&#x1EA5;p quy&#x1EC1;n
+                    
+    // Page content
+    .container-fluid.mt--6
+        .row.justify-content-center
+            .col-12
+                .card
+                    .card-header.bg-transparent
+                        h3.mb-0 C&aacute;c quy&#x1EC1;n hi&#x1EC7;n c&oacute;
+                    .card-body
+                        .row.icon-examples
+                            .col-md-7.col-md-6.mx-auto.permissList
+                                .row.mx-auto
+                                    .permiss.col-12
+                                        span Th&ecirc;m vai tr&ograve;
+                                        span.delPermiss
+                                            i.fa.fa-trash-o(aria-hidden='true')
+                                    .permiss.col-12
+                                        span Th&ecirc;m vai tr&ograve;
+                                        span.delPermiss
+                                            i.fa.fa-trash-o(aria-hidden='true')
+                                    .permiss.col-12
+                                        span Th&ecirc;m vai tr&ograve;
+                                        span.delPermiss
+                                            i.fa.fa-trash-o(aria-hidden='true')
+                                    .permiss.col-12
+                                        span Th&ecirc;m vai tr&ograve;
+                                        span.delPermiss
+                                            i.fa.fa-trash-o(aria-hidden='true')
+                                    .permiss.col-12
+                                        span Th&ecirc;m vai tr&ograve;
+                                        span.delPermiss
+                                            i.fa.fa-trash-o(aria-hidden='true')
+                                    .permiss.col-12
+                                        span Th&ecirc;m vai tr&ograve;
+                                        span.delPermiss
+                                            i.fa.fa-trash-o(aria-hidden='true')
+                                    .permiss.col-12
+                                        span Th&ecirc;m vai tr&ograve;
+                                        span.delPermiss
+                                            i.fa.fa-trash-o(aria-hidden='true')
+                                    .permiss.col-12
+                                        span Th&ecirc;m vai tr&ograve;
+                                        span.delPermiss
+                                            i.fa.fa-trash-o(aria-hidden='true')
+            .col-12
+                .card
+                    .card-header.bg-transparent
+                        h3.mb-0.row
+                            .col-6 C&aacute;c quy&#x1EC1;n ch&#x1B0;a c&oacute;
+                    .card-body
+                        .row.icon-examples
+                            .col-md-7.col-md-6.mx-auto.permissList.notAllow
+                                .row.mx-auto
+                                    .permiss.col-12
+                                        span Th&ecirc;m vai tr&ograve;
+                                    .permiss.col-12
+                                        span Th&ecirc;m vai tr&ograve;
+                                    .permiss.active.col-12
+                                        span Th&ecirc;m vai tr&ograve;
+                                    .permiss.col-12
+                                        span Th&ecirc;m vai tr&ograve;
+                                    .permiss.col-12
+                                        span Th&ecirc;m vai tr&ograve;
+                                    .permiss.col-12
+                                        span Th&ecirc;m vai tr&ograve;
+                                    .permiss.col-12
+                                        span Th&ecirc;m vai tr&ograve;
+                            .col-md-7.col-md-6.mx-auto.mt-3
+                                button.btn.btn-warning C&#x1EA5;p quy&#x1EC1;n n&agrave;y
+        
+        // Footer
+        include layout/footer.pug
+
+block script 

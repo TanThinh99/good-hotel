@@ -1,0 +1,25 @@
+.convenient {
+    position: relative;
+}
+
+.convenient .updateBtn {
+    position: absolute;
+    top: 1px;
+    right: 27px;
+}
+
+.convenient .deleteBtn {
+    position: absolute;
+    top: 1px;
+    right: 7px;
+}
+
+.convenient .updateBtn i, .convenient .deleteBtn i{
+    font-size: 16px;
+    color: #c7c7c7;
+}
+
+.convenient .updateBtn i:hover, .convenient .deleteBtn i:hover {
+    color: #272727;
+    font-size: 17px;
+}

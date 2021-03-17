@@ -1,0 +1,51 @@
+.comment .title {
+    margin-bottom: 13px;
+}
+
+.comment .title .username {
+    margin-left: 0px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.comment .title .score {
+    background-color: greenyellow;
+    padding: 4px 15px;
+    border-radius: 38px;
+    margin-left: 11px;
+}
+
+.comment .time {
+    font-size: 16px;
+    font-style: italic;
+    color: #5c5a5a;
+}
+
+.comment .good {
+    text-align: justify;
+}
+
+.comment .good span {
+    margin-left: 0px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #7dcf00;
+    margin-right: 8px;
+}
+
+.comment .bad {
+    text-align: justify;
+}
+
+.comment .bad span {
+    margin-left: 0px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff0000;
+    margin-right: 8px;
+}
+
+.comment .funcs button i {
+    color: #ffffff;
+    margin-right: 6px;
+}

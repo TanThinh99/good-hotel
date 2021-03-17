@@ -1,0 +1,31 @@
+.convenient {
+    position: relative;
+}
+
+.convenient .deleteBtn {
+    position: absolute;
+    top: 4px;
+    right: 9px;
+}
+
+.convenient .deleteBtn i{
+    font-size: 18px;
+    color: #c7c7c7;
+}
+
+.convenient .deleteBtn i:hover {
+    color: #272727;
+    font-size: 19px;
+}
+
+.addConvenientFrame {
+    height: 264px; 
+    overflow-y: scroll; 
+    overflow-x: hidden;
+}
+
+.addConvenientFrame .active {
+    border: 6px double orange;
+    padding: 18px 18px;
+    background-color: white;
+}

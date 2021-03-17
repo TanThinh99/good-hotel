@@ -1,0 +1,10 @@
+.sidenav-header {
+    height: auto;
+}
+
+.sidenav-header .brand-img {
+    height: 88px;
+    max-height: none;
+    margin-top: 15px;
+    margin-bottom: 9px;
+}

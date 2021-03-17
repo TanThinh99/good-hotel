@@ -1,0 +1,45 @@
+.hotelList {
+    height: 440px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.hotelList .hotel {
+    background-color: rgb(246, 246, 246);
+    margin: 7px auto;
+    padding: 0px 10px;
+    transition: 0.3s;
+}
+
+.hotelList .hotel p {
+    margin: 14px 9px;
+}
+
+.hotelList .hotel i {
+    color: #1eb242;
+    font-size: 20px;
+    margin-right: 9px;
+}
+
+.hotelList .hotel:hover {
+    background-color: white;
+    box-shadow: 1px 1px 7px 1px #a2a2a2;
+}
+
+.result {
+    border-top: 4px double #54ff30;
+    margin: 25px auto 10px;
+    text-align: center;
+    padding-top: 22px;
+}
+
+.result .title {
+    font-weight: bold;
+    color: green;
+    margin-right: 7px;
+}
+
+.result .title i {
+    margin-right: 7px;
+    font-size: 27px;
+}

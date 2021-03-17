@@ -1,0 +1,85 @@
+.infoNav {
+  margin-bottom: 22px;  
+}
+
+.infoNav span {
+  padding: 17px 0px;
+  transition: 0.2s;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.infoNav span:hover {
+  background-color: #eee;
+  cursor: pointer;
+}
+
+.active-nav span {
+  color: #7fad39;
+  font-weight: 700;
+  background-color: #e6e6e6;  
+}
+
+/*Content right*/
+.contentTitle {
+  padding-left: 10px;
+  border-left: 8px solid red;
+  font-size: 17px;
+  font-weight: 550;
+}
+
+.mainContent {
+  padding: 20px;
+  background: #f4f4f4;
+  margin-top: 13px;
+}
+
+#avatarBtn {
+  margin-top: 20px;
+  padding: 8px 18px;
+  background-color: orange;
+  border-radius: 2px;
+  font-size: 18px;
+}
+
+#avatarBtn:hover {
+  cursor: pointer;
+}
+
+.mainContent table {
+  margin: auto;
+  width: 100%;
+}
+
+.mainContent table td {
+  padding: 13px 0px;
+}
+
+.mainContent table .infoTitle {
+  width: 25%;
+}
+
+.bill {
+  margin: 7px auto;
+  padding: 22px 40px;
+  background-color: #e6e6e6;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.bill:hover {
+  background-color: white;
+  box-shadow: 1px 2px 4px 3px #c3c3c3;
+}
+
+.bill p {
+  margin: 10px auto;
+}
+
+.bill .title {
+  font-weight: bold;
+  font-size: 19px;
+  margin-bottom: 17px;
+}

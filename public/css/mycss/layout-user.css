@@ -1,0 +1,30 @@
+/* FOOTER */
+.footer {
+    padding-top: 38px;
+    padding-bottom: 0px;
+}
+
+.footer__about__logo a img {
+    height: 100px;
+}
+
+.footer__widget p {
+    color: #1c1c1c;
+    font-size: 15px;
+    line-height: 32px;
+    margin-bottom: 7px;
+}
+
+.footer__widget .title {
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+.footer__widget__social {
+    margin-top: 12px;
+}
+
+.footer__copyright {
+    padding: 12px 0;
+    margin-top: 0px;
+}

@@ -1,0 +1,286 @@
+extends layout/base.pug
+
+block title 
+    <title>Trang chủ</title>
+
+block header 
+    <link rel="stylesheet" href="css/mycss/index.css">
+
+block content
+    // Hero Section Begin
+    section.hero
+        .container
+            .row
+                .col-lg-12
+                    #carouselExampleIndicators.carousel.slide(data-ride='carousel')
+                        ol.carousel-indicators
+                            li.active(data-target='#carouselExampleIndicators' data-slide-to='0')
+                            li(data-target='#carouselExampleIndicators' data-slide-to='1')
+                            li(data-target='#carouselExampleIndicators' data-slide-to='2')
+                        .carousel-inner
+                            .carousel-item.active.banner-item
+                                img.d-block.w-100(src='./img/NhaTrangTP.jpg' alt='...')
+                                .hero__text.banner-text(style='top:10%; right: 10%;')
+                                    span FRUIT FRESH
+                                    h2
+                                        | Vegetable 
+                                        br
+                                        | 100% Organic
+                                    p Free Pickup and Delivery Available
+                                    a.primary-btn(href='#') SHOP NOW
+                            .carousel-item.banner-item
+                                img.d-block.w-100(src='./img/thanhpho.jpg' alt='...')
+                                .hero__text.banner-text(style='top:10%; right: 10%;')
+                                    span FRUIT FRESH
+                                    h2
+                                        | Vegetable 
+                                        br
+                                        | 100% Organic
+                                    p Free Pickup and Delivery Available
+                                    a.primary-btn(href='#') SHOP NOW
+                            .carousel-item.banner-item
+                                img.d-block.w-100(src='./img/sapa.jpg' alt='...')
+                                .hero__text.banner-text(style='top:10%; right: 10%;')
+                                    span FRUIT FRESH
+                                    h2
+                                        | Vegetable 
+                                        br
+                                        | 100% Organic
+                                    p Free Pickup and Delivery Available
+                                    a.primary-btn(href='#') SHOP NOW
+                        a.carousel-control-prev(href='#carouselExampleIndicators' role='button' data-slide='prev')
+                            span.carousel-control-prev-icon(aria-hidden='true')
+                            span.sr-only Previous
+                        a.carousel-control-next(href='#carouselExampleIndicators' role='button' data-slide='next')
+                            span.carousel-control-next-icon(aria-hidden='true')
+                            span.sr-only Next
+    // Hero Section End
+    
+    // Modal
+    #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h5#exampleModalLabel.modal-title Xin chào Quý khách
+                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') &times;
+                .modal-body
+                    ul.nav.nav-pills(style='padding: 7px 0px 21px 3%;')
+                        li.nav-item
+                            a.nav-link.active(style='margin-right: 5px;' href='#' onclick="CustomerLogin(this, 'loginTabPane')") &Dstrok;&abreve;ng nh&#x1EAD;p
+                        li.nav-item
+                            a.nav-link(href='#' onclick="CustomerLogin(this, 'regTabPane')") &Dstrok;&abreve;ng k&yacute;
+                    .tab-content
+                        #loginTabPane.tab-pane.active
+                            form.form-horizontal(role='form')
+                                .form-group
+                                    .col-sm-12
+                                        label(for='username') T&ecirc;n &dstrok;&abreve;ng nh&#x1EAD;p
+                                        input#username.form-control(placeholder='Nhập tên đăng nhập ...' type='text')
+                                .form-group
+                                    .col-sm-12
+                                        label(for='password') M&#x1EAD;t kh&#x1EA9;u
+                                        input#password.form-control(placeholder='Nhập mật khẩu ...' type='password')
+                                .form-group(style='margin-top: 27px;')
+                                    .col-sm-10
+                                        button.btn.btn-primary.btn-radius.btn-brd.grd1(type='submit')
+                                            | &Dstrok;&abreve;ng nh&#x1EAD;p
+                                        a.for-pwd.btn.btn-link(href='javascript:;') Forgot your password?
+                        #regTabPane.tab-pane
+                            form.form-horizontal(role='form')
+                                .form-group
+                                    .col-sm-12
+                                        label(for='hoTen') H&#x1ECD; t&ecirc;n
+                                        input#hoTen.form-control(placeholder='Nhập tên ...' type='text')
+                                .form-group
+                                    .col-sm-12
+                                        label(for='sdt') S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i
+                                        input#sdt.form-control(placeholder='Nhập số điện thoại ...' type='text')
+                                .form-group
+                                    .col-sm-12
+                                        label(for='email') Email
+                                        input#email.form-control(placeholder='Nhập email ...' type='email')
+                                .form-group
+                                    .col-sm-12
+                                        label(for='username') T&ecirc;n &dstrok;&abreve;ng nh&#x1EAD;p
+                                        input#username.form-control(placeholder='Nhập tên đăng nhập ...' type='text')
+                                .form-group
+                                    .col-sm-12
+                                        label(for='pass1') M&#x1EAD;t kh&#x1EA9;u
+                                        input#pass1.form-control(placeholder='Nhập mật khẩu ...' type='password')
+                                .form-group
+                                    .col-sm-12
+                                        label(for='pass2') X&aacute;c nh&#x1EAD;n m&#x1EAD;t kh&#x1EA9;u
+                                        input#pass2.form-control(placeholder='Nhập lại mật khẩu ...' type='password')
+                                .form-group(style='margin-top: 27px;')
+                                    .col-sm-12
+                                        button.btn.btn-primary.btn-radius.btn-brd.grd1(type='button')
+                                            | &Dstrok;&abreve;ng k&yacute;
+                                        button.btn.btn-light.btn-radius.btn-brd.grd1(type='reset')
+                                            | L&agrave;m l&#x1EA1;i
+                .modal-footer
+                    button#closeLoginModal.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                    // <button type="button" class="btn btn-primary" onclick="CloseModal()">Save changes</button>
+    // Modal End
+    
+    // Latest Product Section Begin
+    section.latest-product.spad(style='padding-top: 20px;padding-bottom: 35px;')
+        .container
+            .row
+                h4.col-lg-12(style='font-weight: 700;color: #1c1c1c;margin-bottom: 34px; font-size: 26px;')
+                    i.fa.fa-home(style='color: greenyellow; font-size: 40px;')
+                    | &nbsp;&Dstrok;&aacute;nh gi&aacute; cao
+                .col-lg-6.col-md-6
+                    a.latest-product__item.hotel-item(href='#')
+                        .latest-product__item__pic
+                            img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
+                        .latest-product__item__text
+                            h5.hotelName Crab Pool Security
+                            // <span>$30.00</span>
+                            p
+                                span.score 8.2
+                                span.level R&#x1EA5;t t&#x1ED1;t 
+                                | (100 &dstrok;&aacute;nh gi&aacute;)
+                            p
+                                b Gi&aacute;:
+                                |  30.00 &Dstrok;&#x1ED3;ng
+                            p
+                                b &Dstrok;&#x1ECB;a ch&#x1EC9;:
+                                |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
+                .col-lg-6.col-md-6
+                    a.latest-product__item.hotel-item(href='#')
+                        .latest-product__item__pic
+                            img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
+                        .latest-product__item__text
+                            h5.hotelName Crab Pool Security
+                            // <span>$30.00</span>
+                            p
+                                span.score 8.2
+                                span.level R&#x1EA5;t t&#x1ED1;t 
+                                | (100 &dstrok;&aacute;nh gi&aacute;)
+                            p
+                                b Gi&aacute;:
+                                |  30.00 &Dstrok;&#x1ED3;ng
+                            p
+                                b &Dstrok;&#x1ECB;a ch&#x1EC9;:
+                                |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
+                .col-lg-6.col-md-6
+                    a.latest-product__item.hotel-item(href='#')
+                        .latest-product__item__pic
+                            img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
+                        .latest-product__item__text
+                            h5.hotelName Crab Pool Security
+                            // <span>$30.00</span>
+                            p
+                                span.score 8.2
+                                span.level R&#x1EA5;t t&#x1ED1;t 
+                                | (100 &dstrok;&aacute;nh gi&aacute;)
+                            p
+                                b Gi&aacute;:
+                                |  30.00 &Dstrok;&#x1ED3;ng
+                            p
+                                b &Dstrok;&#x1ECB;a ch&#x1EC9;:
+                                |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
+                .col-lg-6.col-md-6
+                    a.latest-product__item.hotel-item(href='#')
+                        .latest-product__item__pic
+                            img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
+                        .latest-product__item__text
+                            h5.hotelName Crab Pool Security
+                            // <span>$30.00</span>
+                            p
+                                span.score 8.2
+                                span.level R&#x1EA5;t t&#x1ED1;t 
+                                | (100 &dstrok;&aacute;nh gi&aacute;)
+                            p
+                                b Gi&aacute;:
+                                |  30.00 &Dstrok;&#x1ED3;ng
+                            p
+                                b &Dstrok;&#x1ECB;a ch&#x1EC9;:
+                                |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
+                .col-lg-6.col-md-6
+                    a.latest-product__item.hotel-item(href='#')
+                        .latest-product__item__pic
+                            img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
+                        .latest-product__item__text
+                            h5.hotelName Crab Pool Security
+                            // <span>$30.00</span>
+                            p
+                                span.score 8.2
+                                span.level R&#x1EA5;t t&#x1ED1;t 
+                                | (100 &dstrok;&aacute;nh gi&aacute;)
+                            p
+                                b Gi&aacute;:
+                                |  30.00 &Dstrok;&#x1ED3;ng
+                            p
+                                b &Dstrok;&#x1ECB;a ch&#x1EC9;:
+                                |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
+                .col-lg-6.col-md-6
+                    a.latest-product__item.hotel-item(href='#')
+                        .latest-product__item__pic
+                            img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
+                        .latest-product__item__text
+                            h5.hotelName Crab Pool Security
+                            // <span>$30.00</span>
+                            p
+                                span.score 8.2
+                                span.level R&#x1EA5;t t&#x1ED1;t 
+                                | (100 &dstrok;&aacute;nh gi&aacute;)
+                            p
+                                b Gi&aacute;:
+                                |  30.00 &Dstrok;&#x1ED3;ng
+                            p
+                                b &Dstrok;&#x1ECB;a ch&#x1EC9;:
+                                |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
+                .col-lg-6.col-md-6
+                    a.latest-product__item.hotel-item(href='#')
+                        .latest-product__item__pic
+                            img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
+                        .latest-product__item__text
+                            h5.hotelName Crab Pool Security
+                            // <span>$30.00</span>
+                            p
+                                span.score 8.2
+                                span.level R&#x1EA5;t t&#x1ED1;t 
+                                | (100 &dstrok;&aacute;nh gi&aacute;)
+                            p
+                                b Gi&aacute;:
+                                |  30.00 &Dstrok;&#x1ED3;ng
+                            p
+                                b &Dstrok;&#x1ECB;a ch&#x1EC9;:
+                                |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
+                .col-lg-6.col-md-6
+                    a.latest-product__item.hotel-item(href='#')
+                        .latest-product__item__pic
+                            img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
+                        .latest-product__item__text
+                            h5.hotelName Crab Pool Security
+                            // <span>$30.00</span>
+                            p
+                                span.score 8.2
+                                span.level R&#x1EA5;t t&#x1ED1;t 
+                                | (100 &dstrok;&aacute;nh gi&aacute;)
+                            p
+                                b Gi&aacute;:
+                                |  30.00 &Dstrok;&#x1ED3;ng
+                            p
+                                b &Dstrok;&#x1ECB;a ch&#x1EC9;:
+                                |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
+        nav(aria-label='Page navigation example' style='margin-top: 20px;')
+            ul.pagination.justify-content-center
+                li.page-item.disabled
+                    a.page-link(href='#' aria-label='Previous')
+                        span(aria-hidden='true') &laquo;
+                li.page-item.active
+                    a.page-link(href='#') 1
+                li.page-item
+                    a.page-link(href='#') 2
+                li.page-item
+                    a.page-link(href='#') 3
+                li.page-item
+                    a.page-link(href='#' aria-label='Next')
+                        span(aria-hidden='true') &raquo;
+    // Latest Product Section End
+
+block script 
+    script(src="js/myJS/index.js") 

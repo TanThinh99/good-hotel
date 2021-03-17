@@ -1,0 +1,391 @@
+extends layout/base.pug
+
+block title 
+    <title>Chi tiết khách sạn</title>
+
+block header 
+    <link rel="stylesheet" href="css/mycss/detail.css">
+
+block content
+    // Breadcrumb Section Begin
+    section.breadcrumb-section.set-bg(data-setbg='https://vcdn1-dulich.vnecdn.net/2019/11/21/2-1574339443.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=BzU6f4wgVBm3R12CpyttVA')
+        .container
+            .row
+                .col-lg-12.text-center
+                    .breadcrumb__text
+                        h2 Th&ocirc;ng tin chi ti&#x1EBF;t v&#x1EC1; kh&aacute;ch s&#x1EA1;n
+                        .breadcrumb__option
+                            a(href='./index.html') Trang ch&#x1EE7;
+                            span Chi ti&#x1EBF;t kh&aacute;ch s&#x1EA1;n
+    // Breadcrumb Section End
+
+    // Product Details Section Begin
+    section.product-details.spad(style='padding-bottom: 70px;')
+        .container
+            .row
+                .col-lg-6.col-md-6
+                    .product__details__pic
+                        .product__details__pic__item
+                            img.product__details__pic__item--large(onclick='ChooseCarouselImage(0)' src='https://noithatamber.vn/images/uploaded/ph%C3%B2ng%20ng%E1%BB%A7%202.jpg' alt='' style='cursor: pointer;')
+                        .hotelImages
+                            .containHotelImages
+                                img(onclick='ChooseCarouselImage(1)' src='https://lh3.googleusercontent.com/proxy/1KNaPxJGDd6XEV4ld80qi5oz3Dgsjli7VtxFSN3fiM1-zvY-s674JJytGS_xZRbTzaKwuhkQqF9WmOhu6aqRbF_Y0cHrgSFz6RV71pkMTAfe_9_GBOMcgOaoIXW70oGZbn_S0FSRVjaaggKoPwiauUuWDfbWAA' alt='')
+                                img(onclick='ChooseCarouselImage(2)' src='https://wedo.vn/wp-content/uploads/2019/07/thiet-ke-phong-ngu-15m2-12.jpg' alt='')
+                                img(onclick='ChooseCarouselImage(3)' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                img(onclick='ChooseCarouselImage(4)' src='https://xuongnoithatdep.com/upload/images/combo-noi-that-phong-ngu-2.png' alt='')
+                                img(onclick='ChooseCarouselImage(5)' src='https://afamilycdn.com/150157425591193600/2020/5/25/7-15903740976832059393369-63-0-1001-1500-crop-1590374332746174200395.jpg' alt='')
+                .col-lg-6.col-md-6
+                    .product__details__text
+                        h3.font-system-ui Kh&aacute;ch s&#x1EA1;n M&#x1B0;&#x1EDD;ng Thanh M&#x1ED9;c Ch&acirc;u (Muong Thanh Holiday Moc Chau)
+                        .product__details__rating
+                            span.score 8.3
+                            span (18 &dstrok;&aacute;nh gi&aacute;)
+                        .product__details__price.font-system-ui 1.000.000 &Dstrok;&#x1ED3;ng
+                        ul
+                            li
+                                b.font-system-ui S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i
+                                span 032 5623 548
+                            li
+                                b.font-system-ui &Dstrok;&#x1ECB;a ch&#x1EC9;
+                                span An H&ograve;a, Ch&acirc;u Th&agrave;nh, An Giang
+                            li
+                                b.font-system-ui Share on
+                                .share
+                                    a(href='#')
+                                        i.fa.fa-facebook
+                                    a(href='#')
+                                        i.fa.fa-twitter
+                                    a(href='#')
+                                        i.fa.fa-instagram
+                                    a(href='#')
+                                        i.fa.fa-pinterest
+                        // <a href="#" class="primary-btn font-system-ui">ĐẶT PHÒNG</a>
+                .col-lg-12
+                    .product__details__tab
+                        ul.nav.nav-tabs(role='tablist')
+                            li.nav-item
+                                a.nav-link.active(data-toggle='tab' href='#tabs-1' role='tab' aria-selected='true') Lo&#x1EA1;i ph&ograve;ng
+                            li.nav-item
+                                a.nav-link(data-toggle='tab' href='#tabs-2' role='tab' aria-selected='false') Ti&#x1EC7;n nghi
+                            li.nav-item
+                                a.nav-link(data-toggle='tab' href='#tabs-3' role='tab' aria-selected='false') Google Map
+                            li.nav-item
+                                a.nav-link(data-toggle='tab' href='#tabs-4' role='tab' aria-selected='false')
+                                    | &Dstrok;&aacute;nh gi&aacute; 
+                                    span (10)
+                        .tab-content
+                            #tabs-1.tab-pane.active(role='tabpanel')
+                                .product__details__tab__desc
+                                    .row.roomType
+                                        .col-lg-4.col-md-6
+                                            ul
+                                                li
+                                                    b Lo&#x1EA1;i ph&ograve;ng
+                                                    span Th&#x1B0;&#x1EDD;ng
+                                                li
+                                                    b Gi&aacute;
+                                                    span 1.000.000 &Dstrok;&#x1ED3;ng
+                                                li
+                                                    a.primary-btn.font-system-ui(style='padding: 5px 14px; margin-top: 13px;' href='#') &Dstrok;&#x1EB6;T PH&Ograve;NG
+                                        .col-lg-8.col-md-6
+                                            .roomImageFrame
+                                                .roomImages
+                                                    img(src='https://lh3.googleusercontent.com/proxy/1KNaPxJGDd6XEV4ld80qi5oz3Dgsjli7VtxFSN3fiM1-zvY-s674JJytGS_xZRbTzaKwuhkQqF9WmOhu6aqRbF_Y0cHrgSFz6RV71pkMTAfe_9_GBOMcgOaoIXW70oGZbn_S0FSRVjaaggKoPwiauUuWDfbWAA' alt='')
+                                                    img(onclick='ChooseImage(1)' src='https://lh3.googleusercontent.com/proxy/1KNaPxJGDd6XEV4ld80qi5oz3Dgsjli7VtxFSN3fiM1-zvY-s674JJytGS_xZRbTzaKwuhkQqF9WmOhu6aqRbF_Y0cHrgSFz6RV71pkMTAfe_9_GBOMcgOaoIXW70oGZbn_S0FSRVjaaggKoPwiauUuWDfbWAA' alt='')
+                                                    img(onclick='ChooseImage(2)' src='https://wedo.vn/wp-content/uploads/2019/07/thiet-ke-phong-ngu-15m2-12.jpg' alt='')
+                                                    img(onclick='ChooseImage(3)' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                                    img(onclick='ChooseImage(4)' src='https://xuongnoithatdep.com/upload/images/combo-noi-that-phong-ngu-2.png' alt='')
+                                    .row.roomType
+                                        .col-lg-4.col-md-6
+                                            ul
+                                                li
+                                                    b Lo&#x1EA1;i ph&ograve;ng
+                                                    span Th&#x1B0;&#x1EDD;ng
+                                                li
+                                                    b Gi&aacute;
+                                                    span 1.000.000 &Dstrok;&#x1ED3;ng
+                                                li
+                                                    a.primary-btn.font-system-ui(style='padding: 5px 14px; margin-top: 13px;' href='#') &Dstrok;&#x1EB6;T PH&Ograve;NG
+                                        .col-lg-8.col-md-6
+                                            .roomImageFrame
+                                                .roomImages
+                                                    img(src='https://lh3.googleusercontent.com/proxy/1KNaPxJGDd6XEV4ld80qi5oz3Dgsjli7VtxFSN3fiM1-zvY-s674JJytGS_xZRbTzaKwuhkQqF9WmOhu6aqRbF_Y0cHrgSFz6RV71pkMTAfe_9_GBOMcgOaoIXW70oGZbn_S0FSRVjaaggKoPwiauUuWDfbWAA' alt='')
+                                                    img(onclick='ChooseImage(1)' src='https://lh3.googleusercontent.com/proxy/1KNaPxJGDd6XEV4ld80qi5oz3Dgsjli7VtxFSN3fiM1-zvY-s674JJytGS_xZRbTzaKwuhkQqF9WmOhu6aqRbF_Y0cHrgSFz6RV71pkMTAfe_9_GBOMcgOaoIXW70oGZbn_S0FSRVjaaggKoPwiauUuWDfbWAA' alt='')
+                                                    img(onclick='ChooseImage(2)' src='https://wedo.vn/wp-content/uploads/2019/07/thiet-ke-phong-ngu-15m2-12.jpg' alt='')
+                                                    img(onclick='ChooseImage(3)' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                                    img(onclick='ChooseImage(4)' src='https://xuongnoithatdep.com/upload/images/combo-noi-that-phong-ngu-2.png' alt='')
+                                    .row.roomType
+                                        .col-lg-4.col-md-6
+                                            ul
+                                                li
+                                                    b Lo&#x1EA1;i ph&ograve;ng
+                                                    span Th&#x1B0;&#x1EDD;ng
+                                                li
+                                                    b Gi&aacute;
+                                                    span 1.000.000 &Dstrok;&#x1ED3;ng
+                                                li
+                                                    a.primary-btn.font-system-ui(style='padding: 5px 14px; margin-top: 13px;' href='#') &Dstrok;&#x1EB6;T PH&Ograve;NG
+                                        .col-lg-8.col-md-6
+                                            .roomImageFrame
+                                                .roomImages
+                                                    img(src='https://lh3.googleusercontent.com/proxy/1KNaPxJGDd6XEV4ld80qi5oz3Dgsjli7VtxFSN3fiM1-zvY-s674JJytGS_xZRbTzaKwuhkQqF9WmOhu6aqRbF_Y0cHrgSFz6RV71pkMTAfe_9_GBOMcgOaoIXW70oGZbn_S0FSRVjaaggKoPwiauUuWDfbWAA' alt='')
+                                                    img(onclick='ChooseImage(1)' src='https://lh3.googleusercontent.com/proxy/1KNaPxJGDd6XEV4ld80qi5oz3Dgsjli7VtxFSN3fiM1-zvY-s674JJytGS_xZRbTzaKwuhkQqF9WmOhu6aqRbF_Y0cHrgSFz6RV71pkMTAfe_9_GBOMcgOaoIXW70oGZbn_S0FSRVjaaggKoPwiauUuWDfbWAA' alt='')
+                                                    img(onclick='ChooseImage(2)' src='https://wedo.vn/wp-content/uploads/2019/07/thiet-ke-phong-ngu-15m2-12.jpg' alt='')
+                                                    img(onclick='ChooseImage(3)' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                                    img(onclick='ChooseImage(4)' src='https://xuongnoithatdep.com/upload/images/combo-noi-that-phong-ngu-2.png' alt='')
+                            #tabs-2.tab-pane(role='tabpanel')
+                                .product__details__tab__desc
+                                    .convenients
+                                        i.fa.fa-wifi(aria-hidden='true')
+                                        | Wifi
+                                    .convenients
+                                        i.fa.fa-wifi(aria-hidden='true')
+                                        | Wifi
+                                    .convenients
+                                        i.fa.fa-wifi(aria-hidden='true')
+                                        | Wifi
+                                    .convenients
+                                        i.fa.fa-wifi(aria-hidden='true')
+                                        | Wifi
+                                    .convenients
+                                        i.fa.fa-wifi(aria-hidden='true')
+                                        | Wifi
+                                    .convenients
+                                        i.fa.fa-wifi(aria-hidden='true')
+                                        | Wifi
+                                    .convenients
+                                        i.fa.fa-wifi(aria-hidden='true')
+                                        | Wifi
+                                    .convenients
+                                        i.fa.fa-wifi(aria-hidden='true')
+                                        | Wifi
+                            #tabs-3.tab-pane(role='tabpanel')
+                                iframe(src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d125540.64959306283!2d104.9645045537392!3d10.489210009425845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109f64e209ed487%3A0xaefb9c10fee9f6e6!2zTsO6aSBD4bqlbQ!5e0!3m2!1svi!2s!4v1614155713826!5m2!1svi!2s' height='450' style='border:0; width:100%; margin-top:46px;' allowfullscreen='' loading='lazy')
+                            #tabs-4.tab-pane(role='tabpanel')
+                                .product__details__tab__desc
+                                    #v-pills-3.tab-pane.fade.active.show(role='tabpanel' aria-labelledby='v-pills-day-3-tab')
+                                        .row.p-4
+                                            .col-md-9
+                                                .row.mb-3
+                                                    .col-7
+                                                        h3 23 b&igrave;nh lu&#x1EAD;n
+                                                    .col-5.text-right
+                                                        button.btn.btn-info(data-toggle='modal' data-target='#exampleModal') Vi&#x1EBF;t b&igrave;nh lu&#x1EAD;n
+                                                .review
+                                                    img(src='https://pbs.twimg.com/profile_images/378800000085759435/b691b563894e19370ad442be0795e436.jpeg' style='width:80px; border-radius:50%; float:left;')
+                                                    .desc
+                                                        h4
+                                                            span.text-left.review-name Jacob Webb
+                                                            span.text-right.review-time 25 April 2020
+                                                        p.star
+                                                            span 8.0
+                                                        div
+                                                            p
+                                                                b.good T&#x1ED1;t: 
+                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
+                                                            p
+                                                                b.bad G&oacute;p &yacute;: 
+                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
+                                                    .review-reply
+                                                        .desc.manager
+                                                            h4
+                                                                span.text-left
+                                                                    i.fa.fa-commenting-o(aria-hidden='true')
+                                                                    |                                                                     Ph&#x1EA3;n h&#x1ED3;i t&#x1EEB; Qu&#x1EA3;n l&yacute; kh&aacute;ch s&#x1EA1;n
+                                                            p.content
+                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
+                                                .review
+                                                    img(src='https://pbs.twimg.com/profile_images/378800000085759435/b691b563894e19370ad442be0795e436.jpeg' style='width:80px; border-radius:50%; float:left;')
+                                                    .desc
+                                                        h4
+                                                            span.text-left.review-name Jacob Webb
+                                                            span.text-right.review-time 25 April 2020
+                                                        p.star
+                                                            span 8.0
+                                                        div
+                                                            p
+                                                                b.good T&#x1ED1;t: 
+                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
+                                                            p
+                                                                b.bad G&oacute;p &yacute;: 
+                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
+                                                    .review-reply
+                                                        .desc.manager
+                                                            h4
+                                                                span.text-left
+                                                                    i.fa.fa-commenting-o(aria-hidden='true')
+                                                                    |                                                                     Ph&#x1EA3;n h&#x1ED3;i t&#x1EEB; Qu&#x1EA3;n l&yacute; kh&aacute;ch s&#x1EA1;n
+                                                            p.content
+                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
+                                                .review
+                                                    img(src='https://pbs.twimg.com/profile_images/378800000085759435/b691b563894e19370ad442be0795e436.jpeg' style='width:80px; border-radius:50%; float:left;')
+                                                    .desc
+                                                        h4
+                                                            span.text-left.review-name Jacob Webb
+                                                            span.text-right.review-time 25 April 2020
+                                                        p.star
+                                                            span 8.0
+                                                        div
+                                                            p
+                                                                b.good T&#x1ED1;t: 
+                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
+                                                            p
+                                                                b.bad G&oacute;p &yacute;: 
+                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
+                                                    .review-reply
+                                                        .desc.manager
+                                                            h4
+                                                                span.text-left
+                                                                    i.fa.fa-commenting-o(aria-hidden='true')
+                                                                    |                                                                     Ph&#x1EA3;n h&#x1ED3;i t&#x1EEB; Qu&#x1EA3;n l&yacute; kh&aacute;ch s&#x1EA1;n
+                                                            p.content
+                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
+                                            .col-md-3
+                                                .rating-wrap
+                                                    h3.mb-4 Give a Review
+                                                    p.star
+                                                        span.score 8.0
+                                                        span (98%) 20 Reviews
+                                                    p.star
+                                                        span.score 7.0
+                                                        span (85%) 10 Reviews
+                                                    p.star
+                                                        span.score 6.0
+                                                        span (98%) 5 Reviews
+                                                    p.star
+                                                        span.score 5.0
+                                                        span (98%) 0 Reviews
+                                                    p.star
+                                                        span.score 4.0
+                                                        span (98%) 0 Reviews
+    // Product Details Section End
+
+    // Modal
+    #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h5#exampleModalLabel.modal-title Vi&#x1EBF;t b&igrave;nh lu&#x1EAD;n
+                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') &times;
+                .modal-body.row.custom-modal
+                    .col-6.form-group.ml-3
+                        label.title.score(for='')
+                            i.fa.fa-star-o(aria-hidden='true')
+                            | &Dstrok;i&#x1EC3;m &dstrok;&aacute;nh gi&aacute;
+                        input.form-control(type='number' name='' id='' min='0' max='10' step='1' value='8')
+                    .col-11.form-group.mx-auto
+                        label.title.good(for='')
+                            i.fa.fa-smile-o(aria-hidden='true')
+                            | &Dstrok;&aacute;nh gi&aacute; t&#x1ED1;t
+                        textarea#good-review.form-control(name='' style='width:100%' rows='4')
+                    .col-11.form-group.mx-auto
+                        label.title.bad(for='')
+                            i.fa.fa-frown-o(aria-hidden='true')
+                            | G&oacute;p &yacute;
+                        textarea#bad-review.form-control(name='' style='width:100%' rows='4')
+                .modal-footer
+                    button.btn.btn-success(type='button')
+                        i.fa.fa-pencil.mr-1(aria-hidden='true')
+                        | T&#x1EA1;o b&igrave;nh lu&#x1EAD;n
+                    button.btn.btn-secondary(type='button' data-dismiss='modal')
+                        i.fa.fa-sign-out.mr-1(aria-hidden='true')
+                        | &Dstrok;&oacute;ng
+    // Modal End
+
+    // Image List Slider
+    #imageListSlider
+        #imageFrame
+            img#imgMain(src='https://noithatamber.vn/images/uploaded/ph%C3%B2ng%20ng%E1%BB%A7%202.jpg' alt='')
+        .images
+            .containImages
+                img#img0.active(onclick='ChooseImage(0)' src='https://noithatamber.vn/images/uploaded/ph%C3%B2ng%20ng%E1%BB%A7%202.jpg' alt='')
+                img#img1(onclick='ChooseImage(1)' src='https://lh3.googleusercontent.com/proxy/1KNaPxJGDd6XEV4ld80qi5oz3Dgsjli7VtxFSN3fiM1-zvY-s674JJytGS_xZRbTzaKwuhkQqF9WmOhu6aqRbF_Y0cHrgSFz6RV71pkMTAfe_9_GBOMcgOaoIXW70oGZbn_S0FSRVjaaggKoPwiauUuWDfbWAA' alt='')
+                img#img2(onclick='ChooseImage(2)' src='https://wedo.vn/wp-content/uploads/2019/07/thiet-ke-phong-ngu-15m2-12.jpg' alt='')
+                img#img3(onclick='ChooseImage(3)' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                img#img4(onclick='ChooseImage(4)' src='https://xuongnoithatdep.com/upload/images/combo-noi-that-phong-ngu-2.png' alt='')
+                img#img5(onclick='ChooseImage(5)' src='https://afamilycdn.com/150157425591193600/2020/5/25/7-15903740976832059393369-63-0-1001-1500-crop-1590374332746174200395.jpg' alt='')
+        .closeSlider(onclick="document.getElementById('imageListSlider').style.display = 'none';")
+            i.fa.fa-times(aria-hidden='true')
+        #turnLeft(onclick="TurnImage('left')")
+            i.fa.fa-chevron-left(aria-hidden='true')
+        #turnRight(onclick="TurnImage('right')")
+            i.fa.fa-chevron-right(aria-hidden='true')
+    // Image List Slider End
+
+    // Related Product Section Begin
+    section.related-product
+        .container
+            .row
+                .col-lg-12
+                    .section-title.related__product__title
+                        h2 Related Product
+            .row
+                .col-lg-6.col-md-6
+                    a.latest-product__item.hotel-item(href='#')
+                        .latest-product__item__pic
+                            img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
+                        .latest-product__item__text
+                            h5.hotelName Crab Pool Security
+                            p
+                                span.score 8.2
+                                span.level R&#x1EA5;t t&#x1ED1;t 
+                                | (100 &dstrok;&aacute;nh gi&aacute;)
+                            p
+                                b Gi&aacute;:
+                                |  30.00 &Dstrok;&#x1ED3;ng
+                            p
+                                b &Dstrok;&#x1ECB;a ch&#x1EC9;:
+                                |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
+                .col-lg-6.col-md-6
+                    a.latest-product__item.hotel-item(href='#')
+                        .latest-product__item__pic
+                            img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
+                        .latest-product__item__text
+                            h5.hotelName Crab Pool Security
+                            p
+                                span.score 8.2
+                                span.level R&#x1EA5;t t&#x1ED1;t 
+                                | (100 &dstrok;&aacute;nh gi&aacute;)
+                            p
+                                b Gi&aacute;:
+                                |  30.00 &Dstrok;&#x1ED3;ng
+                            p
+                                b &Dstrok;&#x1ECB;a ch&#x1EC9;:
+                                |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
+                .col-lg-6.col-md-6
+                    a.latest-product__item.hotel-item(href='#')
+                        .latest-product__item__pic
+                            img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
+                        .latest-product__item__text
+                            h5.hotelName Crab Pool Security
+                            p
+                                span.score 8.2
+                                span.level R&#x1EA5;t t&#x1ED1;t 
+                                | (100 &dstrok;&aacute;nh gi&aacute;)
+                            p
+                                b Gi&aacute;:
+                                |  30.00 &Dstrok;&#x1ED3;ng
+                            p
+                                b &Dstrok;&#x1ECB;a ch&#x1EC9;:
+                                |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
+                .col-lg-6.col-md-6
+                    a.latest-product__item.hotel-item(href='#')
+                        .latest-product__item__pic
+                            img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
+                        .latest-product__item__text
+                            h5.hotelName Crab Pool Security
+                            p
+                                span.score 8.2
+                                span.level R&#x1EA5;t t&#x1ED1;t 
+                                | (100 &dstrok;&aacute;nh gi&aacute;)
+                            p
+                                b Gi&aacute;:
+                                |  30.00 &Dstrok;&#x1ED3;ng
+                            p
+                                b &Dstrok;&#x1ECB;a ch&#x1EC9;:
+                                |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
+    // Related Product Section End
+
+block script 
+    script(src="js/myJS/hotelDetail.js") 

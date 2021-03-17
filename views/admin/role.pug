@@ -1,0 +1,74 @@
+extends layout/base.pug
+
+block title
+    title Quan ly vai tro
+
+block header
+    link(rel='stylesheet' href='/assets_admin/css/vaiTro.css')
+
+block content
+    // Header
+    .header.bg-primary.pb-6
+        .container-fluid
+            .header-body
+                .row.align-items-center.py-4
+                    .col-lg-6.col-7
+                        h6.h2.text-white.d-inline-block.mb-0 Vai tr&ograve;
+                        nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
+                            ol.breadcrumb.breadcrumb-links.breadcrumb-dark
+                                li.breadcrumb-item
+                                    a(href='#')
+                                        i.fas.fa-home
+                                li.breadcrumb-item.active(aria-current='page') Vai tr&ograve;
+                    
+    // Page content
+    .container-fluid.mt--6
+        .row.justify-content-center
+            .col
+                .card
+                    .card-header.bg-transparent
+                        h3.mb-0.row
+                            .col-sm-6
+                                | Vai tr&ograve;
+                            .col-sm-6.text-right
+                                button.btn.btn-secondary Th&ecirc;m vai tr&ograve;
+                    .card-body
+                        .row.icon-examples
+                            .col-lg-4.col-md-6
+                                button.btn-icon-clipboard.role(type='button')
+                                    div
+                                        i.fa.fa-users(aria-hidden='true')
+                                        span Admin
+                                        span.permissionBtn(title='Cấp quyền')
+                                            i.fa.fa-hand-paper-o(aria-hidden='true')
+                                        span.updateBtn(title='Cập nhật')
+                                            i.fa.fa-pencil(aria-hidden='true')
+                                        span.deleteBtn(title='Xóa')
+                                            i.fa.fa-trash(aria-hidden='true')
+                            .col-lg-4.col-md-6
+                                button.btn-icon-clipboard.role(type='button')
+                                    div
+                                        i.fa.fa-users(aria-hidden='true')
+                                        span Hotel Manager
+                                        span.permissionBtn(title='Cấp quyền')
+                                            i.fa.fa-hand-paper-o(aria-hidden='true')
+                                        span.updateBtn(title='Cập nhật')
+                                            i.fa.fa-pencil(aria-hidden='true')
+                                        span.deleteBtn(title='Xóa')
+                                            i.fa.fa-trash(aria-hidden='true')
+                            .col-lg-4.col-md-6
+                                button.btn-icon-clipboard.role(type='button')
+                                    div
+                                        i.fa.fa-users(aria-hidden='true')
+                                        span Member
+                                        span.permissionBtn(title='Cấp quyền')
+                                            i.fa.fa-hand-paper-o(aria-hidden='true')
+                                        span.updateBtn(title='Cập nhật')
+                                            i.fa.fa-pencil(aria-hidden='true')
+                                        span.deleteBtn(title='Xóa')
+                                            i.fa.fa-trash(aria-hidden='true')
+        
+        // Footer
+        include layout/footer.pug
+
+block script 

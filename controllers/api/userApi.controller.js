@@ -14,13 +14,13 @@ module.exports.PostLogin = async function(req, res) {
     else {
         var content = {
             id: rs[0]._id,
-            role: rs[0].ma_vai_tro    
+            role: rs[0].ma_vai_tro
         }
-        jwt.sign(content, process.env.SECRET_JWT, {expiresIn: '1h'}, function(err, token) {
+        jwt.sign(content, process.env.SECRET_JWT, {expiresIn: '6h'}, function(err, token) {
             req.session.token = token;
             res.json({'access': token});
         });        
-    }    
+    }  
 }
 
 module.exports.Logout = function(req, res) {

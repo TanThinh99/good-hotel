@@ -1,0 +1,31 @@
+.role {
+    position: relative;
+}
+
+.role .permissionBtn {
+    position: absolute;
+    top: 1px;
+    right: 50px;
+}
+
+.role .updateBtn {
+    position: absolute;
+    top: 1px;
+    right: 27px;
+}
+
+.role .deleteBtn {
+    position: absolute;
+    top: 1px;
+    right: 7px;
+}
+
+.role .permissionBtn i, .role .updateBtn i, .role .deleteBtn i{
+    font-size: 16px;
+    color: #c7c7c7;
+}
+
+.role .permissionBtn i:hover, .role .updateBtn i:hover, .role .deleteBtn i:hover {
+    color: #272727;
+    font-size: 17px;
+}

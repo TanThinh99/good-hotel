@@ -1,8 +1,13 @@
 var mongoose = require('mongoose');
+const quyen = require('./quyen.model');
+var Schema = mongoose.Schema;
 
-var vaiTroCoQuyenSchema = new mongoose.Schema({
+var vaiTroCoQuyenSchema = Schema({
     ma_vai_tro: String,
-    ma_quyen: String
+    ma_quyen: { 
+        type: String, 
+        ref: quyen
+    }
 }, {
     versionKey: false
 });

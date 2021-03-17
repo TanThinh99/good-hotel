@@ -1,0 +1,113 @@
+extends layout/base.pug
+
+block title
+    title Loai phong
+
+block header
+    link(rel='stylesheet' href='/assets_manager/css/mycss/loaiPhong.css')
+
+block content
+    // Header
+    .header.bg-primary.pb-6
+        .container-fluid
+            .header-body
+                .row.align-items-center.py-4
+                    .col-lg-6.col-7
+                        h6.h2.text-white.d-inline-block.mb-0 Lo&#x1EA1;i ph&ograve;ng
+                        nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
+                            ol.breadcrumb.breadcrumb-links.breadcrumb-dark
+                                li.breadcrumb-item
+                                    a(href='#')
+                                        i.fas.fa-home
+                                li.breadcrumb-item.active(aria-current='page') Lo&#x1EA1;i ph&ograve;ng
+                    
+    // Page content
+    .container-fluid.mt--6
+        .row.justify-content-center
+            .col
+                .card
+                    .card-header.bg-transparent
+                        h3.mb-0 Lo&#x1EA1;i ph&ograve;ng
+                    .card-body
+                        .row.icon-examples
+                            .col-lg-12.col-md-6.btn-icon-clipboard
+                                .row
+                                    .col-md-4
+                                        p T&ecirc;n ph&ograve;ng: VIP
+                                        p Gi&aacute;: 1.000.000 &Dstrok;&#x1ED3;ng
+                                        p S&#x1ED1; l&#x1B0;&#x1EE3;ng ph&ograve;ng: 6 ph&ograve;ng
+                                        p
+                                            | Tr&#x1EA1;ng th&aacute;i ph&ograve;ng: 
+                                            em(style='color: red') Kh&ocirc;ng ph&#x1EE5;c v&#x1EE5;
+                                        button.btn.btn-success C&#x1EAD;p nh&#x1EAD;t
+                                        button.btn.btn-danger X&oacute;a
+                                    .col-md-8
+                                        .images
+                                            .containImages
+                                                img(onclick='OpenImageBox()' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                                img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                                img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                        #temp.imageBox
+                                            img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                            span.delBtn
+                                                i.fa.fa-trash(aria-hidden='true')
+                                            span.closeBtn
+                                                i.fa.fa-times(aria-hidden='true' onclick='CloseImageBox()')
+                                            span.fullScreenBtn
+                                                i.fa.fa-arrows-alt(aria-hidden='true')
+                            .col-lg-12.col-md-6.btn-icon-clipboard
+                                .row
+                                    .col-md-4
+                                        p T&ecirc;n ph&ograve;ng: VIP
+                                        p Gi&aacute;: 1.000.000 &Dstrok;&#x1ED3;ng
+                                        p S&#x1ED1; l&#x1B0;&#x1EE3;ng ph&ograve;ng: 6 ph&ograve;ng
+                                        p
+                                            | Tr&#x1EA1;ng th&aacute;i ph&ograve;ng: 
+                                            em(style='color: red') Kh&ocirc;ng ph&#x1EE5;c v&#x1EE5;
+                                        button.btn.btn-success C&#x1EAD;p nh&#x1EAD;t
+                                        button.btn.btn-danger X&oacute;a
+                                    .col-md-8
+                                        .images
+                                            .containImages
+                                                img(onclick='OpenImageBox()' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                                img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                                img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                        #temp.imageBox
+                                            img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                            span.delBtn
+                                                i.fa.fa-trash(aria-hidden='true')
+                                            span.closeBtn
+                                                i.fa.fa-times(aria-hidden='true' onclick='CloseImageBox()')
+                                            span.fullScreenBtn
+                                                i.fa.fa-arrows-alt(aria-hidden='true')
+                            .col-lg-12.col-md-6.btn-icon-clipboard
+                                .row
+                                    .col-md-4
+                                        p T&ecirc;n ph&ograve;ng: VIP
+                                        p Gi&aacute;: 1.000.000 &Dstrok;&#x1ED3;ng
+                                        p S&#x1ED1; l&#x1B0;&#x1EE3;ng ph&ograve;ng: 6 ph&ograve;ng
+                                        p
+                                            | Tr&#x1EA1;ng th&aacute;i ph&ograve;ng: 
+                                            em(style='color: red') Kh&ocirc;ng ph&#x1EE5;c v&#x1EE5;
+                                        button.btn.btn-success C&#x1EAD;p nh&#x1EAD;t
+                                        button.btn.btn-danger X&oacute;a
+                                    .col-md-8
+                                        .images
+                                            .containImages
+                                                img(onclick='OpenImageBox()' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                                img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                                img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                        #temp.imageBox
+                                            img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                            span.delBtn
+                                                i.fa.fa-trash(aria-hidden='true')
+                                            span.closeBtn
+                                                i.fa.fa-times(aria-hidden='true' onclick='CloseImageBox()')
+                                            span.fullScreenBtn
+                                                i.fa.fa-arrows-alt(aria-hidden='true')
+        
+        // Footer
+        include layout/footer.pug
+
+block script
+    script(src="/assets_manager/js/myjs/roomType.js") 

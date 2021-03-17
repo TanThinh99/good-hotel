@@ -1,0 +1,36 @@
+.hotelList {
+    height: 315px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.hotelList .hotel {
+    background-color: rgb(246, 246, 246);
+    margin: 8px auto;
+    padding: 0px 10px;
+    transition: 0.3s;
+}
+
+.hotelList .hotel p {
+    margin: 14px 9px;
+}
+
+.hotelList .hotel i {
+    color: #1eb242;
+    font-size: 20px;
+    margin-right: 9px;
+}
+
+.hotelList .hotel:hover {
+    background-color: white;
+    box-shadow: 1px 1px 7px 1px #a2a2a2;
+}
+
+.hotelList .active {
+    border: 6px double orange;
+    padding: 0px 4px;
+}
+
+.hotelList .user {
+    margin: 8px auto;
+}

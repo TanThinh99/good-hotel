@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var apiMid = require('./../middlewares/api/api.middleware');
+
 var userApiCtrl = require('./../controllers/api/userApi.controller');
 var tinhThanhCtrl = require('./../controllers/api/tinh_thanh.controller');
 var quanHuyenCtrl = require('./../controllers/api/quan_huyen.controller');
@@ -53,44 +55,44 @@ router.delete('/xa_phuong/:id', xaPhuongCtrl.Delete);
 
 // Khach_san
 router.get('/khach_san', khachSanCtrl.List);
-router.post('/khach_san', khachSanCtrl.Add);
+router.post('/khach_san', apiMid.CheckLogin, apiMid.AddKhachSan, khachSanCtrl.Add);
 router.get('/khach_san/:id', khachSanCtrl.Detail);
-router.put('/khach_san/:id', khachSanCtrl.Update);
-router.delete('/khach_san/:id', khachSanCtrl.Delete);
+router.put('/khach_san/:id', apiMid.CheckLogin, apiMid.UpdateKhachSan, khachSanCtrl.Update);
+router.delete('/khach_san/:id', apiMid.CheckLogin, apiMid.DeleteKhachSan, khachSanCtrl.Delete);
 
 // Tiện nghi
 router.get('/tien_nghi', tienNghiCtrl.List);
-router.post('/tien_nghi', tienNghiCtrl.Add);
+router.post('/tien_nghi', apiMid.CheckLogin, apiMid.AddTienNghi, tienNghiCtrl.Add);
 router.get('/tien_nghi/:id', tienNghiCtrl.Detail);
-router.put('/tien_nghi/:id', tienNghiCtrl.Update);
-router.delete('/tien_nghi/:id', tienNghiCtrl.Delete);
+router.put('/tien_nghi/:id', apiMid.CheckLogin, apiMid.UpdateTienNghi, tienNghiCtrl.Update);
+router.delete('/tien_nghi/:id', apiMid.CheckLogin, apiMid.DeleteTienNghi, tienNghiCtrl.Delete);
 
 // Tiện nghi khách sạn
 router.get('/tien_nghi_ks', tienNghiKSCtrl.List);
-router.post('/tien_nghi_ks', tienNghiKSCtrl.Add);
+router.post('/tien_nghi_ks', apiMid.CheckLogin, apiMid.AddTienNghiKS, tienNghiKSCtrl.Add);
 router.get('/tien_nghi_ks/:id', tienNghiKSCtrl.Detail);
-router.put('/tien_nghi_ks/:id', tienNghiKSCtrl.Update);
-router.delete('/tien_nghi_ks/:id', tienNghiKSCtrl.Delete);
+router.delete('/tien_nghi_ks/:id', apiMid.CheckLogin, apiMid.DeleteTienNghiKS, tienNghiKSCtrl.Delete);
 
 // Loại phòng
 router.get('/loai_phong', loaiPhongCtrl.List);
-router.post('/loai_phong', loaiPhongCtrl.Add);
+router.post('/loai_phong', apiMid.CheckLogin, apiMid.AddLoaiPhong, loaiPhongCtrl.Add);
 router.get('/loai_phong/:id', loaiPhongCtrl.Detail);
-router.put('/loai_phong/:id', loaiPhongCtrl.Update);
-router.delete('/loai_phong/:id', loaiPhongCtrl.Delete);
+router.put('/loai_phong/:id', apiMid.CheckLogin, apiMid.UpdateLoaiPhong, loaiPhongCtrl.Update);
+router.delete('/loai_phong/:id', apiMid.CheckLogin, apiMid.DeleteLoaiPhong, loaiPhongCtrl.Delete);
 
 // Hình ảnh
 router.get('/hinh_anh', hinhAnhCtrl.List);
-router.post('/hinh_anh', uploads.any(), hinhAnhCtrl.Add);
+router.post('/hinh_anh', apiMid.CheckLogin, apiMid.AddHinhAnh, uploads.any(), hinhAnhCtrl.Add);
 router.get('/hinh_anh/:id', hinhAnhCtrl.Detail);
-router.delete('/hinh_anh/:id', hinhAnhCtrl.Delete);
+router.delete('/hinh_anh/:id', apiMid.CheckLogin, apiMid.DeleteHinhAnh, hinhAnhCtrl.Delete);
 
 // Vai trò
 router.get('/vai_tro', vaiTroCtrl.List);
-router.post('/vai_tro', vaiTroCtrl.Add);
+router.post('/vai_tro', apiMid.CheckLogin, apiMid.AddVaiTro, vaiTroCtrl.Add);
 router.get('/vai_tro/:id', vaiTroCtrl.Detail);
-router.put('/vai_tro/:id', vaiTroCtrl.Update);
-router.delete('/vai_tro/:id', vaiTroCtrl.Delete);
+router.put('/vai_tro/:id', apiMid.CheckLogin, apiMid.UpdateVaiTro, vaiTroCtrl.Update);
+router.delete('/vai_tro/:id', apiMid.CheckLogin, apiMid.DeleteVaiTro, vaiTroCtrl.Delete);
+router.get('/vai_tro/co_quyen/:id', vaiTroCtrl.HavePermission);
 
 // Quyền
 router.get('/quyen', quyenCtrl.List);
@@ -101,10 +103,9 @@ router.delete('/quyen/:id', quyenCtrl.Delete);
 
 // Vai trò có quyền
 router.get('/vai_tro_co_quyen', vaiTroCoQuyenCtrl.List);
-router.post('/vai_tro_co_quyen', vaiTroCoQuyenCtrl.Add);
+router.post('/vai_tro_co_quyen', apiMid.CheckLogin, apiMid.AddVaiTroCoQuyen, vaiTroCoQuyenCtrl.Add);
 router.get('/vai_tro_co_quyen/:id', vaiTroCoQuyenCtrl.Detail);
-router.put('/vai_tro_co_quyen/:id', vaiTroCoQuyenCtrl.Update);
-router.delete('/vai_tro_co_quyen/:id', vaiTroCoQuyenCtrl.Delete);
+router.delete('/vai_tro_co_quyen/:id', apiMid.CheckLogin, apiMid.DeleteVaiTroCoQuyen, vaiTroCoQuyenCtrl.Delete);
 
 // Tai_khoan
 router.get('/tai_khoan', taiKhoanCtrl.List);
@@ -136,6 +137,5 @@ var mid = require('./../middlewares/middleware');
 router.get('/callAPI', mid.IsAdmin, function(req, res) {
     res.render('test', {});
 });
-// router.post('/tinh_thanh', uploads.any(), tinhThanhCtrl.Add);
 
 module.exports = router;

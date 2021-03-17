@@ -1,0 +1,161 @@
+extends layout/base.pug
+
+block title
+    title Quan ly tai khoan
+
+block header
+    link(rel='stylesheet' href='/assets_admin/css/taiKhoan.css')
+
+block content  
+    // Header
+    .header.bg-primary.pb-6
+        .container-fluid
+            .header-body
+                .row.align-items-center.py-4
+                    .col-lg-6.col-7
+                        h6.h2.text-white.d-inline-block.mb-0 T&agrave;i kho&#x1EA3;n
+                        nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
+                            ol.breadcrumb.breadcrumb-links.breadcrumb-dark
+                                li.breadcrumb-item
+                                    a(href='#')
+                                        i.fas.fa-home
+                                li.breadcrumb-item.active(aria-current='page') T&agrave;i kho&#x1EA3;n
+                    
+    // Page content
+    .container-fluid.mt--6
+        .row.justify-content-center
+            .col
+                .card
+                    .card-header.bg-transparent
+                        h3.mb-0 Danh s&aacute;ch t&agrave;i kho&#x1EA3;n
+                    .card-body
+                        .row.icon-examples
+                            .col-12.pl-0.mb-4
+                                .row
+                                    .input-group.col-6
+                                        input.form-control(type='text' name='' id='' placeholder='Tìm theo ID hoặc họ tên')
+                                        .input-group-append
+                                            button.btn.btn-secondary(style='height: 45px;')
+                                                i.fa.fa-filter(aria-hidden='true')
+                            .col-lg-3.col-md-6.account
+                                div
+                                    img.user-avatar(src='https://hinhanhdep.net/wp-content/uploads/2016/01/avatar-hoat-hinh-anime-chibi-10.jpg' alt='')
+                                p
+                                    b ID: 
+                                    span dksjd2f5d6s3d2dd
+                                p
+                                    b T&ecirc;n: 
+                                    span Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
+                                p
+                                    b Vai tr&ograve;: 
+                                    span Admin
+                                button.btn.btn-light.mt-2(data-toggle='modal' data-target='#exampleModal') Xem th&ecirc;m
+                            .col-lg-3.col-md-6.account
+                                div
+                                    img.user-avatar(src='https://hinhanhdep.net/wp-content/uploads/2016/01/avatar-hoat-hinh-anime-chibi-10.jpg' alt='')
+                                p
+                                    b ID: 
+                                    span dksjd2f5d6s3d2dd
+                                p
+                                    b T&ecirc;n: 
+                                    span Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
+                                p
+                                    b Vai tr&ograve;: 
+                                    span Admin
+                                button.btn.btn-light.mt-2(data-toggle='modal' data-target='#exampleModal') Xem th&ecirc;m
+                            .col-lg-3.col-md-6.account
+                                div
+                                    img.user-avatar(src='https://hinhanhdep.net/wp-content/uploads/2016/01/avatar-hoat-hinh-anime-chibi-10.jpg' alt='')
+                                p
+                                    b ID: 
+                                    span dksjd2f5d6s3d2dd
+                                p
+                                    b T&ecirc;n: 
+                                    span Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
+                                p
+                                    b Vai tr&ograve;: 
+                                    span Admin
+                                button.btn.btn-light.mt-2(data-toggle='modal' data-target='#exampleModal') Xem th&ecirc;m
+                            .col-lg-3.col-md-6.account
+                                div
+                                    img.user-avatar(src='https://hinhanhdep.net/wp-content/uploads/2016/01/avatar-hoat-hinh-anime-chibi-10.jpg' alt='')
+                                p
+                                    b ID: 
+                                    span dksjd2f5d6s3d2dd
+                                p
+                                    b T&ecirc;n: 
+                                    span Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
+                                p
+                                    b Vai tr&ograve;: 
+                                    span Admin
+                                button.btn.btn-light.mt-2(data-toggle='modal' data-target='#exampleModal') Xem th&ecirc;m
+                            .col-lg-3.col-md-6.account
+                                div
+                                    img.user-avatar(src='https://hinhanhdep.net/wp-content/uploads/2016/01/avatar-hoat-hinh-anime-chibi-10.jpg' alt='')
+                                p
+                                    b ID: 
+                                    span dksjd2f5d6s3d2dd
+                                p
+                                    b T&ecirc;n: 
+                                    span Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
+                                p
+                                    b Vai tr&ograve;: 
+                                    span Admin
+                                button.btn.btn-light.mt-2(data-toggle='modal' data-target='#exampleModal') Xem th&ecirc;m
+                        nav(aria-label='Page navigation example')
+                            ul.pagination.justify-content-center.mt-md-3.mb-md-0
+                                li.page-item.disabled
+                                    a.page-link(href='#' tabindex='-1' aria-disabled='true')
+                                        i.fa.fa-chevron-left(aria-hidden='true')
+                                li.page-item
+                                    a.page-link(href='#') 1
+                                li.page-item
+                                    a.page-link(href='#') 2
+                                li.page-item.active
+                                    a.page-link(href='#') 3
+                                li.page-item
+                                    a.page-link(href='#')
+                                        i.fa.fa-chevron-right(aria-hidden='true')
+        
+        // Modal
+        #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        h5#exampleModalLabel.modal-title Th&ocirc;ng tin t&agrave;i kho&#x1EA3;n
+                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') &times;
+                    .modal-body.custom-modal
+                        .row
+                            .col-5
+                                img(src='https://hinhanhdep.net/wp-content/uploads/2016/01/avatar-hoat-hinh-anime-chibi-10.jpg' alt='')
+                            .col-7
+                                .info
+                                    span.title ID: 
+                                    | sldksmaldkfldss
+                                .info
+                                    span.title H&#x1ECD; t&ecirc;n: 
+                                    | Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
+                                .info
+                                    span.title Gi&#x1EDB;i t&iacute;nh: 
+                                    | Nam
+                                .info
+                                    span.title S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i: 
+                                    | 0231458965
+                                .info
+                                    span.title Email: 
+                                    | abc@gmail.com
+                                .info.form-inline
+                                    span.title Vai tr&ograve;: 
+                                    select.custom-select.ml-2(name='' id='')
+                                        option(value='1' selected='') Admin
+                                        option(value='2') Hotel Manager
+                                        option(value='3') Member
+                    .modal-footer
+                        button.btn.btn-success(type='button') C&#x1EAD;p nh&#x1EAD;t
+                        button.btn.btn-secondary(type='button' data-dismiss='modal') &Dstrok;&oacute;ng
+        
+        // Footer
+        include layout/footer.pug
+        
+block script 

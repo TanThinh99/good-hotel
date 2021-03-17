@@ -1,0 +1,16 @@
+.checkout__order p {
+    font-size: 16px;
+    color: #6f6f6f;
+}
+
+.checkout__order p span {
+    font-weight: 700;
+    float: right;
+}
+
+.checkout__order .checkout__order__total {
+    margin-bottom: 15px;
+    padding: 15px 0px;
+    border-bottom-width: 0px;
+    border-top: 1px solid #e1e1e1;
+}

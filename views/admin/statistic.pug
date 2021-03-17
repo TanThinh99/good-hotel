@@ -1,0 +1,156 @@
+extends layout/base.pug
+
+block title
+    title Thong ke
+
+block header
+    link(rel='stylesheet' href='/assets_admin/css/thongKe.css')
+
+block content  
+    // Header
+    .header.bg-primary.pb-6
+        .container-fluid
+            .header-body
+                .row.align-items-center.py-4
+                    .col-lg-6.col-7
+                        h6.h2.text-white.d-inline-block.mb-0 Th&#x1ED1;ng k&ecirc;
+                        nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
+                            ol.breadcrumb.breadcrumb-links.breadcrumb-dark
+                                li.breadcrumb-item
+                                    a(href='#')
+                                        i.fas.fa-home
+                                li.breadcrumb-item.active(aria-current='page') Th&#x1ED1;ng k&ecirc;
+                    
+    // Page content
+    .container-fluid.mt--6
+        .row.justify-content-center
+            .col-12
+                .card
+                    .card-header.bg-transparent
+                        h3.mb-0 Th&#x1ED1;ng k&ecirc;
+                    .card-body
+                        .row.icon-examples
+                            .col-4.ml-3.mb-4
+                                .input-group
+                                    label(for='' style='margin-top: 10px;') T&#x1EEB; ng&agrave;y
+                                    .input-group-append(style='margin-left: 20px;')
+                                        input.form-control(type='date' name='' id='')
+                                .input-group(style='margin-top: 14px;')
+                                    label(for='' style='margin-top: 10px;') &Dstrok;&#x1EBF;n ng&agrave;y
+                                    .input-group-append(style='margin-left: 10px;')
+                                        input.form-control(type='date' name='' id='')
+                            .input-group.col-6
+                                input.form-control(type='text' name='' id='' placeholder='Thống kê theo ID, tên hoặc địa chỉ')
+                                .input-group-append
+                                    button.btn.btn-secondary(style='height: 45px;')
+                                        i.fa.fa-filter(aria-hidden='true')
+                            .col-7.result
+                                p
+                                    span.title
+                                        i.fa.fa-money(aria-hidden='true')
+                                        | T&#x1ED5;ng doanh thu:
+                                    | 25.002.000 &Dstrok;&#x1ED3;ng
+                                p
+                                    span.title
+                                        i.fa.fa-file-text-o(aria-hidden='true')
+                                        | T&#x1ED5;ng s&#x1ED1; h&oacute;a &dstrok;&#x1A1;n &dstrok;&#x1EB7;t ph&ograve;ng:
+                                    | 123 h&oacute;a &dstrok;&#x1A1;n
+                            .col-md-12.col-md-6.mx-auto.hotelList
+                                .row
+                                    .hotel.col-sm-11
+                                        .row
+                                            .col-6
+                                                p
+                                                    i.fa.fa-id-card-o(aria-hidden='true')
+                                                    | dksjndms5d4f8d7s4
+                                                p
+                                                    i.fa.fa-hospital-o(aria-hidden='true')
+                                                    | Ph&#x1B0;&#x1A1;ng Nam &Dstrok;&#x1EC7; Nh&#x1EA5;t
+                                            .col-3
+                                                p
+                                                    i.fa.fa-phone(aria-hidden='true')
+                                                    | 0236541258
+                                                p
+                                                    i.fa.fa-star(aria-hidden='true')
+                                                    | 8.2
+                                            .col-3
+                                                p
+                                                    i.fa.fa-money(aria-hidden='true')
+                                                    | 1.325.000 &Dstrok;&#x1ED3;ng
+                                                p
+                                                    i.fa.fa-file-text-o(aria-hidden='true')
+                                                    | 20
+                                    .hotel.col-sm-11
+                                        .row
+                                            .col-6
+                                                p
+                                                    i.fa.fa-id-card-o(aria-hidden='true')
+                                                    | dksjndms5d4f8d7s4
+                                                p
+                                                    i.fa.fa-hospital-o(aria-hidden='true')
+                                                    | Ph&#x1B0;&#x1A1;ng Nam &Dstrok;&#x1EC7; Nh&#x1EA5;t
+                                            .col-3
+                                                p
+                                                    i.fa.fa-phone(aria-hidden='true')
+                                                    | 0236541258
+                                                p
+                                                    i.fa.fa-star(aria-hidden='true')
+                                                    | 8.2
+                                            .col-3
+                                                p
+                                                    i.fa.fa-money(aria-hidden='true')
+                                                    | 1.325.000 &Dstrok;&#x1ED3;ng
+                                                p
+                                                    i.fa.fa-file-text-o(aria-hidden='true')
+                                                    | 20
+                                    .hotel.col-sm-11
+                                        .row
+                                            .col-6
+                                                p
+                                                    i.fa.fa-id-card-o(aria-hidden='true')
+                                                    | dksjndms5d4f8d7s4
+                                                p
+                                                    i.fa.fa-hospital-o(aria-hidden='true')
+                                                    | Ph&#x1B0;&#x1A1;ng Nam &Dstrok;&#x1EC7; Nh&#x1EA5;t
+                                            .col-3
+                                                p
+                                                    i.fa.fa-phone(aria-hidden='true')
+                                                    | 0236541258
+                                                p
+                                                    i.fa.fa-star(aria-hidden='true')
+                                                    | 8.2
+                                            .col-3
+                                                p
+                                                    i.fa.fa-money(aria-hidden='true')
+                                                    | 1.325.000 &Dstrok;&#x1ED3;ng
+                                                p
+                                                    i.fa.fa-file-text-o(aria-hidden='true')
+                                                    | 20
+                                    .hotel.col-sm-11
+                                        .row
+                                            .col-6
+                                                p
+                                                    i.fa.fa-id-card-o(aria-hidden='true')
+                                                    | dksjndms5d4f8d7s4
+                                                p
+                                                    i.fa.fa-hospital-o(aria-hidden='true')
+                                                    | Ph&#x1B0;&#x1A1;ng Nam &Dstrok;&#x1EC7; Nh&#x1EA5;t
+                                            .col-3
+                                                p
+                                                    i.fa.fa-phone(aria-hidden='true')
+                                                    | 0236541258
+                                                p
+                                                    i.fa.fa-star(aria-hidden='true')
+                                                    | 8.2
+                                            .col-3
+                                                p
+                                                    i.fa.fa-money(aria-hidden='true')
+                                                    | 1.325.000 &Dstrok;&#x1ED3;ng
+                                                p
+                                                    i.fa.fa-file-text-o(aria-hidden='true')
+                                                    | 20
+
+        // Footer
+        include layout/footer.pug
+
+block script 
