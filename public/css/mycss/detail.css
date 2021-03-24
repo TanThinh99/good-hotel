@@ -162,7 +162,7 @@
 
 /* Room Type */
 .roomType {
-    height: 170px;
+    height: 161px;
     width: 100%;
     background-color: rgb(243, 243, 243);
     padding: 10px 0px 10px 10px;
@@ -174,7 +174,7 @@
 }
 
 .roomType ul li {
-    line-height: 41px;
+    line-height: 37px;
 }
 
 .roomType ul li b {
@@ -183,20 +183,19 @@
 }
 
 .roomType .roomImageFrame{
-    height: 159px;
+    height: 151px;
     width: 100%;
     overflow-x: scroll;
     overflow-y: hidden;
 }
 
 .roomType .roomImageFrame .roomImages {
-    height: 140px;
     width: 1000px;
 }
 
 .roomType .roomImageFrame .roomImages img {
-    height: 144px;
-    width: 180px;
+    height: 135px;
+    width: 175px;
     margin-right: 10px;
 }
 
@@ -317,6 +316,18 @@
 }
 
 /* Related hotel */
+.hotelRelated {
+    padding-top: 0px;
+}
+
+.hotelRelated .nav-tabs:before, .nav-tabs:after {
+    width: 378px;
+}
+
+.hotelRelated .nav-tabs:after {
+    width: 378px;
+}
+
 .hotel-item {
     background: #f4f4f4;
     padding: 3px;

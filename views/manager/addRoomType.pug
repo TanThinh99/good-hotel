@@ -1,0 +1,109 @@
+extends layout/base.pug
+
+block title
+    title Them loai phong
+
+block header
+    link(rel='stylesheet' href='/assets_manager/css/mycss/loaiPhong.css')
+
+block content
+    // Header
+    .header.bg-primary.pb-6
+        .container-fluid
+            .header-body
+                .row.align-items-center.py-4
+                    .col-lg-6.col-7
+                        h6.h2.text-white.d-inline-block.mb-0 Lo&#x1EA1;i ph&ograve;ng
+                        nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
+                            ol.breadcrumb.breadcrumb-links.breadcrumb-dark
+                                li.breadcrumb-item
+                                    a(href='#')
+                                        i.fas.fa-home
+                                li.breadcrumb-item(aria-current='page') Lo&#x1EA1;i ph&ograve;ng
+                                li.breadcrumb-item.active(aria-current='page') Thêm mới
+                    
+    // Page content
+    .container-fluid.mt--6
+        .row.justify-content-center
+            .col
+                .card
+                    .card-header.bg-transparent
+                        h3.mb-0 Thông tin loại phòng
+                        input(type="hidden", id="hotelID" value=""+ hotelID)
+                    .card-body
+                        .row.icon-examples
+                            .col-md-11.col-md-6.mx-auto
+                                .form-group
+                                    label(for='exampleInputEmail1') T&ecirc;n lo&#x1EA1;i ph&ograve;ng
+                                    input#exampleInputEmail1.form-control(type='text' aria-describedby='emailHelp')
+                            .col-md-11.col-md-6.mx-auto
+                                .form-group
+                                    label(for='exampleInputEmail1') Gi&aacute;
+                                    input#exampleInputEmail1.form-control(type='number' aria-describedby='emailHelp')
+                            .col-md-11.col-md-6.mx-auto
+                                .form-group
+                                    label(for='exampleInputEmail1') S&#x1ED1; l&#x1B0;&#x1EE3;ng ph&ograve;ng
+                                    input#exampleInputEmail1.form-control(type='number' aria-describedby='emailHelp')
+                            .col-md-11.col-md-6.mx-auto
+                                .form-group
+                                    | Tr&#x1EA1;ng th&aacute;i ph&ograve;ng&nbsp;&nbsp;&nbsp;
+                                    .custom-control.custom-radio.custom-control-inline
+                                        input#customRadioInline1.custom-control-input(type='radio' name='customRadioInline' checked)
+                                        label.custom-control-label(for='customRadioInline1') Ph&#x1EE5;c v&#x1EE5;
+                                    .custom-control.custom-radio.custom-control-inline
+                                        input#customRadioInline2.custom-control-input(type='radio' name='customRadioInline')
+                                        label.custom-control-label(for='customRadioInline2') Kh&ocirc;ng ph&#x1EE5;c v&#x1EE5;
+                            .col-md-11.col-md-6.mx-auto
+                                button.btn.btn-success
+                                    i.ni.ni-check-bold
+                                    |                     C&#x1EAD;p nh&#x1EAD;t
+            .col
+                .card
+                    .card-header.bg-transparent
+                        h3.mb-0.row
+                            .col-6 C&aacute;c h&igrave;nh &#x1EA3;nh c&#x1EE7;a lo&#x1EA1;i ph&ograve;ng n&agrave;y
+                            .col-6.text-right
+                                button.btn.btn-light(data-toggle='modal' data-target='#exampleModal') T&#x1EA3;i l&ecirc;n h&igrave;nh &#x1EA3;nh lo&#x1EA1;i ph&ograve;ng
+                    .card-body
+                        .row.icon-examples
+                            .col-md-11.col-md-6.mx-auto
+                                .images
+                                    .containImages
+                                        img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                        img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                        img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                .imageBox
+                                    img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                    span.delBtn
+                                        i.fa.fa-trash(aria-hidden='true')
+                                    span.closeBtn
+                                        i.fa.fa-times(aria-hidden='true')
+                                    span.fullScreenBtn
+                                        i.fa.fa-arrows-alt(aria-hidden='true')
+        
+        // Modal
+        #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        h5#exampleModalLabel.modal-title T&#x1EA3;i l&ecirc;n h&igrave;nh &#x1EA3;nh
+                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') &times;
+                    .modal-body.upload-file-modal
+                        input#fileupload(type='file' name='' multiple='' accept='image/*' hidden='')
+                        .text-center
+                            button.btn.btn-warning(onclick="document.getElementById('fileupload').click()")
+                                i.fa.fa-picture-o(aria-hidden='true')
+                                |                   Ch&#x1ECD;n h&igrave;nh &#x1EA3;nh
+                        #dvPreview
+                    .modal-footer
+                        button.btn.btn-primary(type='button')
+                            i.fa.fa-upload(aria-hidden='true')
+                            | Save changes
+                        button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+        
+        // Footer
+        include layout/footer.pug
+
+block script 
+    script(src="/assets_manager/js/myjs/updateRoomType.js") 

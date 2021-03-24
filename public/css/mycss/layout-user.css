@@ -1,3 +1,44 @@
+/* SHOPPING-CART */
+.shopping-cart {
+    position: relative;
+    display: inline-block;
+    width: 43px;
+    margin: 0px 0px 21px 7px;
+}
+
+.shopping-cart i {
+    font-size: 28px;
+    color: black;
+}
+
+.shopping-cart .amount {
+    position: absolute;
+    top: 0px;
+    border-radius: 50%;
+    background-color: greenyellow;
+    font-size: 14px;
+    right: 0px;
+    min-width: 15px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    padding: 1px;
+}
+
+/* MODAL */
+.modal .nav-link {
+    color:rgb(0, 174, 255);
+}
+
+.modal .nav-link:hover {
+    background-color: rgb(197, 255, 155);
+}
+
+.modal .nav-link.active {
+    color: white;
+    background-color: greenyellow;
+}
+
 /* FOOTER */
 .footer {
     padding-top: 38px;

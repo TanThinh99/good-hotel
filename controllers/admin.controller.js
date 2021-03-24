@@ -3,11 +3,22 @@ module.exports.Statistic = function(req, res) {
 }
 
 module.exports.Account = function(req, res) {
-    res.render('admin/account');
+    var managerArr = ['2'];
+    res.render('admin/account', {
+        managerArr: managerArr
+    });
 }
 
 module.exports.Convenient = function(req, res) {
     res.render('admin/convenient');
+}
+
+module.exports.UpdateConvenient = function(req, res) {
+    res.render('admin/updateConvenient');
+}
+
+module.exports.AddConvenient = function(req, res) {
+    res.render('admin/addConvenient');
 }
 
 module.exports.Role = function(req, res) {
@@ -30,6 +41,3 @@ module.exports.AddRole = function(req, res) {
     res.render('admin/addRole');
 }
 
-module.exports.AddConvenient = function(req, res) {
-    res.render('admin/addConvenient');
-}

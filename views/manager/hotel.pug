@@ -1,7 +1,7 @@
 extends layout/base.pug
 
 block title 
-    title Argon Dashboard - Free Dashboard for Bootstrap 4
+    title Thông tin khách sạn
 
 block header 
     link(rel='stylesheet' href='/assets_manager/css/mycss/index.css')
@@ -30,24 +30,25 @@ block content
             .col
                 .card
                     .card-header.bg-transparent
-                        h3.mb-0 Th&ocirc;ng tin kh&aacute;ch s&#x1EA1;n
+                        h3.mb-0 Thông tin khách sạn
                     .card-body
                         .row.icon-examples
+                            input(type="text" id="hotelID" hidden value=''+ hotel._id)
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
-                                    label(for='exampleInputEmail1') T&ecirc;n kh&aacute;ch s&#x1EA1;n
-                                    input#exampleInputEmail1.form-control(type='text' aria-describedby='emailHelp')
+                                    label(for='exampleInputEmail1') Tên khách sạn
+                                    input#exampleInputEmail1.form-control(type='text' aria-describedby='emailHelp' value=''+ hotel.ten)
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
-                                    label(for='exampleInputEmail1') S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i
-                                    input#exampleInputEmail1.form-control(type='text' aria-describedby='emailHelp')
+                                    label(for='exampleInputEmail1') Số điện thoại
+                                    input#exampleInputEmail1.form-control(type='text' aria-describedby='emailHelp' value=''+ hotel.so_dien_thoai)
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
-                                    label(for='exampleInputEmail1') &Dstrok;&#x1ECB;a ch&#x1EC9;
+                                    label(for='exampleInputEmail1') Địa chỉ
                                     .row.mx-auto
                                         .col-8
                                             .form-group.form-inline
-                                                label(for='exampleInputEmail1') T&#x1EC9;nh, th&agrave;nh ph&#x1ED1;
+                                                label(for='exampleInputEmail1') Tỉnh, thành phố
                                                 select#exampleInputEmail1.custom-select.ml-2(name='')
                                                     option(value='' selected='') -- Ch&#x1ECD;n T&#x1EC9;nh, th&agrave;nh ph&#x1ED1; --
                                                     option(value='') T&#x1EC9;nh An Giang
@@ -71,17 +72,16 @@ block content
                                                     option(value='') T&#x1EC9;nh H&agrave; Giang
                                         .col-12
                                             .form-group.form-inline
-                                                label(for='exampleInputEmail1') S&#x1ED1; nh&agrave;, t&ecirc;n &dstrok;&#x1B0;&#x1EDD;ng
+                                                label(for='exampleInputEmail1') Số nhà, tên đường
                                                 input#exampleInputEmail1.form-control.ml-2.w-50(type='text' name='')
-                                    // <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
                                     label(for='exampleInputEmail1') B&#x1EA3;n &dstrok;&#x1ED3; Google Map
-                                    input#exampleInputEmail1.form-control(type='text' aria-describedby='emailHelp')
+                                    input#exampleInputEmail1.form-control(type='text' aria-describedby='emailHelp' value=''+ hotel.google_map)
                             .col-md-11.col-md-6.mx-auto
                                 button.btn.btn-success
                                     i.ni.ni-check-bold
-                                    |                     C&#x1EAD;p nh&#x1EAD;t
+                                    | Cập nhật
             .col-12
                 .card
                     .card-header.bg-transparent

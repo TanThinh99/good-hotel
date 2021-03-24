@@ -29,8 +29,8 @@ var storage = multer.diskStorage({
 var uploads = multer({ storage: storage });
 
 // USER
+router.post('/postLoginTest', userApiCtrl.PostLoginTest);
 router.post('/postLogin', userApiCtrl.PostLogin);
-router.get('/logout', userApiCtrl.Logout);
 
 // Tinh_thanh
 router.get('/tinh_thanh', tinhThanhCtrl.List);
@@ -109,9 +109,10 @@ router.delete('/vai_tro_co_quyen/:id', apiMid.CheckLogin, apiMid.DeleteVaiTroCoQ
 
 // Tai_khoan
 router.get('/tai_khoan', taiKhoanCtrl.List);
-router.post('/tai_khoan', uploads.single('avatar'), taiKhoanCtrl.Add);
+router.post('/tai_khoan', taiKhoanCtrl.Add);
 router.get('/tai_khoan/:id', taiKhoanCtrl.Detail);
-router.put('/tai_khoan/:id', uploads.single('avatar'), taiKhoanCtrl.UpdateInfo);
+router.put('/tai_khoan/:id', apiMid.CheckLogin, apiMid.UpdateTaiKhoan, uploads.single('avatar'), taiKhoanCtrl.UpdateInfo);
+router.put('/tai_khoan/updateAccount/:id', apiMid.CheckLogin, apiMid.UpdateTaiKhoan, taiKhoanCtrl.UpdateAccount);
 router.put('/tai_khoan/grantRole/:id', taiKhoanCtrl.GrantRole);
 
 // Bình luận

@@ -37,29 +37,21 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
                 // Nav items
                 ul.navbar-nav
                     li.nav-item
-                        a.nav-link.active(href='examples/dashboard.html')
-                            i.ni.ni-tv-2.text-primary
-                            span.nav-link-text Th&ocirc;ng tin
+                        a.nav-link.active(href='/admin')
+                            i.ni.ni-chart-bar-32.text-primary
+                            span.nav-link-text Thống kê
                     li.nav-item
-                        a.nav-link(href='examples/icons.html')
-                            i.ni.ni-planet.text-orange
-                            span.nav-link-text Ti&#x1EC7;n nghi
+                        a.nav-link(href='/admin/account')
+                            i.ni.ni-single-02.text-orange
+                            span.nav-link-text Tài khoản
                     li.nav-item
-                        a.nav-link(href='examples/icons.html')
-                            i.ni.ni-planet.text-orange
-                            span.nav-link-text Lo&#x1EA1;i ph&ograve;ng
+                        a.nav-link(href='/admin/convenient')
+                            i.ni.ni-satisfied.text-yellow
+                            span.nav-link-text Tiện nghi
                     li.nav-item
-                        a.nav-link(href='examples/map.html')
-                            i.ni.ni-pin-3.text-primary
-                            span.nav-link-text &Dstrok;&#x1EB7;t ph&ograve;ng
-                    li.nav-item
-                        a.nav-link(href='examples/profile.html')
-                            i.ni.ni-single-02.text-yellow
-                            span.nav-link-text B&igrave;nh lu&#x1EAD;n
-                    li.nav-item
-                        a.nav-link(href='examples/tables.html')
-                            i.ni.ni-bullet-list-67.text-default
-                            span.nav-link-text H&oacute;a &dstrok;&#x1A1;n
+                        a.nav-link(href='/admin/role')
+                            i.ni.ni-diamond.text-info
+                            span.nav-link-text Vai trò
                 // Divider
                 hr.my-3
 
@@ -67,7 +59,7 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
                 ul.navbar-nav.mb-md-3
                     li.nav-item
                         a.nav-link(href='https://demos.creative-tim.com/argon-dashboard/docs/getting-started/overview.html' target='_blank')
-                            i.ni.ni-spaceship
+                            i.ni.ni-user-run
                             span.nav-link-text &Dstrok;&abreve;ng xu&#x1EA5;t
 
 // Main content
@@ -119,5 +111,8 @@ script(src='/assets_manager/vendor/chart.js/dist/Chart.min.js')
 script(src='/assets_manager/vendor/chart.js/dist/Chart.extension.js')
 // Argon JS
 script(src='/assets_manager/js/argon.js?v=1.2.0')
+
+// Axios cdn
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 block script

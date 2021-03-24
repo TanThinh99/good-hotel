@@ -13,7 +13,7 @@ block content
             .header-body
                 .row.align-items-center.py-4
                     .col-lg-6.col-7
-                        h6.h2.text-white.d-inline-block.mb-0 T&agrave;i kho&#x1EA3;n
+                        h6.h2.text-white.d-inline-block.mb-0 Tài khoản
                         nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
                             ol.breadcrumb.breadcrumb-links.breadcrumb-dark
                                 li.breadcrumb-item
@@ -27,7 +27,11 @@ block content
             .col
                 .card
                     .card-header.bg-transparent
-                        h3.mb-0 Danh s&aacute;ch t&agrave;i kho&#x1EA3;n
+                        h3.mb-0.row 
+                            .col-6 Danh sách tài khoản
+                            .col-6.text-right 
+                                a(href="./grantManager") 
+                                    button.btn.btn-secondary Trao quyền quản lý khách sạn  
                     .card-body
                         .row.icon-examples
                             .col-12.pl-0.mb-4
@@ -147,10 +151,13 @@ block content
                                     | abc@gmail.com
                                 .info.form-inline
                                     span.title Vai tr&ograve;: 
-                                    select.custom-select.ml-2(name='' id='')
-                                        option(value='1' selected='') Admin
+                                    select.custom-select.ml-2(name='' id='roleSelect')
+                                        option(value='1' selected) Admin
                                         option(value='2') Hotel Manager
                                         option(value='3') Member
+                                .info.custom-control.custom-checkbox(id='newHotelDiv' hidden)
+                                    input#newHotel(type="checkbox", name="" class='custom-control-input') 
+                                    label(for="newHotel" class='custom-control-label') Tạo một khách sạn mới 
                     .modal-footer
                         button.btn.btn-success(type='button') C&#x1EAD;p nh&#x1EAD;t
                         button.btn.btn-secondary(type='button' data-dismiss='modal') &Dstrok;&oacute;ng
@@ -158,4 +165,23 @@ block content
         // Footer
         include layout/footer.pug
         
-block script 
+block script
+    script.
+        var managerArr = [#{managerArr}];
+        document.getElementById('roleSelect').onchange = function() {
+            var manager = this.value;
+            var result = managerArr.find(function(value) {
+                return manager == value;
+            });
+            if(result != undefined) {
+                document.getElementById('newHotelDiv').hidden = false;
+            }
+            else {
+                document.getElementById('newHotelDiv').hidden = true;
+            }
+            //- alert(result);
+        }
+        function findManager(value, index, arr) {
+            return document.getElementById('roleSelect').value == value;
+        }
+        

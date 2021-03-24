@@ -1,0 +1,140 @@
+extends layout/base.pug
+
+block title 
+    <title>Giỏ hàng</title>
+
+block header 
+    <link rel="stylesheet" href="/css/mycss/basket.css">
+
+block content
+    // Breadcrumb Section Begin
+    section.breadcrumb-section.set-bg(data-setbg='img/breadcrumb.jpg')
+        .container
+            .row
+                .col-lg-12.text-center
+                    .breadcrumb__text
+                        h2 Shopping Cart
+                        .breadcrumb__option
+                            a(href='./index.html') Home
+                            span Shopping Cart
+    // Breadcrumb Section End
+    
+    // Shoping Cart Section Begin
+    section.shoping-cart.spad
+        .container.billList
+            .row.bill
+                .col-3
+                    p.info
+                        span.title Kh&aacute;ch s&#x1EA1;n 
+                        | &Dstrok;&#x1EC7; Nh&#x1EA5;t Luxury
+                    p.info
+                        span.title Lo&#x1EA1;i ph&ograve;ng 
+                        | VIP
+                .col-3
+                    p.info
+                        span.title Gi&aacute; ph&ograve;ng
+                        |  250.000 &Dstrok;&#x1ED3;ng
+                    p.quantity.form-inline.info
+                        span.title S&#x1ED1; ph&ograve;ng
+                        input.form-control.ml-1(type='number' value='1' min='-2' max='8')
+                .col-3
+                    p.form-inline.info(style='margin-bottom: -10px;')
+                        span.title T&#x1EEB; ng&agrave;y&nbsp;&nbsp;
+                        input.form-control.ml-1(type='date' name='' id='')
+                    p.form-inline.info
+                        span.title &Dstrok;&#x1EBF;n ng&agrave;y&nbsp;
+                        input.form-control(type='date' name='' id='')
+                .col-2.text-center
+                    p.title.info T&#x1ED5;ng c&#x1ED9;ng
+                    p.info.totalPrice 2.500.000 &Dstrok;&#x1ED3;ng
+                .col-1
+                    p.info
+                        i.fa.fa-pencil-square-o.func(aria-hidden='true')
+                    p.info
+                        i.fa.fa-trash-o.func(aria-hidden='true')
+            .row.bill
+                .col-3
+                    p.info
+                        span.title Kh&aacute;ch s&#x1EA1;n 
+                        | &Dstrok;&#x1EC7; Nh&#x1EA5;t Luxury
+                    p.info
+                        span.title Lo&#x1EA1;i ph&ograve;ng 
+                        | VIP
+                .col-3
+                    p.info
+                        span.title Gi&aacute; ph&ograve;ng
+                        |  250.000 &Dstrok;&#x1ED3;ng
+                    p.quantity.form-inline.info
+                        span.title S&#x1ED1; ph&ograve;ng
+                        input.form-control.ml-1(type='number' value='1' min='-2' max='8')
+                .col-3
+                    p.form-inline.info(style='margin-bottom: -10px;')
+                        span.title T&#x1EEB; ng&agrave;y&nbsp;&nbsp;
+                        input.form-control.ml-1(type='date' name='' id='')
+                    p.form-inline.info
+                        span.title &Dstrok;&#x1EBF;n ng&agrave;y&nbsp;
+                        input.form-control(type='date' name='' id='')
+                .col-2.text-center
+                    p.title.info T&#x1ED5;ng c&#x1ED9;ng
+                    p.info.totalPrice 2.500.000 &Dstrok;&#x1ED3;ng
+                .col-1
+                    p.info
+                        i.fa.fa-pencil-square-o.func(aria-hidden='true')
+                    p.info
+                        i.fa.fa-trash-o.func(aria-hidden='true')
+            .row.bill
+                .col-3
+                    p.info
+                        span.title Kh&aacute;ch s&#x1EA1;n 
+                        | &Dstrok;&#x1EC7; Nh&#x1EA5;t Luxury
+                    p.info
+                        span.title Lo&#x1EA1;i ph&ograve;ng 
+                        | VIP
+                .col-3
+                    p.info
+                        span.title Gi&aacute; ph&ograve;ng
+                        |  250.000 &Dstrok;&#x1ED3;ng
+                    p.quantity.form-inline.info
+                        span.title S&#x1ED1; ph&ograve;ng
+                        input.form-control.ml-1(type='number' value='1' min='-2' max='8')
+                .col-3
+                    p.form-inline.info(style='margin-bottom: -10px;')
+                        span.title T&#x1EEB; ng&agrave;y&nbsp;&nbsp;
+                        input.form-control.ml-1(type='date' name='' id='')
+                    p.form-inline.info
+                        span.title &Dstrok;&#x1EBF;n ng&agrave;y&nbsp;
+                        input.form-control(type='date' name='' id='')
+                .col-2.text-center
+                    p.title.info T&#x1ED5;ng c&#x1ED9;ng
+                    p.info.totalPrice 2.500.000 &Dstrok;&#x1ED3;ng
+                .col-1
+                    p.info
+                        i.fa.fa-pencil-square-o.func(aria-hidden='true')
+                    p.info
+                        i.fa.fa-trash-o.func(aria-hidden='true')
+            .row
+                .col-lg-6.mt-4.userInfo
+                    h4.font-system-ui.mb-4(style="font-weight: bold;") Thông tin người đặt phòng
+                    
+                    .form-group.form-inline
+                        label(for='hoTen') H&#x1ECD; t&ecirc;n
+                        input#hoTen.form-control.ml-2(type='text' readonly='' name='hoTen' value='Nguyễn Tấn Thịnh')
+                    .form-group.form-inline
+                        label(for='email') Email
+                        input#email.form-control.ml-2(type='eamil' readonly='' name='email' value='thinh@gmail.com')
+                    .form-group.form-inline
+                        label(for='sdt') S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i
+                        input#sdt.form-control.ml-2(type='text' readonly='' name='sdt' value='0325698745')
+                    p(style='color:gray; font-size:16px;') 
+                        | <i class="fa fa-question-circle" aria-hidden="true"></i>
+                        | Nếu cần cập nhật lại thông tin người đặt phòng, quý khách vui lòng vào thông tin cá nhân để cập nhật!!
+                .col-lg-6
+                    .shoping__checkout.font-system-ui
+                        ul
+                            li
+                                | T&#x1ED4;NG GI&#x1ECE; H&Agrave;NG 
+                                span 2.500.000 &Dstrok;&#x1ED3;ng
+                        a.primary-btn(href='#') Ch&#x1ECD;n ph&#x1B0;&#x1A1;ng th&#x1EE9;c thanh to&aacute;n
+    // Shoping Cart Section End
+
+block script 

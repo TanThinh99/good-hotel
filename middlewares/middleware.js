@@ -18,3 +18,38 @@ module.exports.IsAdmin = function(req, res, next) {
         }
     });
 }
+
+module.exports.GoToAdminPage = function(req, res, next) {
+    var decode = req.session.decode;
+    if(decode.allow == 'Vao trang admin') {
+        next();
+    }
+    else {
+        res.redirect('/');
+    }    
+}
+
+module.exports.GoToManagerPage = function(req, res, next) {
+    var decode = req.session.decode;
+    var notAllow = true;
+    if(decode.allow == 'Vao trang quan ly khach san') {
+        var hotelID = req.params.hotelID;
+        if(hotelID == decode.hotelID) {
+            notAllow = false;
+            next();
+        }
+    }
+    if( notAllow ) {
+        res.redirect('/');
+    }
+}
+
+module.exports.GoToAccountUser = function(req, res, next) {
+    var decode = req.session.decode;
+    if(decode != undefined) {
+        next();    
+    }
+    else {
+        res.redirect('/');
+    }
+}

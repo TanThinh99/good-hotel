@@ -18,18 +18,23 @@ function ChooseControl(self, typeContent) {
 }
 
 document.getElementById('avatar').onchange = function(event) {
-    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
-    var file = event.target.files[0];
-    if (regex.test(file.name.toLowerCase())) {
-        var reader = new FileReader();
-        reader.onload = function(){
-        var avatarImg = document.getElementById('avatarImg');
-        avatarImg.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    } 
-    else {
-        alert(file.name + " is not a valid image file.");
-        document.getElementById('avatarImg').src = "";
+    if(event.target.files.length != 0) {
+        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+        var file = event.target.files[0];
+        if (regex.test(file.name.toLowerCase())) {
+            var reader = new FileReader();
+            reader.onload = function(){
+            var avatarImg = document.getElementById('avatarImg');
+            avatarImg.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        } 
+        else {
+            alert(file.name + " is not a valid image file.");
+            document.getElementById('avatarImg').src = "";
+        }
     }
+    else {
+        document.getElementById('avatarImg').src = "";
+    }  
 };

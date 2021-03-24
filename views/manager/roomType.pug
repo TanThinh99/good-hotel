@@ -27,7 +27,12 @@ block content
             .col
                 .card
                     .card-header.bg-transparent
-                        h3.mb-0 Lo&#x1EA1;i ph&ograve;ng
+                        h3.mb-0.row 
+                            .col-6 Loại phòng
+                            .col-6.text-right
+                                a(href="./addRoomType") 
+                                    button.btn.btn-light Thêm loại phòng
+                        input(type="hidden", id="hotelID" value=''+ hotelID)
                     .card-body
                         .row.icon-examples
                             .col-lg-12.col-md-6.btn-icon-clipboard
@@ -39,7 +44,8 @@ block content
                                         p
                                             | Tr&#x1EA1;ng th&aacute;i ph&ograve;ng: 
                                             em(style='color: red') Kh&ocirc;ng ph&#x1EE5;c v&#x1EE5;
-                                        button.btn.btn-success C&#x1EAD;p nh&#x1EAD;t
+                                        a(href="./roomType/jksjdl" class="mr-2") 
+                                            button.btn.btn-success C&#x1EAD;p nh&#x1EAD;t
                                         button.btn.btn-danger X&oacute;a
                                     .col-md-8
                                         .images

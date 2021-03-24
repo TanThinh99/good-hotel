@@ -6,10 +6,10 @@
 .humberger__menu__wrapper
     .humberger__menu__logo
         a(href='#')
-            img(src='img/good_hotel.png' alt='')
+            img(src='/img/good_hotel.png' alt='')
     .humberger__menu__widget
         .header__top__right__language
-            img(src='img/language.png' alt='')
+            img(src='/img/language.png' alt='')
             div English
             span.arrow_carrot-down
             ul
@@ -62,7 +62,7 @@ header.header
                             a(href='#')
                                 i.fa.fa-pinterest-p
                         .header__top__right__language
-                            img(src='img/language.png' alt='')
+                            img(src='/img/language.png' alt='')
                             div English
                             span.arrow_carrot-down
                             ul
@@ -71,15 +71,20 @@ header.header
                                 li
                                     a(href='#') English
                         .header__top__right__auth
-                            a(href='#' data-toggle='modal' data-target='#exampleModal')
-                                i.fa.fa-user
-                                |  Login
+                            if username
+                                a(href='/account')
+                                    i.fa.fa-user
+                                    |  #{username}
+                            else 
+                                a(href='#' data-toggle='modal' data-target='#exampleModal')
+                                    i.fa.fa-user
+                                    |  Login
     .container
         .row
             .col-lg-2
                 .header__logo
-                    a(href='./index.html')
-                        img(src='img/good_hotel.png' style='height: 85px;' alt='')
+                    a(href='/')
+                        img(src='/img/good_hotel.png' style='height: 85px;' alt='')
             .col-lg-10(style='padding-top: 30px;')
                 .hero__search
                     .hero__search__form
@@ -87,11 +92,83 @@ header.header
                             input(type='text' placeholder='Nhập tên hoặc địa chỉ khách sạn')
                             button.site-btn(type='submit') T&Igrave;M
                     .hero__search__phone
+                        div
+                            a.shopping-cart(href='/basket')
+                                i.fa.fa-shopping-cart(aria-hidden='true')
+                                    span.amount 3
+                            span(style='font-weight: bolder; font-size: 17px; color: #f25119') 15.000.000 VND
+
                         .hero__search__phone__icon
                             i.fa.fa-phone
                         .hero__search__phone__text
                             h5 +84 86.990.5431
                             span H&#x1ED7; tr&#x1EE3; 24/7
-        .humberger__open
-            i.fa.fa-bars
+                            .humberger__open
+                                i.fa.fa-bars
 // Header Section End
+
+// Modal
+#exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+    .modal-dialog
+        .modal-content
+            .modal-header
+                h5#exampleModalLabel.modal-title Xin chào Quý khách
+                button.close(type='button' data-dismiss='modal' aria-label='Close')
+                    span(aria-hidden='true') &times;
+            .modal-body
+                ul.nav.nav-pills(style='padding: 7px 0px 21px 3%;')
+                    li.nav-item
+                        a.nav-link.active(style='margin-right: 5px;' href='#' onclick="CustomerLogin(this, 'loginTabPane')") &Dstrok;&abreve;ng nh&#x1EAD;p
+                    li.nav-item
+                        a.nav-link(href='#' onclick="CustomerLogin(this, 'regTabPane')") &Dstrok;&abreve;ng k&yacute;
+                .tab-content
+                    #loginTabPane.tab-pane.active
+                        .form-group
+                            .col-sm-12
+                                label(for='uid') T&ecirc;n &dstrok;&abreve;ng nh&#x1EAD;p
+                                input#uid.form-control(placeholder='Nhập tên đăng nhập ...' type='text')
+                        .form-group
+                            .col-sm-12
+                                label(for='pass') M&#x1EAD;t kh&#x1EA9;u
+                                input#pass.form-control(placeholder='Nhập mật khẩu ...' type='password')
+                        .form-group(style='margin-top: 27px;')
+                            .col-sm-10
+                                button.btn.btn-primary.btn-radius.btn-brd.grd1(onclick='Login()')
+                                    | Đăng nhập
+                                a.for-pwd.btn.btn-link(href='javascript:;') Forgot your password?
+                    #regTabPane.tab-pane
+                        form.form-horizontal(role='form')
+                            .form-group
+                                .col-sm-12
+                                    label(for='hoTen') H&#x1ECD; t&ecirc;n
+                                    input#hoTen.form-control(placeholder='Nhập tên ...' type='text')
+                            .form-group
+                                .col-sm-12
+                                    label(for='sdt') S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i
+                                    input#sdt.form-control(placeholder='Nhập số điện thoại ...' type='text')
+                            .form-group
+                                .col-sm-12
+                                    label(for='email') Email
+                                    input#email.form-control(placeholder='Nhập email ...' type='email')
+                            .form-group
+                                .col-sm-12
+                                    label(for='username') Tên đăng nhập
+                                    input#username.form-control(placeholder='Nhập tên đăng nhập ...' type='text')
+                            .form-group
+                                .col-sm-12
+                                    label(for='pass1') M&#x1EAD;t kh&#x1EA9;u
+                                    input#pass1.form-control(placeholder='Nhập mật khẩu ...' type='password')
+                            .form-group
+                                .col-sm-12
+                                    label(for='pass2') X&aacute;c nh&#x1EAD;n m&#x1EAD;t kh&#x1EA9;u
+                                    input#pass2.form-control(placeholder='Nhập lại mật khẩu ...' type='password')
+                            .form-group(style='margin-top: 27px;')
+                                .col-sm-12
+                                    button.btn.btn-primary.btn-radius.btn-brd.grd1.mr-1(type='button' onclick='Register()')
+                                        | Đăng ký
+                                    button.btn.btn-light.btn-radius.btn-brd.grd1(type='reset')
+                                        | Làm lại
+            .modal-footer
+                button#closeLoginModal.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                // <button type="button" class="btn btn-primary" onclick="CloseModal()">Save changes</button>
+// Modal End

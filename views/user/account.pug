@@ -7,6 +7,18 @@ block header
     <link rel="stylesheet" href="css/mycss/info-control.css">
 
 block content
+    // Breadcrumb Section Begin
+    section.breadcrumb-section.set-bg(data-setbg='https://vcdn1-dulich.vnecdn.net/2019/11/21/2-1574339443.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=BzU6f4wgVBm3R12CpyttVA')
+        .container
+            .row
+                .col-lg-12.text-center
+                    .breadcrumb__text
+                        h2 Thông tin cá nhân
+                        .breadcrumb__option
+                            a(href='/') Trang chủ
+                            span Thông tin cá nhân
+    // Breadcrumb Section End
+
     // Blog Details Section Begin
     section.blog-details.spad(style='padding-top: 33px;')
         .container
@@ -14,27 +26,31 @@ block content
                 .col-lg-2.col-md-4.order-md-1.order-1
                     .infoNav.active-nav(onclick="ChooseControl(this, 'infoContent')")
                         span
-                            i.fa.fa-info-circle
-                            | &nbsp;&nbsp;Th&ocirc;ng tin
+                            i.fa.fa-info-circle.mr-2
+                            | Thông tin
                     .infoNav(onclick="ChooseControl(this, 'accountContent')")
                         span
-                            i.fa.fa-user-circle
-                            | &nbsp;&nbsp;T&agrave;i kho&#x1EA3;n
+                            i.fa.fa-user-circle.mr-2
+                            | Tài khoản
                     .infoNav(onclick="ChooseControl(this, 'checkRoomContent')")
                         span
-                            i.fa.fa-file-text
-                            | &nbsp;&nbsp;H&oacute;a &dstrok;&#x1A1;n
+                            i.fa.fa-file-text.mr-2
+                            | Hóa đơn
                     .infoNav(onclick="ChooseControl(this, '')")
                         span
-                            i.fa.fa-sign-out
-                            | &nbsp;&nbsp;&Dstrok;&abreve;ng xu&#x1EA5;t
+                            a(href="/logout") 
+                                i.fa.fa-sign-out.mr-2
+                                | Đăng xuất
                 .col-lg-10.col-md-8.order-md-1.order-2
                     .contentTitle Thong tin ca nhan
                     // Thong tin ca nhan
                     #infoContent.mainContent
                         .row
+                            input(type="hidden" id="csrf_token" value=csrfToken)
+                            input(type="hidden" id="token" value=token)
+                            input(type="hidden" id="accountID" value=account._id)
                             .col-sm-4(style='text-align: center;')
-                                img#avatarImg(src='https://thevocaloids.files.wordpress.com/2018/02/artworks-000140855275-ysu9n0-t500x500.jpg?w=640' alt='' style='width: 100%; max-height: 350px;')
+                                img#avatarImg(src='/uploads/'+account.avatar alt='' style='width: 100%; max-height: 350px;')
                                 br
                                 input#avatar(type='file' name='avatar' accept='image/*' hidden='')
                                 label#avatarBtn(for='myfile' onclick="document.getElementById('avatar').click()")
@@ -44,62 +60,107 @@ block content
                                 table
                                     tr
                                         td.infoTitle
-                                            label(for='name') H&#x1ECD; v&agrave; t&ecirc;n
+                                            label(for='name') Họ và tên
                                         td
-                                            input#name.form-control(type='text' name='name' value='Nguyễn Tấn Thịnh')
+                                            input#name.form-control(type='text' name='name' value=account.ho_ten)
                                     tr
-                                        td.infoTitle Gi&#x1EDB;i t&iacute;nh
+                                        td.infoTitle Giới tính
                                         td
                                             .custom-control.custom-radio.custom-control-inline
-                                                input#namRadio.custom-control-input(type='radio' name='genral' value='nam')
+                                                if account.gioi_tinh == true
+                                                    input#namRadio.custom-control-input(type='radio' name='genral' value='nam' checked)
+                                                else
+                                                    input#namRadio.custom-control-input(type='radio' name='genral' value='nam')
                                                 label.custom-control-label(for='namRadio') Nam
                                             .custom-control.custom-radio.custom-control-inline
-                                                input#nuRadio.custom-control-input(type='radio' name='genral' value='nu')
-                                                label.custom-control-label(for='nuRadio') N&#x1EEF;
+                                                if account.gioi_tinh == true
+                                                    input#nuRadio.custom-control-input(type='radio' name='genral' value='nu')
+                                                else 
+                                                    input#nuRadio.custom-control-input(type='radio' name='genral' value='nu' checked)
+                                                label.custom-control-label(for='nuRadio') Nữ
                                     tr
                                         td.infoTitle
-                                            label(for='phone') S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i
+                                            label(for='phone') Số điện thoại
                                         td
-                                            input#phone.form-control(type='text' name='phone' value='0926589657')
+                                            input#phone.form-control(type='text' name='phone' value=account.so_dien_thoai)
                                     tr
                                         td.infoTitle(style='vertical-align: top;')
-                                            label(for='address') &Dstrok;&#x1ECB;a ch&#x1EC9;
+                                            label(for='address') Địa chỉ
                                         td
                                             .row
                                                 .col-12
                                                     .form-group.form-inline
-                                                        label(for='exampleInputEmail1') T&#x1EC9;nh, th&agrave;nh ph&#x1ED1;
-                                                        select#exampleInputEmail1.ml-2(name='')
-                                                            option(value='' selected='') -- Ch&#x1ECD;n T&#x1EC9;nh, th&agrave;nh ph&#x1ED1; --
-                                                            option(value='') T&#x1EC9;nh An Giang
-                                                            option(value='') T&#x1EC9;nh Ki&ecirc;n Giang
-                                                            option(value='') T&#x1EC9;nh H&agrave; Giang
+                                                        label(for='exampleInputEmail1') Tỉnh, thành phố
+                                                        div(class='select-address ml-2')
+                                                            div.btn.btn-light.selectBtn(onclick="ToggleSelect(\'selectCityContent\')")
+                                                                .row
+                                                                    .col-10#cityMain 
+                                                                        if account.maxp == ''
+                                                                            | Chọn Tỉnh, thành phố
+                                                                        else 
+                                                                            | #{cityOfUser.ten}
+                                                                    .col-2.text-right 
+                                                                        i.fa.fa-chevron-down
+                                                            #selectCityContent.row.mx-auto(class='optionList')
+                                                                each city in cities 
+                                                                    if cityOfUser
+                                                                        .col-5(class= cityOfUser._id==city._id ? 'option active':'option' id='city'+city._id onclick="ChooseCity('"+ city._id +"', '"+ city.ten +"')")
+                                                                            | #{city.ten}
+                                                                    else 
+                                                                        .col-5(class='option' id='city'+city._id onclick="ChooseCity('"+ city._id +"', '"+ city.ten +"')")
+                                                                            | #{city.ten}
+                                                                input(type="hidden", id="cityChosen" value= account.maxp=='' ? cities[0]._id : cityOfUser._id)
+                                                                
                                                 .col-12
                                                     .form-group.form-inline
-                                                        label(for='exampleInputEmail1') Qu&#x1EAD;n, huy&#x1EC7;n
-                                                        select#exampleInputEmail1.ml-2(name='')
-                                                            option(value='' selected='') -- Ch&#x1ECD;n Qu&#x1EAD;n, huy&#x1EC7;n --
-                                                            option(value='') T&#x1EC9;nh An Giang
-                                                            option(value='') T&#x1EC9;nh Ki&ecirc;n Giang
-                                                            option(value='') T&#x1EC9;nh H&agrave; Giang
+                                                        label(for='exampleInputEmail1') Quận, huyện
+                                                        div(class='select-address ml-2' id='containDistContent')
+                                                            div.btn.btn-light.selectBtn(onclick="ToggleSelect(\'selectDistContent\')")
+                                                                .row
+                                                                    .col-10#distMain 
+                                                                        if account.maxp == ''
+                                                                            | Chọn Quận, huyện
+                                                                        else 
+                                                                            | #{distOfUser.ten}
+                                                                    .col-2.text-right 
+                                                                        i.fa.fa-chevron-down
+                                                            #selectDistContent.row.mx-auto(class='optionList')
+                                                                if account.maxp != ''
+                                                                    each dist in districts 
+                                                                        .col-5(class= distOfUser._id==dist._id ? 'option active':'option' id='dist'+dist._id onclick="ChooseDist('"+ dist._id +"', '"+ dist.ten +"')")
+                                                                            | #{dist.ten}
+                                                                    input(type="hidden", id="distChosen" value=distOfUser._id)
+                                                
                                                 .col-12
                                                     .form-group.form-inline
-                                                        label(for='exampleInputEmail1') X&atilde;, ph&#x1B0;&#x1EDD;ng, th&#x1ECB; tr&#x1EA5;n
-                                                        select#exampleInputEmail1.ml-2(name='')
-                                                            option(value='' selected='') -- Ch&#x1ECD;n X&atilde;, ph&#x1B0;&#x1EDD;ng, th&#x1ECB; tr&#x1EA5;n --
-                                                            option(value='') T&#x1EC9;nh An Giang
-                                                            option(value='') T&#x1EC9;nh Ki&ecirc;n Giang
-                                                            option(value='') T&#x1EC9;nh H&agrave; Giang
+                                                        label(for='exampleInputEmail1') Xã, phường, thị trấn
+                                                        div(class='select-address ml-2' id='containWardContent')
+                                                            div.btn.btn-light.selectBtn(onclick="ToggleSelect(\'selectWardContent\')")
+                                                                .row
+                                                                    .col-10#wardMain 
+                                                                        if account.maxp == ''
+                                                                            | Chọn Xã, phường
+                                                                        else 
+                                                                            | #{wardOfUser.ten}
+                                                                    .col-2.text-right 
+                                                                        i.fa.fa-chevron-down
+                                                            #selectWardContent.row.mx-auto(class='optionList')
+                                                                if account.maxp != ''
+                                                                    each ward in wards 
+                                                                        .col-5(class= wardOfUser._id==ward._id ? 'option active':'option' id='ward'+ward._id onclick="ChooseDist('"+ ward._id +"', '"+ ward.ten +"')")
+                                                                            | #{ward.ten}
+                                                                    input(type="hidden", id="wardChosen" value=wardOfUser._id)
+                                                
                                                 .col-12
                                                     .form-group.form-inline
-                                                        label(for='exampleInputEmail1') S&#x1ED1; nh&agrave;, t&ecirc;n &dstrok;&#x1B0;&#x1EDD;ng
-                                                        input#exampleInputEmail1.form-control.ml-2.w-50(type='text' name='')
+                                                        label(for='streetName') Số nhà, tên đường
+                                                        input#streetName.form-control.ml-2.w-50(type='text' value=account.maxp=='' ? '' : streetName)
                                     tr
                                         td
                                         td(style='text-align: right;')
-                                            button.btn.btn-success
+                                            button.btn.btn-success(onclick='UpdateInfo()')
                                                 i.fa.fa-pencil-square-o.mr-1(aria-hidden='true')
-                                                | C&#x1EAD;p nh&#x1EAD;t
+                                                | Cập nhật
                     // Tài khoản
                     #accountContent.mainContent(style='display:none;')
                         .row
@@ -107,30 +168,30 @@ block content
                                 table
                                     tr
                                         td.infoTitle
-                                            label(for='email') Email
+                                            label(for='emailInfo') Email
                                         td
-                                            input#email.form-control(type='text' name='email' value='abc1@gmail.com')
+                                            input#emailInfo.form-control(type='text' name='email' value=account.email)
                                     tr
                                         td.infoTitle
-                                            label(for='username') T&ecirc;n &dstrok;&abreve;ng nh&#x1EAD;p
+                                            label(for='usernameInfo') Tên đăng nhập
                                         td
-                                            input#username.form-control(type='text' name='username' value='abc1' readonly='')
+                                            input#usernameInfo.form-control(type='text' name='username' value=account.username readonly='')
                                     tr
                                         td.infoTitle
-                                            label(for='pass1') M&#x1EAD;t kh&#x1EA9;u
+                                            label(for='pass1Info') Mật khẩu
                                         td
-                                            input#pass1.form-control(type='password' name='pass1' value='absj')
+                                            input#pass1Info.form-control(type='password' name='pass1')
                                     tr
                                         td.infoTitle
-                                            label(for='pass2') Nh&#x1EAD;p l&#x1EA1;i m&#x1EAD;t kh&#x1EA9;u
+                                            label(for='pass2Info') Nhập lại mật khẩu
                                         td
-                                            input#pass2.form-control(type='password' name='pass2' value='absj')
+                                            input#pass2Info.form-control(type='password' name='pass2')
                                     tr
                                         td
                                         td(style='text-align: right;')
-                                            button.btn.btn-success
+                                            button.btn.btn-success(onclick="UpdateAccount()")
                                                 i.fa.fa-pencil-square-o.mr-1(aria-hidden='true')
-                                                | C&#x1EAD;p nh&#x1EAD;t
+                                                | Cập nhật
                     // Lịch sử đặt phòng
                     #checkRoomContent.mainContent(style='display:none;')
                         .row.icon-examples
@@ -200,9 +261,9 @@ block content
                                     button.btn.btn-success.mr-2
                                         i.fa.fa-info-circle.mr-1(aria-hidden='true')
                                         | Xem chi ti&#x1EBF;t
-                                    button.btn.btn-danger
-                                        i.fa.fa-ban.mr-1(aria-hidden='true')
-                                        | H&#x1EE7;y &dstrok;&#x1EB7;t ph&ograve;ng
+                                    //- button.btn.btn-danger
+                                    //-     i.fa.fa-ban.mr-1(aria-hidden='true')
+                                    //-     | H&#x1EE7;y &dstrok;&#x1EB7;t ph&ograve;ng
                             .col-lg-11.col-md-6.mx-auto.bill
                                 .row
                                     .col-md-7
@@ -223,9 +284,9 @@ block content
                                     button.btn.btn-success.mr-2
                                         i.fa.fa-info-circle.mr-1(aria-hidden='true')
                                         | Xem chi ti&#x1EBF;t
-                                    button.btn.btn-danger
-                                        i.fa.fa-ban.mr-1(aria-hidden='true')
-                                        | H&#x1EE7;y &dstrok;&#x1EB7;t ph&ograve;ng
+                                    //- button.btn.btn-danger
+                                    //-     i.fa.fa-ban.mr-1(aria-hidden='true')
+                                    //-     | H&#x1EE7;y &dstrok;&#x1EB7;t ph&ograve;ng
                             
                             nav(aria-label='Page navigation example' style='margin: 20px auto auto;')
                                 ul.pagination.justify-content-center
@@ -241,6 +302,201 @@ block content
                                     li.page-item
                                         a.page-link(href='#' aria-label='Next')
                                             span(aria-hidden='true') &raquo;
-
+                    // Chi tiet hoa don
+                    #checkRoomContent.mainContent(style='display:none;')
+                        .row.icon-examples
+                            .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto
+                                h2(style='margin-bottom: 20px;') Th&ocirc;ng tin lo&#x1EA1;i ph&ograve;ng
+                                .row
+                                    .col-md-6
+                                        p Kh&aacute;ch s&#x1EA1;n: &Dstrok;&#x1EC7; nh&#x1EA5;t kh&aacute;ch s&#x1EA1;n
+                                        p Lo&#x1EA1;i ph&ograve;ng: VIP
+                                        p Ti&#x1EC1;n thanh to&aacute;n tr&#x1B0;&#x1EDB;c: 121.000 &Dstrok;&#x1ED3;ng
+                                        p Gi&aacute; &dstrok;&#x1EB7;t ph&ograve;ng: 1.000.000 &Dstrok;&#x1ED3;ng
+                                    .col-md-6
+                                        p
+                                            | Ng&agrave;y &dstrok;&#x1EB7;t ph&ograve;ng: 
+                                            em 2020-08-06 15:23:56
+                                        p
+                                            | Ng&agrave;y h&#x1EBF;t h&#x1EA1;n: 
+                                            em 2020-08-09
+                                        p
+                                            | Ng&agrave;y tr&#x1EA3; ph&ograve;ng: 
+                                            em 2020-08-12 11:12:44
+                            .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto
+                                h2(style='margin-bottom: 20px;') Th&ocirc;ng tin kh&aacute;ch h&agrave;ng
+                                .row
+                                    .col-md-6
+                                        p M&atilde; t&agrave;i kho&#x1EA3;n: s1d5f4d2d1s4d5s4
+                                        p H&#x1ECD; t&ecirc;n: Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
+                                        p Gi&#x1EDB;i t&iacute;nh: Nam
+                                    .col-md-6
+                                        p Email: abc@gmail.com
+                                        p S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i: 0235641256
+                                        p &Dstrok;&#x1ECB;a ch&#x1EC9;: An H&ograve;a, Ch&acirc;u Th&agrave;nh, An Giang
+        
 block script 
     script(src="js/myJS/account.js") 
+    script.
+        function ToggleSelect(id) {
+            var obj = document.getElementById(id);
+            if(obj.style.display == 'flex') {
+                obj.style.display = 'none';
+            }
+            else {
+                obj.style.display = 'flex';
+            }
+        }
+        
+        function ChooseCity(id, name) {
+            document.getElementById('selectCityContent').style.display = 'none';
+            document.getElementById('cityMain').innerHTML = name;
+
+            // Check active class
+            var cityChosenID = document.getElementById('cityChosen').value;
+            document.getElementById('city'+ cityChosenID).classList.remove('active');
+
+            document.getElementById('city'+ id).classList.add('active');
+            document.getElementById('cityChosen').value = id;
+
+            DistrictAjax(id);
+        }
+
+        function DistrictAjax(cityID) {
+            axios({
+                method: 'GET',
+                url: 'http://localhost:8000/district_of_city/'+ cityID
+            })
+            .then(function(response) {
+                console.log(response);
+                document.getElementById('containDistContent').innerHTML = response.data;
+            })
+            .catch(function(err) {
+                alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+                console.log(err);
+            });
+        }
+
+        function ChooseDist(id, name) {
+            document.getElementById('selectDistContent').style.display = 'none';
+            document.getElementById('distMain').innerHTML = name;
+
+            // Check active class
+            var distChosenID = document.getElementById('distChosen').value;
+            document.getElementById('dist'+ distChosenID).classList.remove('active');
+
+            document.getElementById('dist'+ id).classList.add('active');
+            document.getElementById('distChosen').value = id;
+
+            WardAjax(id);
+        }
+
+        function WardAjax(distID) {
+            axios({
+                method: 'GET',
+                url: 'http://localhost:8000/wards_of_district/'+ distID
+            })
+            .then(function(response) {
+                console.log(response);
+                document.getElementById('containWardContent').innerHTML = response.data;
+            })
+            .catch(function(err) {
+                alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+                console.log(err);
+            });
+        }
+
+        function ChooseWard(id, name) {
+            document.getElementById('selectWardContent').style.display = 'none';
+            document.getElementById('wardMain').innerHTML = name;
+
+            // Check active class
+            var wardChosenID = document.getElementById('wardChosen').value;
+            document.getElementById('ward'+ wardChosenID).classList.remove('active');
+
+            document.getElementById('ward'+ id).classList.add('active');
+            document.getElementById('wardChosen').value = id;
+        }
+
+        function UpdateInfo() {
+            var wardID = document.getElementById('wardChosen').value;
+            var address = '';
+            if(wardID != '') {
+                // Save address
+                var wardName = document.getElementById('wardMain').innerHTML;
+                var distName = document.getElementById('distMain').innerHTML;
+                var cityName = document.getElementById('cityMain').innerHTML;
+                var streetName = document.getElementById('streetName').value;
+                streetName = streetName==''?'':streetName+', ';
+                address = streetName + wardName +', '+ distName +', '+ cityName;
+            }
+            var hoTen = document.getElementById('name').value;
+            var gioiTinh = document.getElementById('namRadio').checked ? true : false;
+            var sdt = document.getElementById('phone').value;
+            var avatar = document.getElementById('avatar');
+            var formData = new FormData();
+            if(avatar.files.length != 0) {
+                formData.append('avatar', avatar.files[0]);
+            }
+            formData.append('ho_ten', hoTen);
+            formData.append('gioi_tinh', gioiTinh);
+            formData.append('so_dien_thoai', sdt);
+            formData.append('dia_chi', address);
+            formData.append('maxp', wardID);
+
+            var accountID = document.getElementById('accountID').value;
+            var token = document.getElementById('token').value;
+            var csrfToken = document.getElementById('csrf_token').value;
+            axios({
+                method: 'PUT',
+                url: 'http://localhost:8000/api/tai_khoan/'+ accountID,
+                data: formData,
+                headers: {
+                    'Authorization': 'bearer '+ token,
+                    'CSRF-Token': csrfToken
+                }                
+            })
+            .then(function(response) {
+                console.log(response);
+                alert('cap nhat thanh cong!')
+            })
+            .catch(function(err) {
+                alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+                console.log(err);
+            });
+        }
+
+        function UpdateAccount() {
+            var pass1 = document.getElementById('pass1Info').value;
+            var pass2 = document.getElementById('pass2Info').value;
+            if((pass1 == pass2) && (pass1 != '')) {
+                // Save account info
+                var email = document.getElementById('emailInfo').value;
+                var accountID = document.getElementById('accountID').value;
+                var token = document.getElementById('token').value;
+                var csrfToken = document.getElementById('csrf_token').value;
+                axios({
+                    method: 'PUT',
+                    url: 'http://localhost:8000/api/tai_khoan/updateAccount/'+ accountID,
+                    data: {
+                        email: email,
+                        password: pass1
+                    },
+                    headers: {
+                        'Authorization': 'bearer '+ token,
+                        'CSRF-Token': csrfToken
+                    }                
+                })
+                .then(function(response) {
+                    console.log(response);
+                    alert('cap nhat thanh cong!')
+                })
+                .catch(function(err) {
+                    alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+                    console.log(err);
+                });
+            }
+            else {
+                alert('Quý khách cần nhập mật khẩu mới và mật khẩu nhập lại giống nhau và không được rỗng!');
+            }
+        }

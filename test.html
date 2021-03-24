@@ -5,9 +5,73 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add</title>
+    <link rel='stylesheet' href='./public/css/bootstrap.min.css' type='text/css'>
 </head>
 <body>
-    <h2>Add a product</h2>
+    <div style="position: relative;background-color: yellow;" onblur="document.getElementById('content').style.display='none';">
+        <button class="btn btn-light" onclick="document.getElementById('content').style.display='flex';">
+            -- chon --
+        </button>
+        <div class="row mx-auto" id="content" style="position: absolute;top:39px ;width: 25%;background: red;max-height:200px;overflow-y:scroll;overflow-x:hidden;display:none;">
+            <div class="col-5 mx-auto bg-light" onclick="document.getElementById('content').style.display='none';">
+                left
+            </div>
+            <div class="col-5 mx-auto bg-light">
+                right
+            </div>
+            
+            <div class="col-5 mx-auto bg-light">
+                left
+            </div>
+            <div class="col-5 mx-auto bg-light">
+                right
+            </div>
+            <div class="col-5 mx-auto bg-light">
+                left
+            </div>
+            <div class="col-5 mx-auto bg-light">
+                right
+            </div>
+            <div class="col-6">
+                left
+            </div>
+            <div class="col-6">
+                right
+            </div>
+            <div class="col-6">
+                left
+            </div>
+            <div class="col-6">
+                right
+            </div>
+            <div class="col-6">
+                left
+            </div>
+            <div class="col-6">
+                right
+            </div>
+            <div class="col-6">
+                left
+            </div>
+            <div class="col-6">
+                right
+            </div>
+            <div class="col-6">
+                left
+            </div>
+            <div class="col-6">
+                right
+            </div>
+            <div class="col-6">
+                left
+            </div>
+            <div class="col-6">
+                right
+            </div>
+        </div>
+    </div>
+    
+    <!-- <h2>Add a product</h2>
 
     <form action="http://localhost:8000/api/tinh_thanh" method="post">
     <p>Ten: <input type="text" name="tenHH" id="tenHH"></p>
@@ -21,9 +85,9 @@
     <p>Hinh anh: <input type="file" name="hinhAnhHH" id="hinhAnhHH"></p>
     <input type="submit" value="submit">
 </form>
-    <button id="themHHBtn">Add</button>
+    <button id="themHHBtn">Add</button> -->
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         document.getElementById('themHHBtn').onclick = function() {
             var hinhAnh = document.getElementById('hinhAnhHH').files[0];
@@ -57,6 +121,6 @@
             
         }
         
-    </script>
+    </script> -->
 </body>
 </html>

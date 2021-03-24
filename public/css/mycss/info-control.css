@@ -16,6 +16,10 @@
   cursor: pointer;
 }
 
+.infoNav span a {
+  color: black;
+}
+
 .active-nav span {
   color: #7fad39;
   font-weight: 700;
@@ -82,4 +86,42 @@
   font-weight: bold;
   font-size: 19px;
   margin-bottom: 17px;
+}
+
+/* Custom Select Address */
+.select-address {
+  position: relative;
+}
+
+.select-address .selectBtn {
+  width: 220px;
+  background-color: white;
+}
+
+.select-address .optionList {
+  position: absolute;
+  top: 41px;
+  width: 300px;
+  background: white;
+  max-height: 320px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: none;
+  z-index: 1;
+}
+
+.select-address .optionList .option {
+  border-radius: 4px;
+  padding: 4px 5px;
+  margin: 4px auto;
+  background-color: #f4f4f4;
+}
+
+.select-address .optionList .option:hover {
+  background-color: rgb(195, 240, 255);
+  cursor: pointer;
+}
+
+.select-address .optionList .active {
+  background-color: rgb(29, 203, 247);
 }

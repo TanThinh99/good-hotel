@@ -12,11 +12,11 @@ module.exports.List = async function(req, res) {
 module.exports.Add = function(req, res) {
     var obj = {
         ho_ten: req.body.ho_ten,
-        gioi_tinh: req.body.gioi_tinh,
+        gioi_tinh: true,
         email: req.body.email,
         so_dien_thoai: req.body.so_dien_thoai,
-        dia_chi: req.body.dia_chi,
-        avatar: req.file.filename,
+        dia_chi: '',
+        avatar: '',
         username: req.body.username,
         password: sha(req.body.password),
         ma_khach_san: '',
@@ -24,7 +24,7 @@ module.exports.Add = function(req, res) {
     }
     vaiTroModel.findOne({ ten: 'member' }, function(err, doc) {
         obj.ma_vai_tro = doc._id;
-        console.log(doc);
+        // console.log(doc);
 
         taiKhoanModel.insertMany([obj], function(err, docs) {
             if (err) 
@@ -53,15 +53,27 @@ module.exports.UpdateInfo = function(req, res) {
         if (req.file != undefined) {
             // Xóa hình cũ
             var oldImage = doc.avatar;
-            fs.unlink('./public/uploads/'+ oldImage, function(err) {
-                if (err) throw err;
-                console.log('File deleted!');
-            });
-
+            if(oldImage != '') {
+                // Có tồn tại avatar
+                fs.unlink('./public/uploads/'+ oldImage, function(err) {
+                    if (err) throw err;
+                    console.log('File deleted!');
+                });
+            }  
             doc.avatar = req.file.filename;
         }
         doc.save();
         res.send('Update success!');
+    });
+}
+
+module.exports.UpdateAccount = function(req, res) {
+    var id = req.params.id;
+    taiKhoanModel.findById(id, function(err, doc) {
+        doc.email = req.body.email;
+        doc.password = sha(req.body.password);
+        doc.save();
+        res.send('Update account success!');
     });
 }
 

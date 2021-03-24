@@ -133,3 +133,15 @@ module.exports.DeleteTienNghiKS = function(req, res, next) {
     var func = 'Xoa tien nghi khach san';
     CheckPermission(func, res, next);
 }
+
+// Tài khoản
+module.exports.UpdateTaiKhoan = function(req, res, next) {
+    var decode = res.locals.decode;
+    var accountID = req.params.id;
+    if(accountID == decode.id) {
+        next();
+    }
+    else {
+        res.sendStatus(403);
+    }
+}

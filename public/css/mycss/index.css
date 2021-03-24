@@ -14,20 +14,6 @@
     padding-bottom: 34px;
 }
 
-/* MODAL */
-.modal .nav-link {
-    color:rgb(0, 174, 255);
-}
-
-.modal .nav-link:hover {
-    background-color: rgb(197, 255, 155);
-}
-
-.modal .nav-link.active {
-    color: white;
-    background-color: greenyellow;
-}
-
 /* HOTELS */
 .hotel-item {
     background: #f4f4f4;

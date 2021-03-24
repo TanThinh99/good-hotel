@@ -5,6 +5,7 @@ const app = express();
 const port = 8000;
 
 var session = require('express-session');
+var csurf = require('csurf');
 
 // database
 var mongoose = require('mongoose');
@@ -27,6 +28,11 @@ app.use('/api', apiRouter);
 app.use('', userRouter);
 app.use('/manager', managerRouter);
 app.use('/admin', adminRouter);
+app.use(csurf());
+app.use(function(req, res, next) {
+    req.session.csrfToken = req.csrfToken();
+    next();
+});
 // var fa = require('./font-awesome-4.7.0.json');
 // app.get('/abc', function(req, res) {
 //     res.send(fa['4.7.0'][20]);
