@@ -30,144 +30,24 @@ block content
                     .card-header.bg-transparent
                         h3.mb-0 Cập nhật tiện nghi
                     .card-body
+                        input(type="hidden", id="convenID" value=conven._id)
+                        input(type="hidden", id="token" value=token)
                         .row.icon-examples.customer-reply
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
-                                    label(for='exampleInputEmail1') Tên tiện nghi
-                                    input#exampleInputEmail1.form-control(type='text' aria-describedby='emailHelp' value="Wifi")
+                                    label(for='convenName') Tên tiện nghi
+                                    input#convenName.form-control(type='text' aria-describedby='emailHelp' value=conven.ten)
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
-                                    label(for='exampleInputEmail1')
-                                        | Ch&#x1ECD;n Icon
+                                    label Chọn Icon
                                     .icons.row
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1.active
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
-                                        .icon-item.col-1
-                                            i.fa.fa-apple
+                                        input(type="hidden", id="iconSelected" value=conven.hinh_anh)
+                                        each icon in fa47
+                                            .icon-item.col-1(class=icon==conven.hinh_anh?'active':'' id='icon'+icon onclick='ChooseIcon("'+ icon +'")')
+                                                i.fa(class=icon)
+                                     
                             .col-md-11.col-md-6.mx-auto
-                                button.btn.btn-success
+                                button.btn.btn-success(onclick='UpdateConvenient()')
                                     i.fa.fa-pencil-square-o(aria-hidden='true' class='mr-1')
                                     | Cập nhật
         
@@ -175,3 +55,4 @@ block content
         include layout/footer.pug
         
 block script 
+    script(src="/assets_admin/js/convenient.js") 

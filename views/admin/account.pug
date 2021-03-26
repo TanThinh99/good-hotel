@@ -41,71 +41,27 @@ block content
                                         .input-group-append
                                             button.btn.btn-secondary(style='height: 45px;')
                                                 i.fa.fa-filter(aria-hidden='true')
-                            .col-lg-3.col-md-6.account
-                                div
-                                    img.user-avatar(src='https://hinhanhdep.net/wp-content/uploads/2016/01/avatar-hoat-hinh-anime-chibi-10.jpg' alt='')
-                                p
-                                    b ID: 
-                                    span dksjd2f5d6s3d2dd
-                                p
-                                    b T&ecirc;n: 
-                                    span Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                p
-                                    b Vai tr&ograve;: 
-                                    span Admin
-                                button.btn.btn-light.mt-2(data-toggle='modal' data-target='#exampleModal') Xem th&ecirc;m
-                            .col-lg-3.col-md-6.account
-                                div
-                                    img.user-avatar(src='https://hinhanhdep.net/wp-content/uploads/2016/01/avatar-hoat-hinh-anime-chibi-10.jpg' alt='')
-                                p
-                                    b ID: 
-                                    span dksjd2f5d6s3d2dd
-                                p
-                                    b T&ecirc;n: 
-                                    span Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                p
-                                    b Vai tr&ograve;: 
-                                    span Admin
-                                button.btn.btn-light.mt-2(data-toggle='modal' data-target='#exampleModal') Xem th&ecirc;m
-                            .col-lg-3.col-md-6.account
-                                div
-                                    img.user-avatar(src='https://hinhanhdep.net/wp-content/uploads/2016/01/avatar-hoat-hinh-anime-chibi-10.jpg' alt='')
-                                p
-                                    b ID: 
-                                    span dksjd2f5d6s3d2dd
-                                p
-                                    b T&ecirc;n: 
-                                    span Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                p
-                                    b Vai tr&ograve;: 
-                                    span Admin
-                                button.btn.btn-light.mt-2(data-toggle='modal' data-target='#exampleModal') Xem th&ecirc;m
-                            .col-lg-3.col-md-6.account
-                                div
-                                    img.user-avatar(src='https://hinhanhdep.net/wp-content/uploads/2016/01/avatar-hoat-hinh-anime-chibi-10.jpg' alt='')
-                                p
-                                    b ID: 
-                                    span dksjd2f5d6s3d2dd
-                                p
-                                    b T&ecirc;n: 
-                                    span Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                p
-                                    b Vai tr&ograve;: 
-                                    span Admin
-                                button.btn.btn-light.mt-2(data-toggle='modal' data-target='#exampleModal') Xem th&ecirc;m
-                            .col-lg-3.col-md-6.account
-                                div
-                                    img.user-avatar(src='https://hinhanhdep.net/wp-content/uploads/2016/01/avatar-hoat-hinh-anime-chibi-10.jpg' alt='')
-                                p
-                                    b ID: 
-                                    span dksjd2f5d6s3d2dd
-                                p
-                                    b T&ecirc;n: 
-                                    span Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                p
-                                    b Vai tr&ograve;: 
-                                    span Admin
-                                button.btn.btn-light.mt-2(data-toggle='modal' data-target='#exampleModal') Xem th&ecirc;m
+                            input(type="hidden", id='managerRoles' value=managerStr)
+                            input(type="hidden", id="token" value=token)
+                            each acc in accounts
+                                .col-lg-4.col-md-6.account
+                                    div
+                                        img.user-avatar(id="avatar"+acc._id src='/uploads/'+acc.avatar alt='')
+                                    p
+                                        b ID: 
+                                        span #{acc._id}
+                                    p
+                                        b Tên: 
+                                        span(id="hoTen"+acc._id) #{acc.ho_ten}
+                                    p
+                                        b Vai trò: 
+                                        span(id="vaiTro"+acc._id) #{acc.ma_vai_tro.ten}
+                                        input(type="hidden", id="maVaiTro"+acc._id value=acc.ma_vai_tro._id)
+                                        input(type="hidden", id="gioiTinh"+acc._id value=acc.gioi_tinh ? 'Nam' : 'Nữ')
+                                        input(type="hidden", id="email"+acc._id value=acc.email)
+                                        input(type="hidden", id="sdt"+acc._id value=acc.so_dien_thoai)
+                                    button.btn.btn-light.mt-2(onclick="ShowUserDetail('"+ acc._id +"')") Xem thêm
+                            
                         nav(aria-label='Page navigation example')
                             ul.pagination.justify-content-center.mt-md-3.mb-md-0
                                 li.page-item.disabled
@@ -121,67 +77,50 @@ block content
                                     a.page-link(href='#')
                                         i.fa.fa-chevron-right(aria-hidden='true')
         
+        button(id='openModalBtn' hidden data-toggle='modal' data-target='#exampleModal')
         // Modal
         #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
             .modal-dialog
                 .modal-content
                     .modal-header
-                        h5#exampleModalLabel.modal-title Th&ocirc;ng tin t&agrave;i kho&#x1EA3;n
+                        h5#exampleModalLabel.modal-title Thông tin tài khoản
                         button.close(type='button' data-dismiss='modal' aria-label='Close')
                             span(aria-hidden='true') &times;
                     .modal-body.custom-modal
                         .row
                             .col-5
-                                img(src='https://hinhanhdep.net/wp-content/uploads/2016/01/avatar-hoat-hinh-anime-chibi-10.jpg' alt='')
+                                img(id='avatarModal' src='https://hinhanhdep.net/wp-content/uploads/2016/01/avatar-hoat-hinh-anime-chibi-10.jpg' alt='')
                             .col-7
                                 .info
                                     span.title ID: 
-                                    | sldksmaldkfldss
+                                        span(id='idModal') sldksmaldkfldss
                                 .info
-                                    span.title H&#x1ECD; t&ecirc;n: 
-                                    | Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
+                                    span.title Họ tên: 
+                                        span(id='hoTenModal') Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
                                 .info
-                                    span.title Gi&#x1EDB;i t&iacute;nh: 
-                                    | Nam
+                                    span.title Giới tính: 
+                                        span(id='gioiTinhModal') Nam
                                 .info
-                                    span.title S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i: 
-                                    | 0231458965
+                                    span.title Số điện thoại: 
+                                        span(id='sdtModal') 0231458965
                                 .info
                                     span.title Email: 
-                                    | abc@gmail.com
+                                        span(id='emailModal') abc@gmail.com
                                 .info.form-inline
-                                    span.title Vai tr&ograve;: 
-                                    select.custom-select.ml-2(name='' id='roleSelect')
-                                        option(value='1' selected) Admin
-                                        option(value='2') Hotel Manager
-                                        option(value='3') Member
+                                    span.title Vai trò: 
+                                    select.custom-select.ml-2(id='roleSelect')
+                                        each role in roles 
+                                            option(id='option'+role._id value=role._id) #{role.ten}
+
                                 .info.custom-control.custom-checkbox(id='newHotelDiv' hidden)
-                                    input#newHotel(type="checkbox", name="" class='custom-control-input') 
+                                    input#newHotel(type="checkbox" class='custom-control-input') 
                                     label(for="newHotel" class='custom-control-label') Tạo một khách sạn mới 
                     .modal-footer
-                        button.btn.btn-success(type='button') C&#x1EAD;p nh&#x1EAD;t
-                        button.btn.btn-secondary(type='button' data-dismiss='modal') &Dstrok;&oacute;ng
+                        button.btn.btn-success(type='button' onclick='UpdateRole()') Cập nhật
+                        button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng
         
         // Footer
         include layout/footer.pug
         
 block script
-    script.
-        var managerArr = [#{managerArr}];
-        document.getElementById('roleSelect').onchange = function() {
-            var manager = this.value;
-            var result = managerArr.find(function(value) {
-                return manager == value;
-            });
-            if(result != undefined) {
-                document.getElementById('newHotelDiv').hidden = false;
-            }
-            else {
-                document.getElementById('newHotelDiv').hidden = true;
-            }
-            //- alert(result);
-        }
-        function findManager(value, index, arr) {
-            return document.getElementById('roleSelect').value == value;
-        }
-        
+    script(src="/assets_admin/js/account.js")                

@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+const vaiTro = require('./vai_tro.model');
 
 var taiKhoanSchema = new mongoose.Schema({
     ho_ten: String,
@@ -10,7 +11,10 @@ var taiKhoanSchema = new mongoose.Schema({
     username: String,
     password: String,
     ma_khach_san: String,
-    ma_vai_tro: String,
+    ma_vai_tro: {
+        type: String,
+        ref: vaiTro
+    },
     maxp: String
 }, {
     versionKey: false

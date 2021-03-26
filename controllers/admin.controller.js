@@ -1,43 +1,126 @@
-module.exports.Statistic = function(req, res) {
-    res.render('admin/statistic');
+var fa47 = require('./../font-awesome-4.7.0.json');
+
+const quyen = require("../models/quyen.model");
+const taiKhoan = require("../models/tai_khoan.model");
+const vaiTro = require("../models/vai_tro.model");
+const vaiTroCoQuyen = require("../models/vai_tro_co_quyen.model");
+const tienNghi = require("../models/tien_nghi.model");
+
+module.exports.Statistic = async function(req, res) {
+    var decode = req.session.decode;
+    var userAccount = await taiKhoan.findById(decode.id);
+    var params = {
+        userAccount: userAccount
+    }
+    res.render('admin/statistic', params);
 }
 
-module.exports.Account = function(req, res) {
-    var managerArr = ['2'];
-    res.render('admin/account', {
-        managerArr: managerArr
-    });
+module.exports.Account = async function(req, res) {
+    var accounts = await taiKhoan.find().populate('ma_vai_tro');
+    var params = {
+        accounts: accounts
+    }
+    var decode = req.session.decode;
+    var userAccount = await taiKhoan.findById(decode.id);
+    params.userAccount = userAccount;
+
+    var roles = await vaiTro.find();
+    params.roles = roles;
+
+    // Lấy các vai trò có quyền: Vào trang quản lý khách sạn
+    var permiss = await quyen.findOne({ten: 'Vao trang quan ly khach san'});
+    var roles = await vaiTroCoQuyen.find({ma_quyen: permiss._id});
+    var managerStr = '';
+    for(i=0; i<roles.length; i++) {
+        managerStr += roles[i].ma_vai_tro +',';
+    }
+    params.managerStr = managerStr.slice(0, managerStr.length-1);
+
+    // token
+    params.token = req.session.token;
+    res.render('admin/account', params);
 }
 
-module.exports.Convenient = function(req, res) {
-    res.render('admin/convenient');
+module.exports.Convenient = async function(req, res) {
+    var decode = req.session.decode;
+    var userAccount = await taiKhoan.findById(decode.id);
+    var params = {
+        userAccount: userAccount
+    }
+    var convens = await tienNghi.find();
+    params.convens = convens;
+    params.token = req.session.token;
+    res.render('admin/convenient', params);
 }
 
-module.exports.UpdateConvenient = function(req, res) {
-    res.render('admin/updateConvenient');
+module.exports.UpdateConvenient = async function(req, res) {
+    var decode = req.session.decode;
+    var userAccount = await taiKhoan.findById(decode.id);
+    var params = {
+        userAccount: userAccount
+    }
+    params.fa47 = fa47['4.7.0'];
+    params.token = req.session.token;
+
+    var convenID = req.params.convenientID;
+    var conven = await tienNghi.findById(convenID);
+    params.conven = conven;
+    res.render('admin/updateConvenient', params);
 }
 
-module.exports.AddConvenient = function(req, res) {
-    res.render('admin/addConvenient');
+module.exports.AddConvenient = async function(req, res) {
+    var decode = req.session.decode;
+    var userAccount = await taiKhoan.findById(decode.id);
+    var params = {
+        userAccount: userAccount
+    }
+    params.fa47 = fa47['4.7.0'];
+    params.token = req.session.token;
+    res.render('admin/addConvenient', params);
 }
 
-module.exports.Role = function(req, res) {
-    res.render('admin/role');
+module.exports.Role = async function(req, res) {
+    var decode = req.session.decode;
+    var userAccount = await taiKhoan.findById(decode.id);
+    var params = {
+        userAccount: userAccount
+    }
+    res.render('admin/role', params);
 }
 
-module.exports.GrantPermission = function(req, res) {
-    res.render('admin/grantPermission');
+module.exports.GrantPermission = async function(req, res) {
+    var decode = req.session.decode;
+    var userAccount = await taiKhoan.findById(decode.id);
+    var params = {
+        userAccount: userAccount
+    }
+    res.render('admin/grantPermission', params);
 }
 
-module.exports.GrantManager = function(req, res) {
-    res.render('admin/grantManager');
+module.exports.GrantManager = async function(req, res) {
+    var decode = req.session.decode;
+    var userAccount = await taiKhoan.findById(decode.id);
+    var params = {
+        userAccount: userAccount
+    }
+    res.render('admin/grantManager', params);
 }
 
-module.exports.UpdateRole = function(req, res) {
-    res.render('admin/updateRole');
+module.exports.UpdateRole = async function(req, res) {
+    var decode = req.session.decode;
+    var userAccount = await taiKhoan.findById(decode.id);
+    var params = {
+        userAccount: userAccount
+    }
+    res.render('admin/updateRole', params);
 }
 
-module.exports.AddRole = function(req, res) {
-    res.render('admin/addRole');
+module.exports.AddRole = async function(req, res) {
+    var decode = req.session.decode;
+    var userAccount = await taiKhoan.findById(decode.id);
+    var params = {
+        userAccount: userAccount
+    }
+    res.render('admin/addRole', params);
 }
 

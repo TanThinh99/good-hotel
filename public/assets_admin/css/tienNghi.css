@@ -2,6 +2,10 @@
     position: relative;
 }
 
+.convenient .convenientName {
+    white-space: normal;
+}
+
 .convenient .updateBtn {
     position: absolute;
     top: 1px;

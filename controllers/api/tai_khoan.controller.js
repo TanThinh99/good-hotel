@@ -3,6 +3,7 @@ var fs = require('fs');
 
 var taiKhoanModel = require('./../../models/tai_khoan.model');
 var vaiTroModel = require('./../../models/vai_tro.model');
+var khachSanModel = require('./../../models/khach_san.model');
 
 module.exports.List = async function(req, res) {
     var docs = await taiKhoanModel.find();
@@ -79,12 +80,28 @@ module.exports.UpdateAccount = function(req, res) {
 
 module.exports.GrantRole = async function(req, res) {
     var id = req.params.id;
-    var obj = {
+    var objAccount = {
         ma_vai_tro: req.body.ma_vai_tro
     }
     if (req.body.ma_khach_san != null) {
-        obj.ma_khach_san = req.body.ma_khach_san;
+        // Tạo khách sạn mới
+        var obj = {
+            ten: '',
+            dia_chi: '',
+            so_dien_thoai: '',
+            google_map: '',
+            gia: 0,
+            diem_trung_binh: 0,
+            so_luong_binh_luan: 0,
+            so_phong_con_lai: 0,
+            maxp: ''
+        }
+        var doc = await khachSanModel.insertMany([obj]);
+        objAccount.ma_khach_san = doc[0]._id;
     }
-    var result = await taiKhoanModel.findByIdAndUpdate(id, obj, {new: true});
+    else {
+        objAccount.ma_khach_san = '';
+    }
+    var result = await taiKhoanModel.findByIdAndUpdate(id, objAccount, {new: true});
     res.send(result);
 }

@@ -33,10 +33,6 @@ app.use(function(req, res, next) {
     req.session.csrfToken = req.csrfToken();
     next();
 });
-// var fa = require('./font-awesome-4.7.0.json');
-// app.get('/abc', function(req, res) {
-//     res.send(fa['4.7.0'][20]);
-// })
 
 app.listen(port, function() {
     console.log('Server is running at '+ port);

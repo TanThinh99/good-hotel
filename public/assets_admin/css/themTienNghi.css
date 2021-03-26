@@ -22,7 +22,9 @@
 }
 
 .icons .active {
-    background-color: white;
+    /* background-color: white; */
+    background-color: #fbffca;
+    box-shadow: 1px 1px 3px 3px #ffff82;
     border: 6px double orange;
     padding: 1px;
 }

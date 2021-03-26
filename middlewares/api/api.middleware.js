@@ -145,3 +145,8 @@ module.exports.UpdateTaiKhoan = function(req, res, next) {
         res.sendStatus(403);
     }
 }
+
+module.exports.GrantRole = function(req, res, next) {
+    var func = 'Cap vai tro';
+    CheckPermission(func, res, next);
+}

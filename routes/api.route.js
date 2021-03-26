@@ -113,7 +113,7 @@ router.post('/tai_khoan', taiKhoanCtrl.Add);
 router.get('/tai_khoan/:id', taiKhoanCtrl.Detail);
 router.put('/tai_khoan/:id', apiMid.CheckLogin, apiMid.UpdateTaiKhoan, uploads.single('avatar'), taiKhoanCtrl.UpdateInfo);
 router.put('/tai_khoan/updateAccount/:id', apiMid.CheckLogin, apiMid.UpdateTaiKhoan, taiKhoanCtrl.UpdateAccount);
-router.put('/tai_khoan/grantRole/:id', taiKhoanCtrl.GrantRole);
+router.put('/tai_khoan/grantRole/:id', apiMid.CheckLogin, apiMid.GrantRole, taiKhoanCtrl.GrantRole);
 
 // Bình luận
     // Member bình luận
