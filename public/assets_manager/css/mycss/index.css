@@ -6,21 +6,22 @@
 }
 
 .images .containImages {
-    width: 1000px;
+    background-color: white;
 }
 
 .images .containImages img {
     width: 100px;
     height: 100px;
     cursor: pointer;
+    margin-right: 10px;
 }
 
 .images .containImages .active {
     border: 3px solid rgb(2, 255, 200);
 }
 
-.imageBox {
-    display: block;
+#imageBox {
+    display: none;
     position: relative;
     width: 100%;
     height: 350px;
@@ -29,12 +30,12 @@
     margin-top: 15px;
 }
 
-.imageBox img {
+#imageBox img {
     max-width: 100%;
     height: 350px;
 }
 
-.imageBox .delBtn {
+#imageBox .delBtn {
     position: absolute;
     top: 146px;
     right: 18px;
@@ -43,7 +44,7 @@
     color: rgb(192, 192, 192);
 }
 
-.imageBox .closeBtn {
+#imageBox .closeBtn {
     position: absolute;
     top: 13px;
     right: 18px;
@@ -52,7 +53,7 @@
     color: rgb(192, 192, 192);
 }
 
-.imageBox .fullScreenBtn {
+#imageBox .fullScreenBtn {
     position: absolute;
     top: 289px;
     right: 18px;
@@ -61,6 +62,46 @@
     color: rgb(192, 192, 192);
 }
 
-.imageBox .delBtn:hover, .imageBox .closeBtn:hover, .imageBox .fullScreenBtn:hover {
+#imageBox .delBtn:hover, #imageBox .closeBtn:hover, #imageBox .fullScreenBtn:hover {
     color: rgb(75, 75, 75);
+}
+
+/* Custom Select Address */
+.select-address {
+    position: relative;
+}
+  
+.select-address .selectBtn {
+    width: 250px;
+    background-color: white;
+    color: #292929;
+}
+
+.select-address .optionList {
+    position: absolute;
+    top: 43px;
+    width: 300px;
+    background: white;
+    max-height: 320px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: none;
+    z-index: 1;
+}
+
+.select-address .optionList .option {
+    border-radius: 4px;
+    padding: 4px 5px;
+    margin: 4px auto;
+    background-color: #efefff;
+    color: black;
+}
+
+.select-address .optionList .option:hover {
+    background-color: rgb(206, 244, 255);
+    cursor: pointer;
+}
+
+.select-address .optionList .active {
+    background-color: rgb(168, 234, 255);
 }

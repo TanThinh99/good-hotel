@@ -28,4 +28,110 @@ window.onload = function () {
             alert("This browser does not support HTML5 FileReader.");
         }
     }
-};
+}
+
+function UpdateRoomType() {
+    var name = document.getElementById('name').value;
+    var price = document.getElementById('price').value;
+    var amountRoom = document.getElementById('amountRoom').value;
+    var image360 = document.getElementById('image360').value;
+    var disabledRoom = document.getElementById('notServe').checked;
+
+    var roomTypeID = document.getElementById('roomTypeID').value;
+    var token = document.getElementById('token').value;
+    var csrfToken = document.getElementById('csrfToken').value;
+    axios({
+        method: 'PUT',
+        url: 'http://localhost:8000/api/loai_phong/'+ roomTypeID,
+        data: {
+            ten: name,
+            gia: price,
+            so_luong: amountRoom,
+            hinh_anh_360: image360,
+            disabled: disabledRoom
+        },
+        headers: {
+            'Authorization': 'bearer '+ token,
+            'CSRF-Token': csrfToken
+        }                
+    })
+    .then(function(response) {
+        alert('Cập nhật thành công!');
+    })
+    .catch(function(err) {
+        alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+        console.log(err);
+    });
+}
+
+function ShowImage(id, imageName) {
+    document.getElementById('imageInBox').src = imageName;
+    document.getElementById('fullScreenLink').href = imageName;
+    document.getElementById('imageSelected').value = id;
+    document.getElementById('imageBox').style.display = 'block';
+}
+
+function CloseImageBox() {
+    document.getElementById('imageBox').style.display = 'none';
+}
+
+function UploadImage() {
+    var images = document.getElementById('fileupload').files;
+    if(images.length == 0) {
+        alert('Bạn chưa chọn hình ảnh nào!');
+    }
+    else {
+        var roomTypeID = document.getElementById('roomTypeID').value;
+        var token = document.getElementById('token').value;
+        var csrfToken = document.getElementById('csrfToken').value;
+        var formData = new FormData();
+        formData.append('ma_khach_san', '');
+        formData.append('ma_loai_phong', roomTypeID);
+        for(i=0; i<images.length; i++) {
+            formData.append('files', images[i]);
+        }
+        axios({
+            method: 'POST',
+            url: 'http://localhost:8000/api/hinh_anh',
+            data: formData,
+            headers: {
+                'Authorization': 'bearer '+ token,
+                'CSRF-Token': csrfToken
+            }                                  
+        })
+        .then(function(response) {
+            alert('Tải hình ảnh thành công!')
+            location.reload();
+        })
+        .catch(function(err) {
+            alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+            console.log(err);
+        });
+    }
+}
+
+function DeleteImage() {
+    if(confirm('Bạn sẽ xóa hình ảnh này?')) {
+        var imageID = document.getElementById('imageSelected').value;
+        var token = document.getElementById('token').value;
+        axios({
+            method: 'DELETE',
+            url: 'http://localhost:8000/api/hinh_anh/'+ imageID,
+            headers: {
+                'Authorization': 'bearer '+ token
+            }                                  
+        })
+        .then(function(response) {
+            document.getElementById(imageID).hidden = true;
+            CloseImageBox();
+            return true;
+        })
+        .catch(function(err) {
+            alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+            console.log(err);
+        });                
+    }
+    else {
+        return false;
+    }
+}

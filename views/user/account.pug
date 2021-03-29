@@ -109,7 +109,7 @@ block content
                                                                     else 
                                                                         .col-5(class='option' id='city'+city._id onclick="ChooseCity('"+ city._id +"', '"+ city.ten +"')")
                                                                             | #{city.ten}
-                                                                input(type="hidden", id="cityChosen" value= account.maxp=='' ? cities[0]._id : cityOfUser._id)
+                                                                input(type="hidden", id="cityChosen" value= account.maxp=='' ? '' : cityOfUser._id)
                                                                 
                                                 .col-12
                                                     .form-group.form-inline

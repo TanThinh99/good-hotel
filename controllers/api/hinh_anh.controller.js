@@ -17,7 +17,7 @@ module.exports.Add = function(req, res) {
         obj.ten = req.files[i].filename;
         objList.push(obj);
     }
-    var doc = hinhAnhModel.insertMany(objList, function(err, docs) {
+    hinhAnhModel.insertMany(objList, function(err, docs) {
         res.json(docs);
     });    
 }

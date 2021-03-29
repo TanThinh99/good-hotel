@@ -34,10 +34,10 @@ module.exports.Update = async function(req, res) {
         dia_chi: req.body.dia_chi,
         so_dien_thoai: req.body.so_dien_thoai,
         google_map: req.body.google_map,
-        gia: req.body.gia,
-        diem_trung_binh: req.body.diem_trung_binh,
-        so_luong_binh_luan: req.body.so_luong_binh_luan,
-        so_phong_con_lai: req.body.so_phong_con_lai,
+        // gia: req.body.gia,
+        // diem_trung_binh: req.body.diem_trung_binh,
+        // so_luong_binh_luan: req.body.so_luong_binh_luan,
+        // so_phong_con_lai: req.body.so_phong_con_lai,
         maxp: req.body.maxp
     }
     var doc = await khachSanModel.findByIdAndUpdate(id, obj, {new: true});

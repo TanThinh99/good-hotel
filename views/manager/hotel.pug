@@ -32,78 +32,121 @@ block content
                     .card-header.bg-transparent
                         h3.mb-0 Thông tin khách sạn
                     .card-body
+                        input(type="hidden", id="hotelID" value=hotel._id)
+                        input(type="hidden", id="token" value=token)
+                        input(type="hidden", id="csrfToken" value=csrfToken)
                         .row.icon-examples
-                            input(type="text" id="hotelID" hidden value=''+ hotel._id)
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
-                                    label(for='exampleInputEmail1') Tên khách sạn
-                                    input#exampleInputEmail1.form-control(type='text' aria-describedby='emailHelp' value=''+ hotel.ten)
+                                    label(for='name') Tên khách sạn
+                                    input#name.form-control(type='text' value=''+ hotel.ten)
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
-                                    label(for='exampleInputEmail1') Số điện thoại
-                                    input#exampleInputEmail1.form-control(type='text' aria-describedby='emailHelp' value=''+ hotel.so_dien_thoai)
+                                    label(for='phone') Số điện thoại
+                                    input#phone.form-control(type='text' value=''+ hotel.so_dien_thoai)
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
-                                    label(for='exampleInputEmail1') Địa chỉ
-                                    .row.mx-auto
-                                        .col-8
-                                            .form-group.form-inline
-                                                label(for='exampleInputEmail1') Tỉnh, thành phố
-                                                select#exampleInputEmail1.custom-select.ml-2(name='')
-                                                    option(value='' selected='') -- Ch&#x1ECD;n T&#x1EC9;nh, th&agrave;nh ph&#x1ED1; --
-                                                    option(value='') T&#x1EC9;nh An Giang
-                                                    option(value='') T&#x1EC9;nh Ki&ecirc;n Giang
-                                                    option(value='') T&#x1EC9;nh H&agrave; Giang
-                                        .col-8
-                                            .form-group.form-inline
-                                                label(for='exampleInputEmail1') Qu&#x1EAD;n, huy&#x1EC7;n
-                                                select#exampleInputEmail1.custom-select.ml-2(name='')
-                                                    option(value='' selected='') -- Ch&#x1ECD;n Qu&#x1EAD;n, huy&#x1EC7;n --
-                                                    option(value='') T&#x1EC9;nh An Giang
-                                                    option(value='') T&#x1EC9;nh Ki&ecirc;n Giang
-                                                    option(value='') T&#x1EC9;nh H&agrave; Giang
-                                        .col-8
-                                            .form-group.form-inline
-                                                label(for='exampleInputEmail1') X&atilde;, ph&#x1B0;&#x1EDD;ng, th&#x1ECB; tr&#x1EA5;n
-                                                select#exampleInputEmail1.custom-select.ml-2(name='')
-                                                    option(value='' selected='') -- Ch&#x1ECD;n X&atilde;, ph&#x1B0;&#x1EDD;ng, th&#x1ECB; tr&#x1EA5;n --
-                                                    option(value='') T&#x1EC9;nh An Giang
-                                                    option(value='') T&#x1EC9;nh Ki&ecirc;n Giang
-                                                    option(value='') T&#x1EC9;nh H&agrave; Giang
+                                    label Địa chỉ
+                                    .row
                                         .col-12
                                             .form-group.form-inline
-                                                label(for='exampleInputEmail1') Số nhà, tên đường
-                                                input#exampleInputEmail1.form-control.ml-2.w-50(type='text' name='')
+                                                label Tỉnh, thành phố
+                                                div(class='select-address ml-2')
+                                                    div.selectBtn.btn.btn-light(onclick="ToggleSelect(\'selectCityContent\')")
+                                                        .row
+                                                            .col-10#cityMain 
+                                                                if hotel.maxp == ''
+                                                                    | Chọn Tỉnh, thành phố
+                                                                else 
+                                                                    | #{cityOfHotel.ten}
+                                                            .col-2.text-right 
+                                                                i.fa.fa-chevron-down
+                                                    #selectCityContent.row.mx-auto(class='optionList')
+                                                        each city in cities 
+                                                            if cityOfHotel
+                                                                .col-5(class= cityOfHotel._id==city._id ? 'option active':'option' id='city'+city._id onclick="ChooseCity('"+ city._id +"', '"+ city.ten +"')")
+                                                                    | #{city.ten}
+                                                            else 
+                                                                .col-5(class='option' id='city'+city._id onclick="ChooseCity('"+ city._id +"', '"+ city.ten +"')")
+                                                                    | #{city.ten}
+                                                        input(type="hidden", id="cityChosen" value= hotel.maxp=='' ? '' : cityOfHotel._id)
+                                                        
+                                        .col-12
+                                            .form-group.form-inline
+                                                label(for='exampleInputEmail1') Quận, huyện
+                                                div(class='select-address ml-2' id='containDistContent')
+                                                    div.btn.btn-light.selectBtn(onclick="ToggleSelect(\'selectDistContent\')")
+                                                        .row
+                                                            .col-10#distMain 
+                                                                if hotel.maxp == ''
+                                                                    | Chọn Quận, huyện
+                                                                else 
+                                                                    | #{distOfHotel.ten}
+                                                            .col-2.text-right 
+                                                                i.fa.fa-chevron-down
+                                                    #selectDistContent.row.mx-auto(class='optionList')
+                                                        if hotel.maxp != ''
+                                                            each dist in districts 
+                                                                .col-5(class= distOfHotel._id==dist._id ? 'option active':'option' id='dist'+dist._id onclick="ChooseDist('"+ dist._id +"', '"+ dist.ten +"')")
+                                                                    | #{dist.ten}
+                                                            input(type="hidden", id="distChosen" value=distOfHotel._id)
+                                        
+                                        .col-12
+                                            .form-group.form-inline
+                                                label(for='exampleInputEmail1') Xã, phường, thị trấn
+                                                div(class='select-address ml-2' id='containWardContent')
+                                                    div.btn.btn-light.selectBtn(onclick="ToggleSelect(\'selectWardContent\')")
+                                                        .row
+                                                            .col-10#wardMain 
+                                                                if hotel.maxp == ''
+                                                                    | Chọn Xã, phường
+                                                                else 
+                                                                    | #{wardOfHotel.ten}
+                                                            .col-2.text-right 
+                                                                i.fa.fa-chevron-down
+                                                    #selectWardContent.row.mx-auto(class='optionList')
+                                                        input(type="hidden", id="wardChosen" value=wardOfHotel?wardOfHotel._id:'')
+                                                        if hotel.maxp != ''
+                                                            each ward in wards 
+                                                                .col-5(class= wardOfHotel._id==ward._id ? 'option active':'option' id='ward'+ward._id onclick="ChooseDist('"+ ward._id +"', '"+ ward.ten +"')")
+                                                                    | #{ward.ten}
+                                        
+                                        .col-12
+                                            .form-group.form-inline
+                                                label(for='streetName') Số nhà, tên đường
+                                                input#streetName.form-control.ml-2.w-50(type='text' value=hotel.maxp=='' ? '' : streetName)
+                            
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
-                                    label(for='exampleInputEmail1') B&#x1EA3;n &dstrok;&#x1ED3; Google Map
-                                    input#exampleInputEmail1.form-control(type='text' aria-describedby='emailHelp' value=''+ hotel.google_map)
+                                    label(for='exampleInputEmail1') Bản đồ Google Map
+                                    input#googleMap.form-control(type='text' aria-describedby='emailHelp' value=''+ hotel.google_map)
                             .col-md-11.col-md-6.mx-auto
-                                button.btn.btn-success
-                                    i.ni.ni-check-bold
+                                button.btn.btn-success(onclick='UpdateHotel()')
+                                    i.ni.ni-check-bold.mr-1
                                     | Cập nhật
             .col-12
                 .card
                     .card-header.bg-transparent
                         h3.mb-0.row
-                            .col-6 H&igrave;nh &#x1EA3;nh c&#x1EE7;a kh&aacute;ch s&#x1EA1;n
+                            .col-6 Hình ảnh của khách sạn
                             .col-6.text-right
-                                button.btn.btn-light(data-toggle='modal' data-target='#exampleModal') T&#x1EA3;i l&ecirc;n h&igrave;nh &#x1EA3;nh
+                                button.btn.btn-light(data-toggle='modal' data-target='#exampleModal') Tải lên hình ảnh
                     .card-body
                         .row.icon-examples
                             .col-md-11.col-md-6.mx-auto
                                 .images
-                                    .containImages
-                                        img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                        img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                        img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                .imageBox
-                                    img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                    span.delBtn
-                                        i.fa.fa-trash(aria-hidden='true')
-                                    span.closeBtn
+                                    .containImages(style='width:'+ (amountImagesHotel*110) +'px;')
+                                        each image in imagesHotel
+                                            img(src='/uploads/'+image.ten id=image._id alt=image.ten onclick='ShowImage("'+ image._id +'","/uploads/'+ image.ten +'")')
+
+                                #imageBox
+                                    img(id='imageInBox' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                    input(type="hidden", id="imageSelected")
+                                    span.closeBtn(onclick='CloseImageBox()')
                                         i.fa.fa-times(aria-hidden='true')
-                                    span.fullScreenBtn
+                                    span.delBtn(onclick='DeleteImage()')
+                                        i.fa.fa-trash(aria-hidden='true')
+                                    a.fullScreenBtn(href="" id='fullScreenLink' target='_blank') 
                                         i.fa.fa-arrows-alt(aria-hidden='true')
         
         // Footer
@@ -114,21 +157,23 @@ block content
             .modal-dialog
                 .modal-content
                     .modal-header
-                        h5#exampleModalLabel.modal-title T&#x1EA3;i l&ecirc;n h&igrave;nh &#x1EA3;nh
+                        h5.modal-title Tải lên hình ảnh
                         button.close(type='button' data-dismiss='modal' aria-label='Close')
                             span(aria-hidden='true') &times;
                     .modal-body.upload-file-modal
-                        input#fileupload(type='file' name='' multiple='' accept='image/*' hidden='')
+                        input(type='file' id='fileupload' name='fileupload' multiple accept='image/*' hidden='true')
                         .text-center
                             button.btn.btn-warning(onclick="document.getElementById('fileupload').click()")
-                                i.fa.fa-picture-o(aria-hidden='true')
-                                |                   Ch&#x1ECD;n h&igrave;nh &#x1EA3;nh
+                                i.fa.fa-picture-o.mr-1(aria-hidden='true')
+                                | Chọn hình ảnh
                         #dvPreview
                     .modal-footer
-                        button.btn.btn-primary(type='button')
-                            i.fa.fa-upload(aria-hidden='true')
-                            | Save changes
-                        button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                        button.btn.btn-primary(type='button' onclick='UploadImage()')
+                            i.fa.fa-upload.mr-1(aria-hidden='true')
+                            | Tải lên
+                        button.btn.btn-secondary(type='button' data-dismiss='modal') 
+                            i.fa.fa-sign-out.mr-1(aria-hidden='true') 
+                            | Đóng
 
 block script
-    script(src="/assets_manager/js/myjs/hotel.js") 
+    script(src="/assets_manager/js/myjs/hotel.js")

@@ -1,7 +1,7 @@
 extends layout/base.pug
 
 block title
-    title Loai phong
+    title Loại phòng
 
 block header
     link(rel='stylesheet' href='/assets_manager/css/mycss/loaiPhong.css')
@@ -32,86 +32,46 @@ block content
                             .col-6.text-right
                                 a(href="./addRoomType") 
                                     button.btn.btn-light Thêm loại phòng
-                        input(type="hidden", id="hotelID" value=''+ hotelID)
+                        input(type="hidden", id="token" value=token)
                     .card-body
                         .row.icon-examples
-                            .col-lg-12.col-md-6.btn-icon-clipboard
-                                .row
-                                    .col-md-4
-                                        p T&ecirc;n ph&ograve;ng: VIP
-                                        p Gi&aacute;: 1.000.000 &Dstrok;&#x1ED3;ng
-                                        p S&#x1ED1; l&#x1B0;&#x1EE3;ng ph&ograve;ng: 6 ph&ograve;ng
-                                        p
-                                            | Tr&#x1EA1;ng th&aacute;i ph&ograve;ng: 
-                                            em(style='color: red') Kh&ocirc;ng ph&#x1EE5;c v&#x1EE5;
-                                        a(href="./roomType/jksjdl" class="mr-2") 
-                                            button.btn.btn-success C&#x1EAD;p nh&#x1EAD;t
-                                        button.btn.btn-danger X&oacute;a
-                                    .col-md-8
-                                        .images
-                                            .containImages
-                                                img(onclick='OpenImageBox()' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                                img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                                img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                        #temp.imageBox
-                                            img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                            span.delBtn
-                                                i.fa.fa-trash(aria-hidden='true')
-                                            span.closeBtn
-                                                i.fa.fa-times(aria-hidden='true' onclick='CloseImageBox()')
-                                            span.fullScreenBtn
-                                                i.fa.fa-arrows-alt(aria-hidden='true')
-                            .col-lg-12.col-md-6.btn-icon-clipboard
-                                .row
-                                    .col-md-4
-                                        p T&ecirc;n ph&ograve;ng: VIP
-                                        p Gi&aacute;: 1.000.000 &Dstrok;&#x1ED3;ng
-                                        p S&#x1ED1; l&#x1B0;&#x1EE3;ng ph&ograve;ng: 6 ph&ograve;ng
-                                        p
-                                            | Tr&#x1EA1;ng th&aacute;i ph&ograve;ng: 
-                                            em(style='color: red') Kh&ocirc;ng ph&#x1EE5;c v&#x1EE5;
-                                        button.btn.btn-success C&#x1EAD;p nh&#x1EAD;t
-                                        button.btn.btn-danger X&oacute;a
-                                    .col-md-8
-                                        .images
-                                            .containImages
-                                                img(onclick='OpenImageBox()' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                                img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                                img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                        #temp.imageBox
-                                            img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                            span.delBtn
-                                                i.fa.fa-trash(aria-hidden='true')
-                                            span.closeBtn
-                                                i.fa.fa-times(aria-hidden='true' onclick='CloseImageBox()')
-                                            span.fullScreenBtn
-                                                i.fa.fa-arrows-alt(aria-hidden='true')
-                            .col-lg-12.col-md-6.btn-icon-clipboard
-                                .row
-                                    .col-md-4
-                                        p T&ecirc;n ph&ograve;ng: VIP
-                                        p Gi&aacute;: 1.000.000 &Dstrok;&#x1ED3;ng
-                                        p S&#x1ED1; l&#x1B0;&#x1EE3;ng ph&ograve;ng: 6 ph&ograve;ng
-                                        p
-                                            | Tr&#x1EA1;ng th&aacute;i ph&ograve;ng: 
-                                            em(style='color: red') Kh&ocirc;ng ph&#x1EE5;c v&#x1EE5;
-                                        button.btn.btn-success C&#x1EAD;p nh&#x1EAD;t
-                                        button.btn.btn-danger X&oacute;a
-                                    .col-md-8
-                                        .images
-                                            .containImages
-                                                img(onclick='OpenImageBox()' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                                img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                                img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                        #temp.imageBox
-                                            img(src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                            span.delBtn
-                                                i.fa.fa-trash(aria-hidden='true')
-                                            span.closeBtn
-                                                i.fa.fa-times(aria-hidden='true' onclick='CloseImageBox()')
-                                            span.fullScreenBtn
-                                                i.fa.fa-arrows-alt(aria-hidden='true')
-        
+                            each room in roomTypes
+                                .col-lg-12.col-md-6.btn-icon-clipboard
+                                    .row
+                                        .col-md-4
+                                            p Tên phòng: #{room.ten}
+                                            p Giá: #{room.gia} VND
+                                            p Số lượng phòng: #{room.so_luong} phòng
+                                            p
+                                                | Trạng thái phòng: 
+                                                if room.disabled
+                                                    b(style='color: red') Không phục vụ
+                                                else 
+                                                    b(style='color: green') Đang phục vụ
+                                            a(href="./roomType/"+room._id class="mr-2") 
+                                                button.btn.btn-success Cập nhật
+                                            if room.disabled == false
+                                                button.btn.btn-danger(onclick='DeleteRoomType("'+ room._id +'")')
+                                                    | Xóa
+                                            
+                                        .col-md-8
+                                            .images
+                                                .containImages(style='width:'+ (room.amountImage*110) +'px;')
+                                                    each image in room.images
+                                                        img(src='/uploads/'+image.ten  id=image._id alt=image.ten onclick='ShowImage("'+ room._id +'", "'+ image._id +'", "/uploads/'+ image.ten +'")')
+                                                    
+                                            
+                                            div(id='box'+room._id style='display:none;')
+                                                #imageBox(style='display:block;')
+                                                    img(id='imageInBox'+room._id src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
+                                                    input(type="hidden", id='imageSelected'+ room._id)
+                                                    span.closeBtn(onclick='CloseImageBox("'+ room._id +'")')
+                                                        i.fa.fa-times(aria-hidden='true')
+                                                    span.delBtn(onclick='DeleteImage("'+ room._id +'")')
+                                                        i.fa.fa-trash(aria-hidden='true')
+                                                    a.fullScreenBtn(href="" target='_blank' id='fullScreen'+ room._id)
+                                                        i.fa.fa-arrows-alt(aria-hidden='true')
+                            
         // Footer
         include layout/footer.pug
 

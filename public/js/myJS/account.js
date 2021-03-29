@@ -61,8 +61,9 @@ function ChooseCity(id, name) {
 
     // Check active class
     var cityChosenID = document.getElementById('cityChosen').value;
-    document.getElementById('city'+ cityChosenID).classList.remove('active');
-
+    if(cityChosenID != '') {
+        document.getElementById('city'+ cityChosenID).classList.remove('active');
+    }
     document.getElementById('city'+ id).classList.add('active');
     document.getElementById('cityChosen').value = id;
 

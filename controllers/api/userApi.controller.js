@@ -63,7 +63,7 @@ module.exports.PostLogin = async function(req, res) {
                 res.json({'access': '/admin'});
             }
             else if(allow == 'Vao trang quan ly khach san') {
-                res.json({'access': '/manager/'+ content.hotelID});
+                res.json({'access': '/manager'});
             }
             else {
                 res.json({'access': '/'});
