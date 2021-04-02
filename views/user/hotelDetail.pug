@@ -42,15 +42,18 @@ block content
                             span (#{hotel.so_luong_binh_luan} đánh giá)
                         .product__details__price.font-system-ui #{hotel.gia} Đồng
                         ul
-                            li
-                                b.font-system-ui S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i
-                                span #{hotel.so_dien_thoai}
-                            li
-                                b.font-system-ui Địa chỉ
-                                span #{hotel.dia_chi}
-                            li
-                                b.font-system-ui Share on
-                                .share
+                            li.row
+                                .col-md-3
+                                    b.font-system-ui Số điện thoại
+                                .col-md-9 #{hotel.so_dien_thoai}
+                            li.row
+                                .col-md-3
+                                    b.font-system-ui Địa chỉ
+                                .col-md-9 #{hotel.dia_chi}
+                            li.row
+                                .col-md-3
+                                    b.font-system-ui Share on
+                                .col-md-9.share
                                     a(href='#')
                                         i.fa.fa-facebook
                                     a(href='#')
@@ -59,7 +62,7 @@ block content
                                         i.fa.fa-instagram
                                     a(href='#')
                                         i.fa.fa-pinterest
-                        // <a href="#" class="primary-btn font-system-ui">ĐẶT PHÒNG</a>
+
                 .col-lg-12
                     .product__details__tab
                         ul.nav.nav-tabs(role='tablist')
@@ -76,63 +79,24 @@ block content
                         .tab-content
                             #tabs-1.tab-pane.active(role='tabpanel')
                                 .product__details__tab__desc
-                                    .row.roomType
-                                        .col-lg-4.col-md-6
-                                            ul
-                                                li
-                                                    b Lo&#x1EA1;i ph&ograve;ng
-                                                    span Th&#x1B0;&#x1EDD;ng
-                                                li
-                                                    b Gi&aacute;
-                                                    span 1.000.000 &Dstrok;&#x1ED3;ng
-                                                li
-                                                    button.btn.btn-success(class='mt-3' data-toggle='modal' data-target='#datPhongModal') Đặt phòng
-                                        .col-lg-8.col-md-6
-                                            .roomImageFrame
-                                                .roomImages
-                                                    img(src='https://lh3.googleusercontent.com/proxy/1KNaPxJGDd6XEV4ld80qi5oz3Dgsjli7VtxFSN3fiM1-zvY-s674JJytGS_xZRbTzaKwuhkQqF9WmOhu6aqRbF_Y0cHrgSFz6RV71pkMTAfe_9_GBOMcgOaoIXW70oGZbn_S0FSRVjaaggKoPwiauUuWDfbWAA' alt='')
-                                                    img(onclick='ChooseImage(1)' src='https://lh3.googleusercontent.com/proxy/1KNaPxJGDd6XEV4ld80qi5oz3Dgsjli7VtxFSN3fiM1-zvY-s674JJytGS_xZRbTzaKwuhkQqF9WmOhu6aqRbF_Y0cHrgSFz6RV71pkMTAfe_9_GBOMcgOaoIXW70oGZbn_S0FSRVjaaggKoPwiauUuWDfbWAA' alt='')
-                                                    img(onclick='ChooseImage(2)' src='https://wedo.vn/wp-content/uploads/2019/07/thiet-ke-phong-ngu-15m2-12.jpg' alt='')
-                                                    img(onclick='ChooseImage(3)' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                                    img(onclick='ChooseImage(4)' src='https://xuongnoithatdep.com/upload/images/combo-noi-that-phong-ngu-2.png' alt='')
-                                    .row.roomType
-                                        .col-lg-4.col-md-6
-                                            ul
-                                                li
-                                                    b Lo&#x1EA1;i ph&ograve;ng
-                                                    span Th&#x1B0;&#x1EDD;ng
-                                                li
-                                                    b Gi&aacute;
-                                                    span 1.000.000 &Dstrok;&#x1ED3;ng
-                                                li
-                                                    button.btn.btn-success(class='mt-3' data-toggle='modal' data-target='#datPhongModal') Đặt phòng
-                                        .col-lg-8.col-md-6
-                                            .roomImageFrame
-                                                .roomImages
-                                                    img(src='https://lh3.googleusercontent.com/proxy/1KNaPxJGDd6XEV4ld80qi5oz3Dgsjli7VtxFSN3fiM1-zvY-s674JJytGS_xZRbTzaKwuhkQqF9WmOhu6aqRbF_Y0cHrgSFz6RV71pkMTAfe_9_GBOMcgOaoIXW70oGZbn_S0FSRVjaaggKoPwiauUuWDfbWAA' alt='')
-                                                    img(onclick='ChooseImage(1)' src='https://lh3.googleusercontent.com/proxy/1KNaPxJGDd6XEV4ld80qi5oz3Dgsjli7VtxFSN3fiM1-zvY-s674JJytGS_xZRbTzaKwuhkQqF9WmOhu6aqRbF_Y0cHrgSFz6RV71pkMTAfe_9_GBOMcgOaoIXW70oGZbn_S0FSRVjaaggKoPwiauUuWDfbWAA' alt='')
-                                                    img(onclick='ChooseImage(2)' src='https://wedo.vn/wp-content/uploads/2019/07/thiet-ke-phong-ngu-15m2-12.jpg' alt='')
-                                                    img(onclick='ChooseImage(3)' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                                    img(onclick='ChooseImage(4)' src='https://xuongnoithatdep.com/upload/images/combo-noi-that-phong-ngu-2.png' alt='')
-                                    .row.roomType
-                                        .col-lg-4.col-md-6
-                                            ul
-                                                li
-                                                    b Lo&#x1EA1;i ph&ograve;ng
-                                                    span Th&#x1B0;&#x1EDD;ng
-                                                li
-                                                    b Gi&aacute;
-                                                    span 1.000.000 &Dstrok;&#x1ED3;ng
-                                                li
-                                                    button.btn.btn-success(class='mt-3' data-toggle='modal' data-target='#datPhongModal') Đặt phòng
-                                        .col-lg-8.col-md-6
-                                            .roomImageFrame
-                                                .roomImages
-                                                    img(src='https://lh3.googleusercontent.com/proxy/1KNaPxJGDd6XEV4ld80qi5oz3Dgsjli7VtxFSN3fiM1-zvY-s674JJytGS_xZRbTzaKwuhkQqF9WmOhu6aqRbF_Y0cHrgSFz6RV71pkMTAfe_9_GBOMcgOaoIXW70oGZbn_S0FSRVjaaggKoPwiauUuWDfbWAA' alt='')
-                                                    img(onclick='ChooseImage(1)' src='https://lh3.googleusercontent.com/proxy/1KNaPxJGDd6XEV4ld80qi5oz3Dgsjli7VtxFSN3fiM1-zvY-s674JJytGS_xZRbTzaKwuhkQqF9WmOhu6aqRbF_Y0cHrgSFz6RV71pkMTAfe_9_GBOMcgOaoIXW70oGZbn_S0FSRVjaaggKoPwiauUuWDfbWAA' alt='')
-                                                    img(onclick='ChooseImage(2)' src='https://wedo.vn/wp-content/uploads/2019/07/thiet-ke-phong-ngu-15m2-12.jpg' alt='')
-                                                    img(onclick='ChooseImage(3)' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                                    img(onclick='ChooseImage(4)' src='https://xuongnoithatdep.com/upload/images/combo-noi-that-phong-ngu-2.png' alt='')
+                                    each roomType in roomTypes
+                                        .row.roomType
+                                            .col-lg-4.col-md-6
+                                                ul
+                                                    li
+                                                        b Loại phòng
+                                                        span #{roomType.ten}
+                                                    li
+                                                        b Giá
+                                                        span #{roomType.gia} VND
+                                                    li
+                                                        button.btn.btn-success(class='mt-3' data-toggle='modal' data-target='#datPhongModal' onclick='ChooseRoomType("'+ roomType._id +'")') Đặt phòng
+                                            .col-lg-8.col-md-6
+                                                .roomImageFrame
+                                                    .roomImages(style='width: '+ (roomType.amountImagesRoomType*185) +'px;')
+                                                        each image in roomType.imagesRoomType
+                                                            img(src='/uploads/'+image.ten alt=image.ten)
+                                                        
                             #tabs-2.tab-pane(role='tabpanel')
                                 .product__details__tab__desc
                                     .convenients
@@ -160,7 +124,7 @@ block content
                                         i.fa.fa-wifi(aria-hidden='true')
                                         | Wifi
                             #tabs-3.tab-pane(role='tabpanel')
-                                iframe(src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d125540.64959306283!2d104.9645045537392!3d10.489210009425845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109f64e209ed487%3A0xaefb9c10fee9f6e6!2zTsO6aSBD4bqlbQ!5e0!3m2!1svi!2s!4v1614155713826!5m2!1svi!2s' height='450' style='border:0; width:100%; margin-top:46px;' allowfullscreen='' loading='lazy')
+                                iframe(src=hotel.google_map height='450' style='border:0; width:100%; margin-top:46px;' allowfullscreen='' loading='lazy')
                             #tabs-4.tab-pane(role='tabpanel')
                                 .product__details__tab__desc
                                     #v-pills-3.tab-pane.fade.active.show(role='tabpanel' aria-labelledby='v-pills-day-3-tab')
@@ -298,26 +262,27 @@ block content
         .modal-dialog
             .modal-content
                 .modal-header
-                    h5#exampleModalLabel.modal-title &Dstrok;&#x1EB7;t ph&ograve;ng
+                    h5#exampleModalLabel.modal-title Đặt phòng
                     button.close(type='button' data-dismiss='modal' aria-label='Close')
                         span(aria-hidden='true') &times;
                 .modal-body.row
+                    input(type="hidden", id="roomTypeIDSelected")
                     .form-group.col-8.mx-auto
-                        label(for='') S&#x1ED1; l&#x1B0;&#x1EE3;ng ph&ograve;ng
-                        input.form-control(type='number' name='' id='')
+                        label(for='amountRoom') Số lượng phòng
+                        input.form-control(type='number' min='1' step='1' max='5' id='amountRoom')
                     .form-group.col-8.mx-auto
-                        label(for='') T&#x1EEB; ng&agrave;y
-                        input.form-control(type='date' name='' id='')
+                        label(for='fromDate') Từ ngày
+                        input.form-control(type='date' id='fromDate')
                     .form-group.col-8.mx-auto
-                        label(for='') &Dstrok;&#x1EBF;n ng&agrave;y
-                        input.form-control(type='date' name='' id='')
+                        label(for='toDate') Đến ngày
+                        input.form-control(type='date' id='toDate')
                 .modal-footer
-                    button.btn.btn-success(type='button')
+                    button.btn.btn-success(type='button' onclick='CheckRoom()')
                         i.fa.fa-shopping-basket.mr-1(aria-hidden='true')
-                        | Th&ecirc;m v&agrave;o gi&#x1ECF; h&agrave;ng
+                        | Thêm vào giỏ hàng
                     button.btn.btn-secondary(type='button' data-dismiss='modal')
-                        i.fa.fa-sign-out.mr-1(aria-hidden='true')
-                        | &Dstrok;&oacute;ng
+                        i.fa.fa-sign-out.mr-1(aria-hidden='true' id='closeCheckRoom')
+                        | Đóng
     // Modal End
 
     // Image List Slider
@@ -559,4 +524,4 @@ block content
     // Related Product Section End
 
 block script 
-    script(src="/js/myJS/hotelDetail.js") #{hotel.ten}
+    script(src="/js/myJS/hotelDetail.js")

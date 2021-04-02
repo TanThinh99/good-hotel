@@ -4,6 +4,7 @@ block title
     title Chi tiet hoa don
 
 block header
+    link(rel="stylesheet", href="/assets_manager/css/mycss/chiTietHoaDon.css")
 
 block content
 
@@ -12,15 +13,15 @@ block content
         .container-fluid
             .header-body
                 .row.align-items-center.py-4
-                    .col-lg-6.col-7
-                        h6.h2.text-white.d-inline-block.mb-0 Chi ti&#x1EBF;t h&oacute;a &dstrok;&#x1A1;n
+                    .col-lg-10.col-7
+                        h6.h2.text-white.d-inline-block.mb-0 Chi tiết hóa đơn
                         nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
                             ol.breadcrumb.breadcrumb-links.breadcrumb-dark
                                 li.breadcrumb-item
                                     a(href='#')
                                         i.fas.fa-home
-                                li.breadcrumb-item(aria-current='page') H&oacute;a &dstrok;&#x1A1;n &dstrok;&#x1EB7;t ph&ograve;ng
-                                li.breadcrumb-item.active(aria-current='page') Chi ti&#x1EBF;t
+                                li.breadcrumb-item(aria-current='page') Hóa đơn đặt phòng
+                                li.breadcrumb-item.active(aria-current='page') Chi tiết
 
     // Page content
     .container-fluid.mt--6
@@ -28,39 +29,74 @@ block content
             .col
                 .card
                     .card-header.bg-transparent
-                        h3.mb-0 H&oacute;a &dstrok;&#x1A1;n &dstrok;&#x1EB7;t ph&ograve;ng
-                        input(type="hidden", id="hotelID" value=""+ hotelID)
+                        h3.mb-0 Hóa đơn đặt phòng
                     .card-body
-                        .row.icon-examples
+                        .row.icon-examples.billContent
                             .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto
-                                h2(style='margin-bottom: 20px;') Th&ocirc;ng tin lo&#x1EA1;i ph&ograve;ng
+                                h2(style='margin-bottom: 20px;') Thông tin loại phòng
                                 .row
                                     .col-md-6
-                                        p Kh&aacute;ch s&#x1EA1;n: &Dstrok;&#x1EC7; nh&#x1EA5;t kh&aacute;ch s&#x1EA1;n
-                                        p Lo&#x1EA1;i ph&ograve;ng: VIP
-                                        p Ti&#x1EC1;n thanh to&aacute;n tr&#x1B0;&#x1EDB;c: 121.000 &Dstrok;&#x1ED3;ng
-                                        p Gi&aacute; &dstrok;&#x1EB7;t ph&ograve;ng: 1.000.000 &Dstrok;&#x1ED3;ng
+                                        p 
+                                            span.title Loại phòng: 
+                                            | #{bill.ma_loai_phong.ten}
+                                        p 
+                                            span.title Ngày đặt phòng: 
+                                            | #{bill.ngay_dat_phong}
+                                        p 
+                                            span.title Ngày nhận phòng: 
+                                            | #{bill.ngay_nhan_phong}
+                                        p 
+                                            span.title Ngày trả phòng: 
+                                            | #{bill.ngay_tra_phong}
                                     .col-md-6
-                                        p
-                                            | Ng&agrave;y &dstrok;&#x1EB7;t ph&ograve;ng: 
-                                            em 2020-08-06 15:23:56
-                                        p
-                                            | Ng&agrave;y h&#x1EBF;t h&#x1EA1;n: 
-                                            em 2020-08-09
-                                        p
-                                            | Ng&agrave;y tr&#x1EA3; ph&ograve;ng: 
-                                            em 2020-08-12 11:12:44
+                                        p 
+                                            span.title Giá đặt phòng: 
+                                            | #{bill.gia_dat_phong} VND
+                                        p 
+                                            span.title Số lượng phòng: 
+                                            | #{bill.so_luong_phong} phòng
+                                        p 
+                                            span.title Trạng thái hóa đơn: 
+                                            if bill.da_thanh_toan 
+                                                b.billStatus(style='color:green;') Đã thanh toán
+                                            else 
+                                                b.billStatus(style='color:orange;') Chưa thanh toán
+                                        p 
+                                            span.title Trạng thái phòng: 
+                                            if bill.da_tra_phong
+                                                b.billStatus(style='color:green;') Đã trả phòng
+                                            else
+                                                if bill.da_thanh_toan 
+                                                    b.billStatus(style='color:orange;') Chưa trả phòng
+                                                else 
+                                                    b.billStatus(style='color:orange;') Chưa nhận phòng
+                                                
                             .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto
-                                h2(style='margin-bottom: 20px;') Th&ocirc;ng tin kh&aacute;ch h&agrave;ng
+                                h2(style='margin-bottom: 20px;') Thông tin khách hàng
                                 .row
                                     .col-md-6
-                                        p M&atilde; t&agrave;i kho&#x1EA3;n: s1d5f4d2d1s4d5s4
-                                        p H&#x1ECD; t&ecirc;n: Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                        p Gi&#x1EDB;i t&iacute;nh: Nam
+                                        p 
+                                            span.title Mã tài khoản: 
+                                            | #{bill.ma_tai_khoan._id}
+                                        p 
+                                            span.title Họ tên: 
+                                            | #{bill.ma_tai_khoan.ho_ten}
+                                        p 
+                                            span.title Giới tính: 
+                                            if bill.ma_tai_khoan.gioi_tinh 
+                                                | Nam 
+                                            else 
+                                                | Nữ
                                     .col-md-6
-                                        p Email: abc@gmail.com
-                                        p S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i: 0235641256
-                                        p &Dstrok;&#x1ECB;a ch&#x1EC9;: An H&ograve;a, Ch&acirc;u Th&agrave;nh, An Giang
+                                        p 
+                                            span.title Email: 
+                                            | #{bill.ma_tai_khoan.email}
+                                        p 
+                                            span.title Số điện thoại: 
+                                            | #{bill.ma_tai_khoan.so_dien_thoai}
+                                        p 
+                                            span.title Địa chỉ: 
+                                            | #{bill.ma_tai_khoan.dia_chi}
         
         // Footer
         include layout/footer.pug

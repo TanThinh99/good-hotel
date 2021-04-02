@@ -7,6 +7,7 @@ var xaPhuong = require('./../models/xa_phuong.model');
 var khachSan = require('./../models/khach_san.model');
 var hinhAnh = require('./../models/hinh_anh.model');
 const loaiPhong = require('../models/loai_phong.model');
+const hoaDon = require('../models/hoa_don.model');
 
 module.exports.Hotel = async function(req, res) {
     var decode = req.session.decode;
@@ -71,9 +72,6 @@ module.exports.RoomType = async function(req, res) {
         roomTypes[i].amountImage = imagesRoomType.length; 
     }
     params.roomTypes = roomTypes;
-    // console.log(params.roomTypes);
-    // console.log(params.roomTypes[0].images[0].ten);
-    // console.log(params.roomTypes[0].images);
     res.render('manager/roomType', params);
 }
 
@@ -108,12 +106,35 @@ module.exports.AddRoomType = async function(req, res) {
     res.render('manager/addRoomType', params);
 }
 
+function FormatNumberInDate(number) {
+    if(number < 10) {
+        return '0'+ number;
+    }
+    return number;
+}
+
 module.exports.CheckRoom = async function(req, res) {
     var decode = req.session.decode;
     var account = await taiKhoan.findById(decode.id).exec();
     var params = {
         account: account
     }
+    var roomTypes = await loaiPhong.find({ma_khach_san: decode.hotelID});
+    var roomTypeIDArr = [];
+    for(i=0; i<roomTypes.length; i++) {
+        roomTypeIDArr.push(roomTypes[i].id);
+    }
+    var date = new Date();
+    var month = FormatNumberInDate(date.getMonth() + 1);
+    var day = FormatNumberInDate(date.getDate());
+    var today = date.getFullYear() +'-'+ month +'-'+ day;
+    params.today = today;
+    var bills = await hoaDon.find({
+        ma_loai_phong: {$in: roomTypeIDArr},
+        ngay_tra_phong: {$gte: today},
+        da_tra_phong: false
+    }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({da_thanh_toan: 1});
+    params.bills = bills;    
     res.render('manager/checkRoom', params);
 }
 
@@ -141,6 +162,16 @@ module.exports.Bill = async function(req, res) {
     var params = {
         account: account
     }
+    var roomTypes = await loaiPhong.find({ma_khach_san: decode.hotelID});
+    var roomTypeIDArr = [];
+    for(i=0; i<roomTypes.length; i++) {
+        roomTypeIDArr.push(roomTypes[i].id);
+    }
+    var bills = await hoaDon.find({
+        ma_loai_phong: {$in: roomTypeIDArr},
+        da_tra_phong: true
+    }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({ngay_dat_phong: 1});
+    params.bills = bills;
     res.render('manager/bill', params);
 }
 
@@ -150,5 +181,26 @@ module.exports.BillDetail = async function(req, res) {
     var params = {
         account: account
     }
+    var billID = req.params.billID;
+    var bill = await hoaDon.findById(billID).populate('ma_loai_phong').populate('ma_tai_khoan');
+    params.bill = bill;
     res.render('manager/billDetail', params);
+}
+
+// ================= A J A X =================
+    // Check Room
+module.exports.DestroyBill = async function(req, res) {
+    var billID = req.body.billID;
+    await hoaDon.findByIdAndDelete(billID);
+    res.sendStatus(200);
+}
+
+module.exports.ReturnRoom = async function(req, res) {
+    var billID = req.body.billID;
+    var bill = await hoaDon.findById(billID);
+    // var roomAmount = bill.so_luong_phong;
+
+    bill.da_tra_phong = true;
+    bill.save();
+    res.sendStatus(200);
 }

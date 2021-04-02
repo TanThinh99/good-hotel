@@ -20,7 +20,7 @@
 }
 
 .product__details__text ul li {
-    line-height: 47px;
+    margin-bottom: 18px;
 }
 
 .product__details__text ul li .share a {

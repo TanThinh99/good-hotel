@@ -21,7 +21,7 @@
     "nodemon": "^2.0.7"
   },
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon --inspect app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

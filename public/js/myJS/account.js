@@ -12,6 +12,16 @@ function ChooseControl(self, typeContent) {
 
         document.getElementById(typeContent).style.display = 'block';
         self.classList.add('active-nav');
+
+        if(typeContent == 'infoContent') {
+            document.getElementById('contentTitle').innerHTML = 'Thông tin cá nhân';
+        }
+        else if(typeContent == 'accountContent') {
+            document.getElementById('contentTitle').innerHTML = 'Thông tin tài khoản';
+        }
+        else if(typeContent == 'checkRoomContent') {
+            document.getElementById('contentTitle').innerHTML = 'Lịch sử đặt phòng';
+        }
     }
     else {
         if(confirm('Quý khách sẽ đăng xuất?')) {
@@ -207,4 +217,78 @@ function UpdateAccount() {
     else {
         alert('Quý khách cần nhập mật khẩu mới và mật khẩu nhập lại giống nhau và không được rỗng!');
     }
+}
+
+    // For Bill
+function GetBillDetail(billID) {
+    axios({
+        method: 'GET',
+        url: 'http://localhost:8000/getBillDetail/'+ billID
+    })
+    .then(function(response) {
+            // Appear bill detail
+        var contentList = document.getElementsByClassName('mainContent');
+        for (var i = 0; i < contentList.length; i++) {
+            contentList[i].style.display = 'none';
+        }
+        var data = response.data;
+        document.getElementById('hotelName').innerHTML = data.ma_loai_phong.ten;
+        document.getElementById('roomTypeName').innerHTML = data.ma_loai_phong.ten;
+        document.getElementById('roomTypePrice').innerHTML = data.gia_dat_phong;
+        document.getElementById('checkRoomDate').innerHTML = data.ngay_dat_phong;
+        document.getElementById('receiveRoomDate').innerHTML = data.ngay_nhan_phong;
+        document.getElementById('returnRoomDate').innerHTML = data.ngay_tra_phong;
+        document.getElementById('roomAmount').innerHTML = data.so_luong_phong;
+        if(data.da_thanh_toan) {
+            document.getElementById('roomStatus').innerHTML = 'Đã thanh toán';
+            document.getElementById('roomStatus').style.color = 'green';
+        }
+        else {
+            document.getElementById('roomStatus').innerHTML = 'Chưa thanh toán';
+            document.getElementById('roomStatus').style.color = '#00bccb';
+        }              
+        document.getElementById('billDetailContent').style.display = 'block';
+        document.getElementById('contentTitle').innerHTML = 'Chi tiết hóa đơn đặt phòng';
+    })
+    .catch(function(err) {
+        alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+        console.log(err);
+    });            
+}
+
+function PayBill(billID) {
+    axios({
+        method: 'PUT',
+        url: 'http://localhost:8000/payBill',
+        data: {
+            "billID": billID
+        }                
+    })
+    .then(function(response) {
+        alert('Thanh toán đơn đặt phòng thành công. Cảm ơn quý khách ^^');
+        location.reload();
+    })
+    .catch(function(err) {
+        alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+        console.log(err);
+    });
+}
+
+function DestroyBill(billID) {
+    if(confirm('Bạn sẽ xóa đơn đặt phòng này?')) {
+        axios({
+            method: 'DELETE',
+            url: 'http://localhost:8000/destroyBill',
+            data: {
+                billID: billID
+            }                
+        })
+        .then(function(response) {
+            document.getElementById('bill'+ billID).hidden = true;
+        })
+        .catch(function(err) {
+            alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+            console.log(err);
+        });
+    }    
 }

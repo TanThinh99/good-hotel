@@ -1,0 +1,14 @@
+.billContent .title {
+    color: #c70000;
+    margin: 0px;
+    margin-right: 4px;
+    font-size: 18px;
+    font-weight: bolder;
+    line-height: normal;
+    vertical-align: baseline;
+    display: inline;
+}
+
+.billContent .billStatus {
+    font-weight: bold;
+}

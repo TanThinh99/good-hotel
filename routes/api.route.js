@@ -130,9 +130,8 @@ router.put('/binh_luan/confirmSeen/:id', binhLuanCtrl.ConfirmSeen);
 
 // Hóa đơn
 router.get('/hoa_don', hoaDonCtrl.List);
-router.post('/hoa_don', hoaDonCtrl.Add);
+router.post('/hoa_don', apiMid.CheckLogin, hoaDonCtrl.Add);
 router.get('/hoa_don/:id', hoaDonCtrl.Detail);
-router.put('/hoa_don/tra_phong/:id', hoaDonCtrl.ConfirmReturnedRoom);
 
 var mid = require('./../middlewares/middleware');
 router.get('/callAPI', mid.IsAdmin, function(req, res) {

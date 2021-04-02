@@ -29,11 +29,13 @@
 }
 
 .billList .bill .func {
-    font-size: 20px;
+    font-size: 25px;
+    margin-top: 40px;
+    color: #c7c7c7;
 }
 
 .billList .bill .func:hover {
-    font-size: 21px;
-    color: black;
+    font-size: 28px;
+    color: rgb(82, 82, 82);
     cursor: pointer;
 }

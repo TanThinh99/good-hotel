@@ -46,3 +46,81 @@ function ChooseCarouselImage(position) {
 
     document.getElementById('imageListSlider').style.display = 'block';
 }
+
+function ChooseRoomType(roomTypeID) {
+    document.getElementById('roomTypeIDSelected').value = roomTypeID;
+}
+
+function SetFromDate() {
+        // FROM DATE
+    var today = new Date();
+    var date = today.getDate();
+    if(date < 10) {
+        date = '0'+ date;
+    }
+    var month = today.getMonth() + 1;
+    if(month < 10) {
+        month = '0'+ month;
+    }
+    document.getElementById('fromDate').min = today.getFullYear() +'-'+ month +'-'+ date;
+        // LIMIT DATE
+    month = month*1 + 3;
+    var year = today.getFullYear();
+    if(month > 12) {
+        month = month - 12;
+        year++;
+    }
+    var limitDate = new Date(year +'-'+ month +'-'+ date);
+    month = limitDate.getMonth();
+    if(month < 10) {
+        month = '0'+ month;
+    }
+    date = limitDate.getDate();
+    if(date < 10) {
+        date = '0'+ date;
+    }
+    document.getElementById('fromDate').max = year +'-'+ month +'-'+ date;
+}
+SetFromDate();
+
+document.getElementById('fromDate').onchange = function(req, res) {
+    var fromDate = document.getElementById('fromDate').value;
+    document.getElementById('toDate').min = fromDate;
+}
+
+function CheckRoom() {            
+    var amountRoom = document.getElementById('amountRoom').value;
+    var fromDate = document.getElementById('fromDate').value;
+    var toDate = document.getElementById('toDate').value;
+    if((amountRoom == '') || (fromDate == '') || (toDate == '')) {
+        alert('Quý khách vui lòng điền đầy đủ thông tin để tạo đơn đặt phòng!');
+        return;
+    }
+    if(fromDate > toDate) {
+        alert('Ngày nhận phòng phải trước ngày trả phòng!!');
+    }
+    else {
+        var roomTypeID = document.getElementById('roomTypeIDSelected').value;
+        axios({
+            method: 'POST',
+            url: 'http://localhost:8000/addToBasket',
+            data: {
+                roomTypeID: roomTypeID,
+                amountRoom: amountRoom,
+                fromDate: fromDate,
+                toDate: toDate
+            }            
+        })
+        .then(function(response) {
+            alert('Đã thêm đơn đặt phòng vào giỏ hàng!');
+            document.getElementById('amountRoom').value = '';
+            document.getElementById('fromDate').value = '';
+            document.getElementById('toDate').value = '';
+            document.getElementById('closeCheckRoom').click();
+        })
+        .catch(function(err) {
+            alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+            console.log(err);
+        });
+    }
+}

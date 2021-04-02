@@ -31,77 +31,22 @@ block content
                         input(type="hidden", id="hotelID" value=''+ hotelID)
                     .card-body
                         .row.icon-examples
-                            .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto.deal
-                                .row
-                                    .col-md-6
-                                        h3.title Thông tin phòng
-                                        p.info Lo&#x1EA1;i ph&ograve;ng: VIP
-                                        p.info
-                                            | Ng&agrave;y &dstrok;&#x1EB7;t ph&ograve;ng: 
-                                            em 2020-08-06 15:23:56
-                                    .col-md-6
-                                        h3.title Th&ocirc;ng tin kh&aacute;ch h&agrave;ng
-                                        p.info M&atilde; t&agrave;i kho&#x1EA3;n: 2sd5d4c7s8ds4s5a
-                                        p.info H&#x1ECD; t&ecirc;n: Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                .mt-md-3
-                                    a(href="./bill/vd12sv3s5")
-                                        button.btn.btn-success Xem chi ti&#x1EBF;t
-                            .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto.deal
-                                .row
-                                    .col-md-6
-                                        h3.title Th&ocirc;ng tin ph&ograve;ng
-                                        p.info Lo&#x1EA1;i ph&ograve;ng: VIP
-                                        p.info
-                                            | Ng&agrave;y &dstrok;&#x1EB7;t ph&ograve;ng: 
-                                            em 2020-08-06 15:23:56
-                                    .col-md-6
-                                        h3.title Th&ocirc;ng tin kh&aacute;ch h&agrave;ng
-                                        p.info M&atilde; t&agrave;i kho&#x1EA3;n: 2sd5d4c7s8ds4s5a
-                                        p.info H&#x1ECD; t&ecirc;n: Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                .mt-md-3
-                                    button.btn.btn-success Xem chi ti&#x1EBF;t
-                            .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto.deal
-                                .row
-                                    .col-md-6
-                                        h3.title Th&ocirc;ng tin ph&ograve;ng
-                                        p.info Lo&#x1EA1;i ph&ograve;ng: VIP
-                                        p.info
-                                            | Ng&agrave;y &dstrok;&#x1EB7;t ph&ograve;ng: 
-                                            em 2020-08-06 15:23:56
-                                    .col-md-6
-                                        h3.title Th&ocirc;ng tin kh&aacute;ch h&agrave;ng
-                                        p.info M&atilde; t&agrave;i kho&#x1EA3;n: 2sd5d4c7s8ds4s5a
-                                        p.info H&#x1ECD; t&ecirc;n: Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                .mt-md-3
-                                    button.btn.btn-success Xem chi ti&#x1EBF;t
-                            .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto.deal
-                                .row
-                                    .col-md-6
-                                        h3.title Th&ocirc;ng tin ph&ograve;ng
-                                        p.info Lo&#x1EA1;i ph&ograve;ng: VIP
-                                        p.info
-                                            | Ng&agrave;y &dstrok;&#x1EB7;t ph&ograve;ng: 
-                                            em 2020-08-06 15:23:56
-                                    .col-md-6
-                                        h3.title Th&ocirc;ng tin kh&aacute;ch h&agrave;ng
-                                        p.info M&atilde; t&agrave;i kho&#x1EA3;n: 2sd5d4c7s8ds4s5a
-                                        p.info H&#x1ECD; t&ecirc;n: Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                .mt-md-3
-                                    button.btn.btn-success Xem chi ti&#x1EBF;t
-                            .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto.deal
-                                .row
-                                    .col-md-6
-                                        h3.title Th&ocirc;ng tin ph&ograve;ng
-                                        p.info Lo&#x1EA1;i ph&ograve;ng: VIP
-                                        p.info
-                                            | Ng&agrave;y &dstrok;&#x1EB7;t ph&ograve;ng: 
-                                            em 2020-08-06 15:23:56
-                                    .col-md-6
-                                        h3.title Th&ocirc;ng tin kh&aacute;ch h&agrave;ng
-                                        p.info M&atilde; t&agrave;i kho&#x1EA3;n: 2sd5d4c7s8ds4s5a
-                                        p.info H&#x1ECD; t&ecirc;n: Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                .mt-md-3
-                                    button.btn.btn-success Xem chi ti&#x1EBF;t
+                            each bill in bills
+                                .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto.deal
+                                    .row
+                                        .col-md-6
+                                            h3.title Thông tin phòng
+                                            p.info Loại phòng: #{bill.ma_loai_phong.ten}
+                                            p.info
+                                                | Ngày đặt phòng: 
+                                                em #{bill.ngay_dat_phong}
+                                        .col-md-6
+                                            h3.title Thông tin khách hàng
+                                            p.info Mã tài khoản: #{bill.ma_tai_khoan._id}
+                                            p.info Họ tên: #{bill.ma_tai_khoan.ho_ten}
+                                    .mt-md-3
+                                        a(href="./bill/"+ bill._id)
+                                            button.btn.btn-success Xem chi tiết
                         
                         // Pagination
                         nav(aria-label='Page navigation example')

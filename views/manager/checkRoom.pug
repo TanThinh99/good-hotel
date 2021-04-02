@@ -26,70 +26,52 @@ block content
             .col
                 .card
                     .card-header.bg-transparent
-                        h3.mb-0 &Dstrok;&#x1A1;n &dstrok;&#x1EB7;t ph&ograve;ng
-                        input(type="hidden", id="hotelID" value=''+ hotelID)
+                        h3.mb-0 Đơn đặt phòng
                     .card-body
                         .row.icon-examples
-                            .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto
-                                .row
-                                    .col-md-6
-                                        h4 Th&ocirc;ng tin lo&#x1EA1;i ph&ograve;ng
-                                        p Lo&#x1EA1;i ph&ograve;ng: VIP
-                                        p
-                                            | Ng&agrave;y &dstrok;&#x1EB7;t ph&ograve;ng: 
-                                            em 2020-08-06 15:23:56
-                                        p
-                                            | Ng&agrave;y h&#x1EBF;t h&#x1EA1;n: 
-                                            em 2020-08-09
-                                    .col-md-6
-                                        h4 Th&ocirc;ng tin kh&aacute;ch h&agrave;ng
-                                        p M&atilde; t&agrave;i kho&#x1EA3;n: 2sd5d4c7s8ds4s5a
-                                        p H&#x1ECD; t&ecirc;n: Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                        p S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i: 0236587412
-                                div
-                                    a(href="./bill/dsds4v5" class="mr-2") 
-                                        button.btn.btn-success Xem chi ti&#x1EBF;t
-                                    button.btn.btn-warning X&aacute;c nh&#x1EAD;n tr&#x1EA3; ph&ograve;ng
-                            .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto
-                                .row
-                                    .col-md-6
-                                        h4 Th&ocirc;ng tin lo&#x1EA1;i ph&ograve;ng
-                                        p Lo&#x1EA1;i ph&ograve;ng: VIP
-                                        p
-                                            | Ng&agrave;y &dstrok;&#x1EB7;t ph&ograve;ng: 
-                                            em 2020-08-06 15:23:56
-                                        p
-                                            | Ng&agrave;y h&#x1EBF;t h&#x1EA1;n: 
-                                            em 2020-08-09
-                                    .col-md-6
-                                        h4 Th&ocirc;ng tin kh&aacute;ch h&agrave;ng
-                                        p M&atilde; t&agrave;i kho&#x1EA3;n: 2sd5d4c7s8ds4s5a
-                                        p H&#x1ECD; t&ecirc;n: Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                        p S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i: 0236587412
-                                div
-                                    button.btn.btn-success Xem chi ti&#x1EBF;t
-                                    button.btn.btn-warning X&aacute;c nh&#x1EAD;n tr&#x1EA3; ph&ograve;ng
-                            .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto
-                                .row
-                                    .col-md-6
-                                        h4 Th&ocirc;ng tin lo&#x1EA1;i ph&ograve;ng
-                                        p Lo&#x1EA1;i ph&ograve;ng: VIP
-                                        p
-                                            | Ng&agrave;y &dstrok;&#x1EB7;t ph&ograve;ng: 
-                                            em 2020-08-06 15:23:56
-                                        p
-                                            | Ng&agrave;y h&#x1EBF;t h&#x1EA1;n: 
-                                            em 2020-08-09
-                                    .col-md-6
-                                        h4 Th&ocirc;ng tin kh&aacute;ch h&agrave;ng
-                                        p M&atilde; t&agrave;i kho&#x1EA3;n: 2sd5d4c7s8ds4s5a
-                                        p H&#x1ECD; t&ecirc;n: Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                        p S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i: 0236587412
-                                div
-                                    button.btn.btn-success Xem chi ti&#x1EBF;t
-                                    button.btn.btn-warning X&aacute;c nh&#x1EAD;n tr&#x1EA3; ph&ograve;ng
-        
+                            each bill in bills
+                                .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto(id='bill'+ bill._id)
+                                    .row
+                                        .col-md-6
+                                            h4 Thông tin loại phòng
+                                            p Loại phòng: #{bill.ma_loai_phong.ten}
+                                            p
+                                                | Ngày đặt phòng: 
+                                                em #{bill.ngay_dat_phong}
+                                            p
+                                                | Ngày nhận phòng: 
+                                                em #{bill.ngay_nhan_phong}
+                                        .col-md-6
+                                            h4 Thông tin khách hàng
+                                            p Mã tài khoản: #{bill.ma_tai_khoan._id}
+                                            p Họ tên: #{bill.ma_tai_khoan.ho_ten}
+                                            p Số điện thoại: #{bill.ma_tai_khoan.so_dien_thoai}
+                                    div
+                                        a(href="./bill/"+ bill._id class="mr-2") 
+                                            button.btn.btn-info 
+                                                i.fa.fa-info-circle.mr-1(style='color:white;' aria-hidden="true")
+                                                | Xem chi tiết
+
+                                        - var receiveDate = new Date(bill.ngay_nhan_phong);
+                                        - var receiveLastDate = new Date(receiveDate.getTime() - (24*60*60*1000));
+                                        - var now = new Date(today);
+                                        if bill.da_thanh_toan == false
+                                            if receiveLastDate.getTime() <= now.getTime()
+                                                button.btn.btn-danger(onclick='DestroyBill("'+ bill._id +'")')
+                                                    i.fa.fa-ban.mr-1(style='color:white;' aria-hidden="true")
+                                                    | Hủy phòng
+                                            else 
+                                                button.btn.btn-danger.diabled(disabled) 
+                                                    i.fa.fa-ban.mr-1(style='color:white;' aria-hidden="true")
+                                                    | Hủy phòng
+                                        if receiveDate.getTime() >= now.getTime()
+                                            if bill.da_thanh_toan
+                                                button.btn.btn-success(onclick='ReturnRoom("'+ bill._id +'")')
+                                                    i.fa.fa-bookmark.mr-1(style='color:white;' aria-hidden="true")
+                                                    | Trả phòng
+                            
         // Footer
         include layout/footer.pug
 
 block script 
+    script(src="/assets_manager/js/myjs/checkroom.js") 

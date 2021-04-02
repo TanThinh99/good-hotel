@@ -59,7 +59,6 @@ block content
                                                 .containImages(style='width:'+ (room.amountImage*110) +'px;')
                                                     each image in room.images
                                                         img(src='/uploads/'+image.ten  id=image._id alt=image.ten onclick='ShowImage("'+ room._id +'", "'+ image._id +'", "/uploads/'+ image.ten +'")')
-                                                    
                                             
                                             div(id='box'+room._id style='display:none;')
                                                 #imageBox(style='display:block;')
