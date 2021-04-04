@@ -1,7 +1,7 @@
 extends layout/base.pug
 
 block title
-    title Cap nhat vai tro
+    title Cập nhật vai trò
 
 block header
 
@@ -28,23 +28,29 @@ block content
             .col-12
                 .card
                     .card-header.bg-transparent
-                        h3.mb-0 C&#x1EAD;p nh&#x1EAD;t vai tr&ograve;
+                        h3.mb-0 Cập nhật vai trò
+                        input(type="hidden", id="roleID", value=role._id)
+                        input(type="hidden", id="token", value=token)
                     .card-body
                         .row.icon-examples.customer-reply
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
-                                    label(for='exampleInputEmail1') T&ecirc;n vai tr&ograve;
-                                    input#exampleInputEmail1.form-control(type='text' aria-describedby='emailHelp')
+                                    label(for='roleName') Tên vai trò
+                                    input#roleName.form-control(type='text' value=role.ten aria-describedby='emailHelp')
                             .col-md-11.col-md-6.mx-auto
                                 .custom-control.custom-switch.form-group.ml-4
-                                    input#customSwitch1.custom-control-input(type='checkbox')
-                                    label.custom-control-label(for='customSwitch1') V&ocirc; hi&#x1EC7;u h&oacute;a vai tr&ograve;
+                                    if role.disabled
+                                        input#roleStatus.custom-control-input(type='checkbox' checked)
+                                    else 
+                                        input#roleStatus.custom-control-input(type='checkbox')
+                                    label.custom-control-label(for='roleStatus') Vô hiệu hóa vai trò
                             .col-md-11.col-md-6.mx-auto
-                                button.btn.btn-success
-                                    i.fa.fa-pencil-square-o(aria-hidden='true')
-                                    |                       C&#x1EAD;p nh&#x1EAD;t
+                                button.btn.btn-success(onclick='UpdateRole()')
+                                    i.fa.fa-pencil-square-o.mr-1(aria-hidden='true')
+                                    | Cập nhật
         
         // Footer
         include layout/footer.pug
 
 block script 
+    script(src="/assets_admin/js/role.js")

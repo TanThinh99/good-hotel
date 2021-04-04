@@ -1,7 +1,7 @@
 extends layout/base.pug
 
 block title
-    title Argon Dashboard - Free Dashboard for Bootstrap 4
+    title Quản lý tiện nghi
 
 block header
     link(rel='stylesheet' href='/assets_manager/css/mycss/tienNghiKhachSan.css')
@@ -13,16 +13,13 @@ block content
             .header-body
                 .row.align-items-center.py-4
                     .col-lg-6.col-7
-                        h6.h2.text-white.d-inline-block.mb-0 Ti&#x1EC7;n nghi
+                        h6.h2.text-white.d-inline-block.mb-0 Tiện nghi
                         nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
                             ol.breadcrumb.breadcrumb-links.breadcrumb-dark
                                 li.breadcrumb-item
                                     a(href='#')
                                         i.fas.fa-home
-                                li.breadcrumb-item.active(aria-current='page') Ti&#x1EC7;n nghi
-                    .col-lg-6.col-5.text-right
-                        a.btn.btn-sm.btn-neutral(href='#') New
-                        a.btn.btn-sm.btn-neutral(href='#') Filters
+                                li.breadcrumb-item.active(aria-current='page') Tiện nghi
     
     // Page content
     .container-fluid.mt--6
@@ -30,120 +27,39 @@ block content
             .col-12
                 .card
                     .card-header.bg-transparent
-                        h3.mb-0 Ti&#x1EC7;n nghi kh&aacute;ch s&#x1EA1;n
-                        input(type="hidden", id="hotelID" value=''+ hotelID)
+                        h3.mb-0 Tiện nghi khách sạn
+                        input(type="hidden", id="hotelID" value=hotelID)
+                        input(type="hidden", id="token" value=token)
                     .card-body
                         .row.icon-examples
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard.convenient(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                                        span.deleteBtn
-                                            i.fa.fa-trash(aria-hidden='true')
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard.convenient(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                                        span.deleteBtn
-                                            i.fa.fa-trash(aria-hidden='true')
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard.convenient(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                                        span.deleteBtn
-                                            i.fa.fa-trash(aria-hidden='true')
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard.convenient(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                                        span.deleteBtn
-                                            i.fa.fa-trash(aria-hidden='true')
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard.convenient(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                                        span.deleteBtn
-                                            i.fa.fa-trash(aria-hidden='true')
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard.convenient(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                                        span.deleteBtn
-                                            i.fa.fa-trash(aria-hidden='true')
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard.convenient(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                                        span.deleteBtn
-                                            i.fa.fa-trash(aria-hidden='true')
+                            each conven in convens
+                                .col-lg-3.col-md-6
+                                    button.btn-icon-clipboard.convenient(type='button')
+                                        div
+                                            i.fa(class=conven.ma_tien_nghi.hinh_anh aria-hidden='true')
+                                            span #{conven.ma_tien_nghi.ten}
+                                            span.deleteBtn(onclick='DestroyConvenient("'+ conven._id +'")')
+                                                i.fa.fa-trash(aria-hidden='true')
+                                
             .col-12
                 .card
                     .card-header.bg-transparent
-                        h3.mb-0 Th&ecirc;m ti&#x1EC7;n nghi cho kh&aacute;ch s&#x1EA1;n
+                        h3.mb-0 Thêm tiện nghi cho khách sạn
                     .card-body
                         .row.icon-examples.addConvenientFrame
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard.active(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                            .col-lg-3.col-md-6
-                                button.btn-icon-clipboard(type='button')
-                                    div
-                                        i.ni.ni-active-40
-                                        span Wifi
-                        button.btn.btn-success.mt-3
-                            i.fa.fa-plus(aria-hidden='true')
-                            | &nbsp;Th&ecirc;m m&#x1EDB;i
+                            input(type="hidden", id="convenSelected")
+                            each conven in notConvens
+                                .col-lg-3.col-md-6
+                                    button.btn-icon-clipboard(type='button' id='conven'+conven._id onclick='ChooseConvenient("'+ conven._id +'")')
+                                        div
+                                            i.fa(class=conven.hinh_anh aria-hidden='true')
+                                            span #{conven.ten}
+                        button.btn.btn-success.mt-3(onclick='AddConvenient()')
+                            i.fa.fa-plus.mr-1(aria-hidden='true')
+                            | Thêm mới
         
         // Footer
         include layout/footer.pug
 
 block script
+    script(src="/assets_manager/js/myjs/convenient.js") 

@@ -1,7 +1,7 @@
 extends layout/base.pug
 
 block title
-    title Quan ly vai tro
+    title Quản lý vai trò
 
 block header
     link(rel='stylesheet' href='/assets_admin/css/vaiTro.css')
@@ -35,41 +35,22 @@ block content
                                     button.btn.btn-secondary Thêm vai trò
                     .card-body
                         .row.icon-examples
-                            .col-lg-4.col-md-6
-                                button.btn-icon-clipboard.role(type='button')
-                                    div
-                                        i.fa.fa-users(aria-hidden='true')
-                                        span Admin
-                                        a.permissionBtn(href='./grantPermission/vdsv531b5f5b' title='Cấp quyền')
-                                            i.fa.fa-hand-paper-o(aria-hidden='true')
-                                        a.updateBtn(href='./role/dsvdsv545bf' title='Cập nhật')
-                                            i.fa.fa-pencil(aria-hidden='true')
-                                        span.deleteBtn(title='Xóa')
-                                            i.fa.fa-trash(aria-hidden='true')
-                            .col-lg-4.col-md-6
-                                button.btn-icon-clipboard.role(type='button')
-                                    div
-                                        i.fa.fa-users(aria-hidden='true')
-                                        span Hotel Manager
-                                        span.permissionBtn(title='Cấp quyền')
-                                            i.fa.fa-hand-paper-o(aria-hidden='true')
-                                        span.updateBtn(title='Cập nhật')
-                                            i.fa.fa-pencil(aria-hidden='true')
-                                        span.deleteBtn(title='Xóa')
-                                            i.fa.fa-trash(aria-hidden='true')
-                            .col-lg-4.col-md-6
-                                button.btn-icon-clipboard.role(type='button')
-                                    div
-                                        i.fa.fa-users(aria-hidden='true')
-                                        span Member
-                                        span.permissionBtn(title='Cấp quyền')
-                                            i.fa.fa-hand-paper-o(aria-hidden='true')
-                                        span.updateBtn(title='Cập nhật')
-                                            i.fa.fa-pencil(aria-hidden='true')
-                                        span.deleteBtn(title='Xóa')
-                                            i.fa.fa-trash(aria-hidden='true')
-        
+                            input(type="hidden", id="token", value=token)
+                            each role in roles
+                                .col-lg-4.col-md-6(id='role'+ role._id)
+                                    button.btn-icon-clipboard.role(type='button' class=role.disabled?'role-disabled':'')
+                                        div
+                                            i.fa.fa-users(aria-hidden='true')
+                                            span #{role.ten}
+                                            a.permissionBtn(href='./grantPermission/'+role._id title='Cấp quyền')
+                                                i.fa.fa-hand-paper-o(aria-hidden='true')
+                                            a.updateBtn(href='./role/'+role._id title='Cập nhật')
+                                                i.fa.fa-pencil(aria-hidden='true')
+                                            span.deleteBtn(title='Xóa' onclick='DeleteRole("'+ role._id +'")')
+                                                i.fa.fa-trash(aria-hidden='true')
+                            
         // Footer
         include layout/footer.pug
 
 block script 
+    script(src="/assets_admin/js/role.js")

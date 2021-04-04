@@ -1,7 +1,7 @@
 extends layout/base.pug
 
 block title
-    title Cap quyen
+    title Cấp quyền
 
 block header
     link(rel='stylesheet' href='/assets_admin/css/capQuyen.css')
@@ -13,15 +13,15 @@ block content
             .header-body
                 .row.align-items-center.py-4
                     .col-lg-6.col-7
-                        h6.h2.text-white.d-inline-block.mb-0 Vai tr&ograve;
+                        h6.h2.text-white.d-inline-block.mb-0 Vai trò
                         nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
                             ol.breadcrumb.breadcrumb-links.breadcrumb-dark
                                 li.breadcrumb-item
                                     a(href='#')
                                         i.fas.fa-home
-                                li.breadcrumb-item(aria-current='page') Vai tr&ograve;
+                                li.breadcrumb-item(aria-current='page') Vai trò
                                 li.breadcrumb-item(aria-current='page') Admin
-                                li.breadcrumb-item.active(aria-current='page') C&#x1EA5;p quy&#x1EC1;n
+                                li.breadcrumb-item.active(aria-current='page') Cấp quyền
                     
     // Page content
     .container-fluid.mt--6
@@ -29,70 +29,38 @@ block content
             .col-12
                 .card
                     .card-header.bg-transparent
-                        h3.mb-0 C&aacute;c quy&#x1EC1;n hi&#x1EC7;n c&oacute;
+                        h3.mb-0 Các quyền hiện có
+                        input(type="hidden", id="roleID" value=roleID)
+                        input(type="hidden", id="token" value=token)
                     .card-body
                         .row.icon-examples
                             .col-md-7.col-md-6.mx-auto.permissList
                                 .row.mx-auto
-                                    .permiss.col-12
-                                        span Th&ecirc;m vai tr&ograve;
-                                        span.delPermiss
-                                            i.fa.fa-trash-o(aria-hidden='true')
-                                    .permiss.col-12
-                                        span Th&ecirc;m vai tr&ograve;
-                                        span.delPermiss
-                                            i.fa.fa-trash-o(aria-hidden='true')
-                                    .permiss.col-12
-                                        span Th&ecirc;m vai tr&ograve;
-                                        span.delPermiss
-                                            i.fa.fa-trash-o(aria-hidden='true')
-                                    .permiss.col-12
-                                        span Th&ecirc;m vai tr&ograve;
-                                        span.delPermiss
-                                            i.fa.fa-trash-o(aria-hidden='true')
-                                    .permiss.col-12
-                                        span Th&ecirc;m vai tr&ograve;
-                                        span.delPermiss
-                                            i.fa.fa-trash-o(aria-hidden='true')
-                                    .permiss.col-12
-                                        span Th&ecirc;m vai tr&ograve;
-                                        span.delPermiss
-                                            i.fa.fa-trash-o(aria-hidden='true')
-                                    .permiss.col-12
-                                        span Th&ecirc;m vai tr&ograve;
-                                        span.delPermiss
-                                            i.fa.fa-trash-o(aria-hidden='true')
-                                    .permiss.col-12
-                                        span Th&ecirc;m vai tr&ograve;
-                                        span.delPermiss
-                                            i.fa.fa-trash-o(aria-hidden='true')
+                                    each doc in permissions
+                                        .permiss.col-12
+                                            span #{doc.ma_quyen.ten}
+                                            span.delPermiss(onclick='DestroyPermission("'+ doc._id +'")')
+                                                i.fa.fa-trash-o(aria-hidden='true')
+                                    
             .col-12
                 .card
                     .card-header.bg-transparent
                         h3.mb-0.row
-                            .col-6 C&aacute;c quy&#x1EC1;n ch&#x1B0;a c&oacute;
+                            .col-6 Các quyền chưa có
                     .card-body
                         .row.icon-examples
                             .col-md-7.col-md-6.mx-auto.permissList.notAllow
                                 .row.mx-auto
-                                    .permiss.col-12
-                                        span Th&ecirc;m vai tr&ograve;
-                                    .permiss.col-12
-                                        span Th&ecirc;m vai tr&ograve;
-                                    .permiss.active.col-12
-                                        span Th&ecirc;m vai tr&ograve;
-                                    .permiss.col-12
-                                        span Th&ecirc;m vai tr&ograve;
-                                    .permiss.col-12
-                                        span Th&ecirc;m vai tr&ograve;
-                                    .permiss.col-12
-                                        span Th&ecirc;m vai tr&ograve;
-                                    .permiss.col-12
-                                        span Th&ecirc;m vai tr&ograve;
+                                    input(type="hidden", id="permissSelected")
+                                    each doc in notPermissions
+                                        .permiss.col-12(id='permiss'+ doc._id onclick='ChoosePermission("'+ doc._id +'")')
+                                            span #{doc.ten}
                             .col-md-7.col-md-6.mx-auto.mt-3
-                                button.btn.btn-warning C&#x1EA5;p quy&#x1EC1;n n&agrave;y
+                                button.btn.btn-warning(onclick='GrantPermission()') 
+                                    | Cấp quyền này
         
         // Footer
         include layout/footer.pug
 
 block script 
+    script(src="/assets_admin/js/role.js")

@@ -8,6 +8,8 @@ var khachSan = require('./../models/khach_san.model');
 var hinhAnh = require('./../models/hinh_anh.model');
 const loaiPhong = require('../models/loai_phong.model');
 const hoaDon = require('../models/hoa_don.model');
+const tienNghiKhachSan = require('../models/tien_nghi_khach_san.model');
+const tienNghi = require('../models/tien_nghi.model');
 
 module.exports.Hotel = async function(req, res) {
     var decode = req.session.decode;
@@ -55,6 +57,17 @@ module.exports.Convenient = async function(req, res) {
     var params = {
         account: account
     }
+    var hotelID = decode.hotelID;
+    params.hotelID = hotelID;
+    var convens = await tienNghiKhachSan.find({ma_khach_san: hotelID}).populate('ma_tien_nghi');
+    params.convens = convens;
+    var convenIDArr = [];
+    for(i=0; i<convens.length; i++) {
+        convenIDArr.push(convens[i].ma_tien_nghi);
+    }
+    var notConvens = await tienNghi.find({_id: {$nin: convenIDArr}});
+    params.notConvens = notConvens;
+    params.token = req.session.token;
     res.render('manager/convenient', params);
 }
 

@@ -14,18 +14,23 @@
 }
 
 .convenient .deleteBtn i:hover {
-    color: #272727;
-    font-size: 19px;
+    color: #bb1111;
+    font-size: 21px;
 }
 
 .addConvenientFrame {
     height: 264px; 
     overflow-y: scroll; 
-    overflow-x: hidden;
+    overflow-x: hidden;    
 }
 
 .addConvenientFrame .active {
     border: 6px double orange;
     padding: 18px 18px;
     background-color: white;
+    transition: 0.3s;
+}
+
+button:focus {
+    outline: 0px;
 }

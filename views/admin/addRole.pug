@@ -1,7 +1,7 @@
 extends layout/base.pug
 
 block title
-    title Them vai tro
+    title Thêm vai trò
 
 block header
 
@@ -27,19 +27,21 @@ block content
             .col-12
                 .card
                     .card-header.bg-transparent
-                        h3.mb-0 Th&ecirc;m vai tr&ograve; m&#x1EDB;i
+                        h3.mb-0 Thêm vai trò mới
+                        input(type="hidden", id="token", value=token)
                     .card-body
                         .row.icon-examples.customer-reply
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
-                                    label(for='exampleInputEmail1') T&ecirc;n vai tr&ograve;
-                                    input#exampleInputEmail1.form-control(type='text' aria-describedby='emailHelp')
+                                    label(for='roleName') Tên vai trò
+                                    input#roleName.form-control(type='text' aria-describedby='emailHelp')
                             .col-md-11.col-md-6.mx-auto
-                                button.btn.btn-success
-                                    i.fa.fa-pencil-square-o(aria-hidden='true')
-                                    |                         Th&ecirc;m m&#x1EDB;i
+                                button.btn.btn-success(onclick='AddRole()')
+                                    i.fa.fa-pencil-square-o.mr-1(aria-hidden='true')
+                                    | Thêm mới
         
         // Footer
         include layout/footer.pug
 
 block script 
+    script(src="/assets_admin/js/role.js")

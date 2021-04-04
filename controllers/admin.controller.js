@@ -85,6 +85,9 @@ module.exports.Role = async function(req, res) {
     var params = {
         userAccount: userAccount
     }
+    var roles = await vaiTro.find().sort({disabled: 1});
+    params.roles = roles;
+    params.token = req.session.token;
     res.render('admin/role', params);
 }
 
@@ -94,6 +97,17 @@ module.exports.GrantPermission = async function(req, res) {
     var params = {
         userAccount: userAccount
     }
+    var roleID = req.params.roleID;
+    var permissions = await vaiTroCoQuyen.find({ma_vai_tro: roleID}).populate('ma_quyen');
+    params.roleID = roleID;
+    params.permissions = permissions;
+    var permissIDArr = [];
+    for(i=0; i<permissions.length; i++) {
+        permissIDArr.push(permissions[i].ma_quyen);
+    }
+    var notPermissions = await quyen.find({_id: {$nin: permissIDArr}});
+    params.notPermissions = notPermissions;
+    params.token = req.session.token;
     res.render('admin/grantPermission', params);
 }
 
@@ -112,6 +126,10 @@ module.exports.UpdateRole = async function(req, res) {
     var params = {
         userAccount: userAccount
     }
+    var roleID = req.params.roleID;
+    var role = await vaiTro.findById(roleID);
+    params.role = role;
+    params.token = req.session.token;
     res.render('admin/updateRole', params);
 }
 
@@ -121,6 +139,7 @@ module.exports.AddRole = async function(req, res) {
     var params = {
         userAccount: userAccount
     }
+    params.token = req.session.token;
     res.render('admin/addRole', params);
 }
 
