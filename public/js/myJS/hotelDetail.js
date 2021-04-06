@@ -124,3 +124,140 @@ function CheckRoom() {
         });
     }
 }
+
+function SaveComment() {
+    var token = document.getElementById('token').value;
+    if(token == '') {
+        alert('Bạn cần phải đăng nhập để tạo bình luận!');
+        return;
+    }
+    var commentID = document.getElementById('commentUpdating').value;
+    if(commentID == '') {
+        CreateComment();
+    }
+    else {
+        UpdateComment(commentID);
+    }
+    CloseCommentModal();
+}
+
+function CreateComment() {
+    var token = document.getElementById('token').value;
+    var score = document.getElementById('commentScore').value;
+    var goodReview = document.getElementById('good-review').value;
+    var badReview = document.getElementById('bad-review').value;
+    var hotelID = document.getElementById('hotelID').value;
+    axios({
+        method: 'POST',
+        url: 'http://localhost:8000/api/binh_luan/member',
+        data: {
+            noi_dung_tot: goodReview,
+            noi_dung_xau: badReview,
+            diem: score,
+            ma_khach_san: hotelID
+        },
+        headers: {
+            'Authorization': 'bearer '+ token
+        }
+    })
+    .then(function(response) {
+        var yourName = document.getElementById('yourName').value;
+        var avatar = document.getElementById('yourAvatar').value;
+        var data = response.data[0];
+        var str = '<div class="review">\
+                    <img src="/uploads/'+ avatar +'" style="width:80px; border-radius:50%; float:left;">\
+                    <div class="desc">\
+                        <h4>\
+                            <span class="text-left review-name">'+ yourName +'</span>\
+                            <span class="text-right review-time" id="time'+ data._id +'">'+ data.thoi_gian +'</span>\
+                        </h4>\
+                        <p class="star">\
+                            <span id="score'+ data._id +'">'+ data.diem +'.0</span>\
+                            <span class="ml-3">\
+                                <i class="fa fa-pencil aria-hidden="true" title="Chỉnh sửa" style="cursor:pointer;" data-toggle="modal" data-target="#commentModal" onclick=\'OpenUpdateComment("'+ data._id +'")\'></i>\
+                            </span>\
+                            <span class="ml-1">\
+                                <i class="fa fa-trash-o aria-hidden="true" title="Xóa" style="cursor:pointer;" onclick=\'DeleteComment("'+ data._id +'")\'></i>\
+                            </span>\
+                        </p>\
+                        <div>\
+                            <p><b class="good">Tốt:</b> <span id="goodReview'+ data._id +'">'+ data.noi_dung_tot +'</span></p>\
+                            <p><b class="bad">Góp ý:</b> <span id="badReview'+ data._id +'">'+ data.noi_dung_xau +'</span></p>\
+                        </div>\
+                    </div>\
+                </div>';
+        var frame = document.getElementById('commentFrame');
+        frame.innerHTML = str + frame.innerHTML;
+    })
+    .catch(function(err) {
+        alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+        console.log(err);
+    });
+}
+
+function OpenUpdateComment(commentID) {
+    var score = document.getElementById('score'+ commentID).innerHTML;
+    var goodReview = document.getElementById('goodReview'+ commentID).innerHTML;
+    var badReview = document.getElementById('badReview'+ commentID).innerHTML;
+    document.getElementById('commentScore').value = score;
+    document.getElementById('good-review').value = goodReview;
+    document.getElementById('bad-review').value = badReview;
+
+    document.getElementById('commentUpdating').value = commentID;
+}
+
+function UpdateComment(commentID) {
+    var token = document.getElementById('token').value;
+    var score = document.getElementById('commentScore').value;
+    var goodReview = document.getElementById('good-review').value;
+    var badReview = document.getElementById('bad-review').value;
+    axios({
+        method: 'PUT',
+        url: 'http://localhost:8000/api/binh_luan/member/'+ commentID,
+        data: {
+            noi_dung_tot: goodReview,
+            noi_dung_xau: badReview,
+            diem: score
+        },
+        headers: {
+            'Authorization': 'bearer '+ token
+        }
+    })
+    .then(function(response) {
+        var data = response.data;
+        document.getElementById('time'+ commentID).innerHTML = data.thoi_gian;
+        document.getElementById('score'+ commentID).innerHTML = data.diem +'.0';
+        document.getElementById('goodReview'+ commentID).innerHTML = data.noi_dung_tot;
+        document.getElementById('badReview'+ commentID).innerHTML = data.noi_dung_xau;
+    })
+    .catch(function(err) {
+        alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+        console.log(err);
+    });
+}
+
+function DeleteComment(commentID) {
+    if(confirm('Quý khách sẽ xóa bình luận này?')) {
+        var token = document.getElementById('token').value;
+        axios({
+            method: 'DELETE',
+            url: 'http://localhost:8000/api/binh_luan/member/'+ commentID,
+            headers: {
+                'Authorization': 'bearer '+ token
+            }
+        })
+        .then(function(response) {
+            document.getElementById('review'+ commentID).hidden = true;
+        })
+        .catch(function(err) {
+            alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+            console.log(err);
+        });
+    }
+}
+
+function CloseCommentModal() {
+    document.getElementById('good-review').value = '';
+    document.getElementById('bad-review').value = '';
+    document.getElementById('closeCommentModal').click();
+}

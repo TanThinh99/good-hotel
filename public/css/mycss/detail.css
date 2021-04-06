@@ -272,6 +272,19 @@
     margin-bottom: 10px;
 }
 
+.review-reply .manager h4 .reply-title {
+    display: inline-block;
+    width: 65%;
+}
+
+.review-reply .manager h4 .reply-time {
+    display: inline-block;
+    width: 34%;
+    font-size: 16px;
+    text-align: right;
+    font-style: italic;
+}
+
 .review-reply .manager h4 .text-left i{
     font-size: 32px;
     margin-right: 4px;

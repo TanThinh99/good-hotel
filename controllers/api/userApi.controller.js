@@ -66,7 +66,7 @@ module.exports.PostLogin = async function(req, res) {
                 res.json({'access': '/manager'});
             }
             else {
-                res.json({'access': '/'});
+                res.json({'access': ''});
             }
         });        
     }  

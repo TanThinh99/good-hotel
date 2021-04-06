@@ -7,6 +7,7 @@ const khachSan = require('../models/khach_san.model');
 const loaiPhong = require('../models/loai_phong.model');
 const hinhAnh = require('../models/hinh_anh.model');
 const hoaDon = require('../models/hoa_don.model');
+const binhLuan = require('../models/binh_luan.model');
 
 module.exports.Index = async function(req, res) {
     var hotels = await axios({
@@ -71,13 +72,27 @@ module.exports.HotelDetail = async function(req, res) {
     var params = {
         hotel: hotel
     }
+    var decode = req.session.decode;
+    if(decode != undefined) {
+        var accountID = decode.id;
+        var account = await taiKhoan.findById(accountID);
+        params.username = account.ho_ten;
+        params.avatar = account.avatar;
+        params.userID = account._id;
+    }
     var roomTypes = await loaiPhong.find({ma_khach_san: hotelID});
     params.roomTypes = roomTypes;
     for(i=0; i<roomTypes.length; i++) {
         var imagesRoomType = await hinhAnh.find({ma_loai_phong: roomTypes[i]._id});
         params.roomTypes[i].imagesRoomType = imagesRoomType;
         params.roomTypes[i].amountImagesRoomType = imagesRoomType.length;
-    }    
+    }  
+    var comments = await binhLuan.find({ma_khach_san: hotelID})
+        .populate('ma_khach_san')
+        .populate('ma_tai_khoan')
+        .sort({thoi_gian: -1});
+    params.comments = comments;
+    params.token = req.session.token;
     res.render('user/hotelDetail', params);
 }
 

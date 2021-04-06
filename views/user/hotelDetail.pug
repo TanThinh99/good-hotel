@@ -35,6 +35,11 @@ block content
                                 img(onclick='ChooseCarouselImage(4)' src='https://xuongnoithatdep.com/upload/images/combo-noi-that-phong-ngu-2.png' alt='')
                                 img(onclick='ChooseCarouselImage(5)' src='https://afamilycdn.com/150157425591193600/2020/5/25/7-15903740976832059393369-63-0-1001-1500-crop-1590374332746174200395.jpg' alt='')
                 .col-lg-6.col-md-6
+                    input(type="hidden", id="hotelID" value=hotel._id)
+                    input(type="hidden", id="token" value=token)
+                    if username
+                        input(type="hidden", id="yourName" value=username)
+                        input(type="hidden", id="yourAvatar" value=avatar)
                     .product__details__text
                         h3.font-system-ui #{hotel.ten}
                         .product__details__rating
@@ -132,81 +137,46 @@ block content
                                             .col-md-9
                                                 .row.mb-3
                                                     .col-7
-                                                        h3 23 b&igrave;nh lu&#x1EAD;n
+                                                        h3 23 bình luận
                                                     .col-5.text-right
-                                                        button.btn.btn-info(data-toggle='modal' data-target='#exampleModal') Vi&#x1EBF;t b&igrave;nh lu&#x1EAD;n
-                                                .review
-                                                    img(src='https://pbs.twimg.com/profile_images/378800000085759435/b691b563894e19370ad442be0795e436.jpeg' style='width:80px; border-radius:50%; float:left;')
-                                                    .desc
-                                                        h4
-                                                            span.text-left.review-name Jacob Webb
-                                                            span.text-right.review-time 25 April 2020
-                                                        p.star
-                                                            span 8.0
-                                                        div
-                                                            p
-                                                                b.good T&#x1ED1;t: 
-                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
-                                                            p
-                                                                b.bad G&oacute;p &yacute;: 
-                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
-                                                    .review-reply
-                                                        .desc.manager
-                                                            h4
-                                                                span.text-left
-                                                                    i.fa.fa-commenting-o(aria-hidden='true')
-                                                                    |                                                                     Ph&#x1EA3;n h&#x1ED3;i t&#x1EEB; Qu&#x1EA3;n l&yacute; kh&aacute;ch s&#x1EA1;n
-                                                            p.content
-                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
-                                                .review
-                                                    img(src='https://pbs.twimg.com/profile_images/378800000085759435/b691b563894e19370ad442be0795e436.jpeg' style='width:80px; border-radius:50%; float:left;')
-                                                    .desc
-                                                        h4
-                                                            span.text-left.review-name Jacob Webb
-                                                            span.text-right.review-time 25 April 2020
-                                                        p.star
-                                                            span 8.0
-                                                        div
-                                                            p
-                                                                b.good T&#x1ED1;t: 
-                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
-                                                            p
-                                                                b.bad G&oacute;p &yacute;: 
-                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
-                                                    .review-reply
-                                                        .desc.manager
-                                                            h4
-                                                                span.text-left
-                                                                    i.fa.fa-commenting-o(aria-hidden='true')
-                                                                    |                                                                     Ph&#x1EA3;n h&#x1ED3;i t&#x1EEB; Qu&#x1EA3;n l&yacute; kh&aacute;ch s&#x1EA1;n
-                                                            p.content
-                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
-                                                .review
-                                                    img(src='https://pbs.twimg.com/profile_images/378800000085759435/b691b563894e19370ad442be0795e436.jpeg' style='width:80px; border-radius:50%; float:left;')
-                                                    .desc
-                                                        h4
-                                                            span.text-left.review-name Jacob Webb
-                                                            span.text-right.review-time 25 April 2020
-                                                        p.star
-                                                            span 8.0
-                                                        div
-                                                            p
-                                                                b.good T&#x1ED1;t: 
-                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
-                                                            p
-                                                                b.bad G&oacute;p &yacute;: 
-                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
-                                                    .review-reply
-                                                        .desc.manager
-                                                            h4
-                                                                span.text-left
-                                                                    i.fa.fa-commenting-o(aria-hidden='true')
-                                                                    |                                                                     Ph&#x1EA3;n h&#x1ED3;i t&#x1EEB; Qu&#x1EA3;n l&yacute; kh&aacute;ch s&#x1EA1;n
-                                                            p.content
-                                                                | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
+                                                        button.btn.btn-info(data-toggle='modal' data-target='#commentModal' onclick='document.getElementById("commentUpdating").value="";') Viết bình luận
+                                                div#commentFrame
+                                                    each cm in comments
+                                                        .review(id='review'+ cm._id)
+                                                            img(src='/uploads/'+cm.ma_tai_khoan.avatar style='width:80px; border-radius:50%; float:left;')
+                                                            .desc
+                                                                h4
+                                                                    span.text-left.review-name #{cm.ma_tai_khoan.ho_ten}
+                                                                    span.text-right.review-time(id='time'+cm._id) #{cm.thoi_gian}
+                                                                p.star
+                                                                    span(id='score'+cm._id) #{cm.diem}.0
+                                                                    if userID
+                                                                        if userID == cm.ma_tai_khoan.id
+                                                                            span.ml-3
+                                                                                i.fa.fa-pencil(aria-hidden='true' title='Chỉnh sửa' style="cursor:pointer;" data-toggle='modal' data-target='#commentModal' onclick='OpenUpdateComment("'+ cm._id +'")')
+                                                                            span.ml-1
+                                                                                i.fa.fa-trash-o(aria-hidden='true' title='Xóa' style="cursor:pointer;" onclick='DeleteComment("'+ cm._id +'")')
+                                                                div
+                                                                    p
+                                                                        b.good Tốt: 
+                                                                        span(id='goodReview'+cm._id) #{cm.noi_dung_tot}
+                                                                    p
+                                                                        b.bad Góp ý: 
+                                                                        span(id='badReview'+cm._id) #{cm.noi_dung_xau}
+                                                            if cm.noi_dung_phan_hoi != ''
+                                                                .review-reply
+                                                                    .desc.manager
+                                                                        h4
+                                                                            span.reply-title.text-left
+                                                                                i.fa.fa-commenting-o(aria-hidden='true')
+                                                                                | Phản hồi từ Quản lý khách sạn
+                                                                            span.reply-time #{cm.thoi_gian_phan_hoi}
+                                                                        p.content
+                                                                            | #{cm.noi_dung_phan_hoi}
+                                                
                                             .col-md-3
                                                 .rating-wrap
-                                                    h3.mb-4 Give a Review
+                                                    h3.mb-4 Tỉ lệ điểm đánh giá
                                                     p.star
                                                         span.score 8.0
                                                         span (98%) 20 Reviews
@@ -225,36 +195,37 @@ block content
     // Product Details Section End
 
     // Modal COMMENT
-    #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+    #commentModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
         .modal-dialog
             .modal-content
                 .modal-header
-                    h5#exampleModalLabel.modal-title Vi&#x1EBF;t b&igrave;nh lu&#x1EAD;n
+                    input(type="hidden", id="commentUpdating" value=false)
+                    h5#exampleModalLabel.modal-title Viết bình luận
                     button.close(type='button' data-dismiss='modal' aria-label='Close')
                         span(aria-hidden='true') &times;
                 .modal-body.row.custom-modal
                     .col-6.form-group.ml-3
-                        label.title.score(for='')
+                        label.title.score(for='commentScore')
                             i.fa.fa-star-o(aria-hidden='true')
-                            | &Dstrok;i&#x1EC3;m &dstrok;&aacute;nh gi&aacute;
-                        input.form-control(type='number' name='' id='' min='0' max='10' step='1' value='8')
+                            | Điểm đánh giá
+                        input.form-control(type='number' id='commentScore' min='0' max='10' step='1' value='8')
                     .col-11.form-group.mx-auto
-                        label.title.good(for='')
+                        label.title.good(for='good-review')
                             i.fa.fa-smile-o(aria-hidden='true')
-                            | &Dstrok;&aacute;nh gi&aacute; t&#x1ED1;t
-                        textarea#good-review.form-control(name='' style='width:100%' rows='4')
+                            | Đánh giá tốt
+                        textarea#good-review.form-control(style='width:100%' rows='4')
                     .col-11.form-group.mx-auto
-                        label.title.bad(for='')
+                        label.title.bad(for='bad-review')
                             i.fa.fa-frown-o(aria-hidden='true')
-                            | G&oacute;p &yacute;
-                        textarea#bad-review.form-control(name='' style='width:100%' rows='4')
+                            | Góp ý
+                        textarea#bad-review.form-control(style='width:100%' rows='4')
                 .modal-footer
-                    button.btn.btn-success(type='button')
+                    button.btn.btn-success(type='button' onclick='SaveComment()')
                         i.fa.fa-pencil.mr-1(aria-hidden='true')
-                        | T&#x1EA1;o b&igrave;nh lu&#x1EAD;n
-                    button.btn.btn-secondary(type='button' data-dismiss='modal')
+                        | Lưu bình luận
+                    button.btn.btn-secondary(type='button' id="closeCommentModal" onclick='CloseCommentModal()' data-dismiss='modal')
                         i.fa.fa-sign-out.mr-1(aria-hidden='true')
-                        | &Dstrok;&oacute;ng
+                        | Đóng
     // Modal End
 
     // Modal CHECK ROOM

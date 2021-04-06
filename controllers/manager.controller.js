@@ -10,6 +10,7 @@ const loaiPhong = require('../models/loai_phong.model');
 const hoaDon = require('../models/hoa_don.model');
 const tienNghiKhachSan = require('../models/tien_nghi_khach_san.model');
 const tienNghi = require('../models/tien_nghi.model');
+const binhLuan = require('../models/binh_luan.model');
 
 module.exports.Hotel = async function(req, res) {
     var decode = req.session.decode;
@@ -157,6 +158,11 @@ module.exports.Comment = async function(req, res) {
     var params = {
         account: account
     }
+    var comments = await binhLuan.find({ma_khach_san: decode.hotelID})
+        .populate('ma_tai_khoan')
+        .sort({da_xem: 1, thoi_gian: -1});
+    params.comments = comments;
+    params.token = req.session.token;
     res.render('manager/comment', params);
 }
 
@@ -166,6 +172,11 @@ module.exports.ReplyComment = async function(req, res) {
     var params = {
         account: account
     }
+    var commentID = req.params.commentID;
+    params.commentID = commentID;
+    var comment = await binhLuan.findById(commentID).populate('ma_tai_khoan');
+    params.comment = comment;
+    params.token = req.session.token;
     res.render('manager/replyComment', params);
 }
 

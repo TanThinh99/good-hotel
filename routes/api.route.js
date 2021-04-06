@@ -119,14 +119,14 @@ router.put('/tai_khoan/grantRole/:id', apiMid.CheckLogin, apiMid.GrantRole, taiK
     // Member bình luận
 router.get('/binh_luan', binhLuanCtrl.List);
 router.get('/binh_luan/:id', binhLuanCtrl.Detail);
-router.post('/binh_luan/member', binhLuanCtrl.MemberAdd);
-router.put('/binh_luan/member/:id', binhLuanCtrl.MemberUpdate);
-router.delete('/binh_luan/member/:id', binhLuanCtrl.MemberDelete);
+router.post('/binh_luan/member', apiMid.CheckLogin, binhLuanCtrl.MemberAdd);
+router.put('/binh_luan/member/:id', apiMid.CheckLogin, binhLuanCtrl.MemberUpdate);
+router.delete('/binh_luan/member/:id', apiMid.CheckLogin, binhLuanCtrl.MemberDelete);
 
     // Manager bình luận
-router.put('/binh_luan/manager/:id', binhLuanCtrl.ManagerUpdate);
-router.delete('/binh_luan/manager/:id', binhLuanCtrl.ManagerDelete);
-router.put('/binh_luan/confirmSeen/:id', binhLuanCtrl.ConfirmSeen);
+router.put('/binh_luan/manager/:id', apiMid.CheckLogin, binhLuanCtrl.ManagerUpdate);
+router.delete('/binh_luan/manager/:id', apiMid.CheckLogin, binhLuanCtrl.ManagerDelete);
+router.put('/binh_luan/confirmSeen/:id', apiMid.CheckLogin, binhLuanCtrl.ConfirmSeen);
 
 // Hóa đơn
 router.get('/hoa_don', hoaDonCtrl.List);

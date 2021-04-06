@@ -1,7 +1,7 @@
 extends layout/base.pug
 
 block title
-    title Binh luan
+    title Bình luận
 
 block header
     link(rel='stylesheet' href='/assets_manager/css/mycss/binhLuan.css')
@@ -13,13 +13,13 @@ block content
             .header-body
                 .row.align-items-center.py-4
                     .col-lg-6.col-7
-                        h6.h2.text-white.d-inline-block.mb-0 B&igrave;nh lu&#x1EAD;n
+                        h6.h2.text-white.d-inline-block.mb-0 Bình luận
                         nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
                             ol.breadcrumb.breadcrumb-links.breadcrumb-dark
                                 li.breadcrumb-item
                                     a(href='#')
                                         i.fas.fa-home
-                                li.breadcrumb-item.active(aria-current='page') B&igrave;nh lu&#x1EAD;n
+                                li.breadcrumb-item.active(aria-current='page') Bình luận
                     
     // Page content
     .container-fluid.mt--6
@@ -28,72 +28,35 @@ block content
                 .card
                     .card-header.bg-transparent
                         h3.mb-0 Danh sách bình luận
-                        input(type="hidden", id="hotelID" value=''+ hotelID)
+                        input(type="hidden", id="token" value=token)
                     .card-body
                         .row.icon-examples
-                            .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto.comment
-                                .row
-                                    .col-6.title
-                                        span.username Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                        span.score 8.0
-                                    .col-6.text-right
-                                        span.time 2021-02-03 15:14:12
-                                p.good
-                                    span T&#x1ED1;t: 
-                                    | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
-                                p.bad
-                                    span G&oacute;p &yacute;: 
-                                    | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
-                                .funcs
-                                    button.btn.btn-warning
-                                        i.fa.fa-eye(aria-hidden='true')
-                                        | &Dstrok;&atilde; xem
-                                    a(href="./replyComment/kdls4d5s") 
-                                        button.btn.btn-light
-                                            i.fa.fa-reply(aria-hidden='true')
-                                            | Ph&#x1EA3;n h&#x1ED3;i
-                            .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto.comment
-                                .row
-                                    .col-6.title
-                                        span.username Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                        span.score 8.0
-                                    .col-6.text-right
-                                        span.time 2021-02-03 15:14:12
-                                p.good
-                                    span T&#x1ED1;t: 
-                                    | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
-                                p.bad
-                                    span G&oacute;p &yacute;: 
-                                    | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
-                                .funcs
-                                    button.btn.btn-warning
-                                        i.fa.fa-eye(aria-hidden='true')
-                                        | &Dstrok;&atilde; xem
-                                    button.btn.btn-light
-                                        i.fa.fa-reply(aria-hidden='true')
-                                        | Ph&#x1EA3;n h&#x1ED3;i
-                            .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto.comment
-                                .row
-                                    .col-6.title
-                                        span.username Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                        span.score 8.0
-                                    .col-6.text-right
-                                        span.time 2021-02-03 15:14:12
-                                p.good
-                                    span T&#x1ED1;t: 
-                                    | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
-                                p.bad
-                                    span G&oacute;p &yacute;: 
-                                    | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
-                                .funcs
-                                    button.btn.btn-warning(hidden='true')
-                                        i.fa.fa-eye(aria-hidden='true')
-                                        | &Dstrok;&atilde; xem
-                                    button.btn.btn-light
-                                        i.fa.fa-reply(aria-hidden='true')
-                                        | Ph&#x1EA3;n h&#x1ED3;i
+                            each cm in comments
+                                .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto.comment
+                                    .row
+                                        .col-6.title
+                                            span.username #{cm.ma_tai_khoan.ho_ten}
+                                            span.score #{cm.diem}.0
+                                        .col-6.text-right
+                                            span.time #{cm.thoi_gian}
+                                    p.good
+                                        span Tốt: 
+                                        | #{cm.noi_dung_tot}
+                                    p.bad
+                                        span Góp ý: 
+                                        | #{cm.noi_dung_xau}
+                                    .funcs
+                                        if cm.da_xem == false
+                                            button.btn.btn-warning(onclick='DaXem("'+ cm._id +'")')
+                                                i.fa.fa-eye(aria-hidden='true')
+                                                | Đã xem
+                                        a(href="./replyComment/"+ cm._id) 
+                                            button.btn.btn-light
+                                                i.fa.fa-reply(aria-hidden='true')
+                                                | Phản hồi
         
         // Footer
         include layout/footer.pug
         
-block script 
+block script
+    script(src="/assets_admin/js/comment.js")

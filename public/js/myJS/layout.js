@@ -71,7 +71,12 @@ function Login() {
                 alert('Opp!! Quý khách đăng nhập thất bại!');
             }
             else {
-                window.location.href = response.data.access;
+                if(response.data.access == '') {
+                    location.reload();
+                }
+                else {
+                    window.location.href = response.data.access;
+                }
             }
         })
         .catch(function(err) {

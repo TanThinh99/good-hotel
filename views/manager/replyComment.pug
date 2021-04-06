@@ -1,7 +1,7 @@
 extends layout/base.pug
 
 block title
-    title Tra loi binh luan
+    title Trả lời bình luận
 
 block header
     link(rel='stylesheet' href='/assets_manager/css/mycss/phanHoiBinhLuan.css')
@@ -13,14 +13,14 @@ block content
             .header-body
                 .row.align-items-center.py-4
                     .col-lg-6.col-7
-                        h6.h2.text-white.d-inline-block.mb-0 B&igrave;nh lu&#x1EAD;n
+                        h6.h2.text-white.d-inline-block.mb-0 Bình luận
                         nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
                             ol.breadcrumb.breadcrumb-links.breadcrumb-dark
                                 li.breadcrumb-item
                                     a(href='#')
                                         i.fas.fa-home
-                                li.breadcrumb-item(aria-current='page') B&igrave;nh lu&#x1EAD;n
-                                li.breadcrumb-item.active(aria-current='page') Ph&#x1EA3;n h&#x1ED3;i
+                                li.breadcrumb-item(aria-current='page') Bình luận
+                                li.breadcrumb-item.active(aria-current='page') Phản hồi
                     
     // Page content
     .container-fluid.mt--6
@@ -28,53 +28,59 @@ block content
             .col-12
                 .card
                     .card-header.bg-transparent
-                        h3.mb-0 Th&ocirc;ng tin b&igrave;nh lu&#x1EAD;n
-                        input(type="hidden", id="hotelID" value=""+ hotelID)
+                        h3.mb-0 Thông tin bình luận
+                        input(type="hidden", id="token" value=token)
+                        input(type="hidden", id="commentID" value=commentID)
                     .card-body
                         .row.icon-examples.customer-reply
                             .col-md-11.col-md-6.mx-auto
                                 .row
                                     .col-md-6
                                         p
-                                            span.title M&atilde; t&agrave;i kho&#x1EA3;n: 
-                                            | s2a1x45s2s1a5sd6
+                                            span.title Mã tài khoản: 
+                                            | #{comment.ma_tai_khoan.id}
                                         p
-                                            span.title H&#x1ECD; t&ecirc;n: 
-                                            | Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
+                                            span.title Họ tên: 
+                                            | #{comment.ma_tai_khoan.ho_ten}
                                         p
-                                            span.title Gi&#x1EDB;i t&iacute;nh: 
-                                            | Nam
+                                            span.title Giới tính: 
+                                            if comment.ma_tai_khoan.gioi_tinh
+                                                | Nam
+                                            else 
+                                                | Nữ
                                     .col-md-6
                                         p
-                                            span.title &Dstrok;i&#x1EC3;m &dstrok;&aacute;nh gi&aacute;: 
-                                            span.score 8.0
+                                            span.title Điểm đánh giá: 
+                                            span.score #{comment.diem}.0
                                         p
-                                            span.title S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i: 
-                                            | 0235698745
+                                            span.title Số điện thoại: 
+                                            | #{comment.ma_tai_khoan.so_dien_thoai}
                                         p
-                                            span.title Th&#x1EDD;i gian b&igrave;nh lu&#x1EAD;n: 
-                                            | 2020-02-03 15:12:13
+                                            span.title Thời gian bình luận: 
+                                            | #{comment.thoi_gian}
                             .col-md-11.col-md-6.mx-auto.mt-md-2
                                 p.good
-                                    span T&#x1ED1;t: 
-                                    | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
+                                    span Tốt: 
+                                    | #{comment.noi_dung_tot}
                                 p.bad
-                                    span G&oacute;p &yacute;: 
-                                    | When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrov
+                                    span Góp ý: 
+                                    | #{comment.noi_dung_xau}
             .col-12
                 .card
                     .card-header.bg-transparent
-                        h3.mb-0 Qu&#x1EA3;n l&yacute; kh&aacute;ch s&#x1EA1;n ph&#x1EA3;n h&#x1ED3;i
+                        h3.mb-0 Quản lý khách sạn phản hồi
                     .card-body
                         .row.icon-examples
                             .col-md-11.col-md-6.mx-auto.text-center
-                                textarea.form-control(name='' id='' rows='8' style='width: 100%;')
+                                textarea.form-control(id='replyContent' rows='8' style='width: 100%;')
+                                    | #{comment.noi_dung_phan_hoi}
                             .col-md-11.col-md-6.mx-auto.mt-md-3
-                                button.btn.btn-success
+                                button.btn.btn-success(onclick='UpdateReply()')
                                     i.fa.fa-pencil-square-o.update-icon(aria-hidden='true')
-                                    | C&#x1EAD;p nh&#x1EAD;t
+                                    | Cập nhật
         
         // Footer
         include layout/footer.pug
         
-block script 
+block script
+    script(src="/assets_admin/js/comment.js")

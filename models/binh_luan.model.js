@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+const khachSan = require('./khach_san.model');
+const taiKhoan = require('./tai_khoan.model');
 
 var binhLuanSchema = new mongoose.Schema({
     noi_dung_tot: String,
@@ -8,8 +10,14 @@ var binhLuanSchema = new mongoose.Schema({
     noi_dung_phan_hoi: String,
     thoi_gian_phan_hoi: String,
     da_xem: Boolean,
-    ma_tai_khoan: String,
-    ma_khach_san: String
+    ma_tai_khoan: {
+        type: String,
+        ref: taiKhoan
+    },
+    ma_khach_san: {
+        type: String,
+        ref: khachSan
+    }
 }, {
     versionKey: false
 });
