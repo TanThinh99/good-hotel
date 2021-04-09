@@ -21,4 +21,8 @@ router.get('/replyComment/:commentID', mid.GoToManagerPage, managerCtrl.ReplyCom
 router.get('/bill', mid.GoToManagerPage, managerCtrl.Bill);
 router.get('/bill/:billID', mid.GoToManagerPage, managerCtrl.BillDetail);
 
+// =================== A J A X ================
+router.get('/getCommentForPagination', managerCtrl.GetCommentForPagination);
+router.get('/getBillForPagination', managerCtrl.GetBillForPagination);
+
 module.exports = router;

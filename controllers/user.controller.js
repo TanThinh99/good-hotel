@@ -1,4 +1,3 @@
-var axios = require('axios');
 const taiKhoan = require('../models/tai_khoan.model');
 const tinhThanh = require('../models/tinh_thanh_pho.model');
 const quanHuyen = require('../models/quan_huyen.model');
@@ -10,14 +9,65 @@ const hoaDon = require('../models/hoa_don.model');
 const binhLuan = require('../models/binh_luan.model');
 
 module.exports.Index = async function(req, res) {
-    var hotels = await axios({
-        method: 'GET',
-        url: 'http://localhost:8000/api/khach_san'
-    });
-    var params = {
-        hotels: hotels.data
-    };
-
+    var hotels, params = {}
+    var key = req.query.key;
+    var filter = req.query.filter;
+    params.foundByKey = key;
+    params.filterType = filter;
+    if((key != undefined) && (filter != undefined)) {
+        var filterType = filter.indexOf('Tang') != -1 ? 1 : -1;
+        if(filter.indexOf('diem') == -1) {
+            hotels = await khachSan.find({
+                $or: [
+                    {ten: {$regex: key, $options: 'i'}}, 
+                    {dia_chi: {$regex: key, $options: 'i'}}
+                ]}).sort({gia: filterType});
+        }
+        else {
+            hotels = await khachSan.find({
+                $or: [
+                    {ten: {$regex: key, $options: 'i'}}, 
+                    {dia_chi: {$regex: key, $options: 'i'}}
+                ]}).sort({diem_trung_binh: filterType});
+        }
+    }
+    else if((key != undefined) && (filter == undefined)) {
+        hotels = await khachSan.find({
+            $or: [
+                {ten: {$regex: key, $options: 'i'}}, 
+                {dia_chi: {$regex: key, $options: 'i'}}
+            ]});
+    }
+    else if((key == undefined) && (filter != undefined)) {
+        var filterType = filter.indexOf('Tang') != -1 ? 1 : -1;
+        if(filter.indexOf('diem') == -1) {
+            hotels = await khachSan.find().sort({gia: filterType});
+        }
+        else {
+            hotels = await khachSan.find().sort({diem_trung_binh: filterType});
+        }
+    }
+    else {
+        hotels = await khachSan.find();
+    }
+    // Pagination
+    var amountItemInPage = 8;
+    var itemTotal = hotels.length;
+    var pageTotal = parseInt(itemTotal / amountItemInPage);
+    if(itemTotal % amountItemInPage != 0) {
+        pageTotal++;
+    }
+    var amountShowPage = pageTotal > 7 ? 7 : pageTotal;
+    params.pageTotal = pageTotal;
+    params.amountShowPage = amountShowPage;
+    var hotelArr = [];
+    for(i=0; i<amountItemInPage; i++) {
+        if(hotels[i] == undefined) {
+            break;
+        }
+        hotelArr.push(hotels[i]);
+    }
+    params.hotels = hotelArr;
     var decode = req.session.decode;
     if(decode != undefined) {
         var accountID = decode.id;
@@ -91,7 +141,24 @@ module.exports.HotelDetail = async function(req, res) {
         .populate('ma_khach_san')
         .populate('ma_tai_khoan')
         .sort({thoi_gian: -1});
-    params.comments = comments;
+    // Pagination
+    var amountItemInPage = 6;
+    var itemTotal = comments.length;
+    var pageTotal = parseInt(itemTotal / amountItemInPage);
+    if(itemTotal % amountItemInPage != 0) {
+        pageTotal++;
+    }
+    var amountShowPage = pageTotal > 7 ? 7 : pageTotal;
+    params.amountShowPage = amountShowPage;
+    params.pageTotal = pageTotal;
+    var commentArr = [];
+    for(var i=0; i<amountItemInPage; i++) {
+        if(comments[i] == undefined) {
+            break;
+        }
+        commentArr.push(comments[i]);
+    }
+    params.comments = commentArr;
     params.token = req.session.token;
     res.render('user/hotelDetail', params);
 }
@@ -264,4 +331,243 @@ module.exports.DestroyBill = async function(req, res) {
     var billID = req.body.billID;
     var bill = await hoaDon.findByIdAndRemove(billID);
     res.sendStatus(200);
+}
+
+    // Pagination
+module.exports.GetHotelForPagination = async function(req, res) {
+    var key = req.query.key;
+    if(req.query.filter != '') {
+        var filter = req.query.filter;
+        var filterType = (filter.indexOf('Tang') != -1) ? 1 : -1;
+        var hotels;
+        if(filter.indexOf('diem') != -1) {
+            hotels = await khachSan.find({
+                $or: [
+                    {ten: {$regex: key, $options: 'i'}}, 
+                    {dia_chi: {$regex: key, $options: 'i'}}
+                ]}).sort({diem_trung_binh: filterType});
+        }
+        else {
+            hotels = await khachSan.find({
+                $or: [
+                    {ten: {$regex: key, $options: 'i'}}, 
+                    {dia_chi: {$regex: key, $options: 'i'}}
+                ]}).sort({gia: filterType});
+        }
+    }
+    else {
+        hotels = await khachSan.find({
+            $or: [
+                {ten: {$regex: key, $options: 'i'}}, 
+                {dia_chi: {$regex: key, $options: 'i'}}
+            ]});
+    }
+    
+    // Pagination
+    var pageSelected = req.query.pageSelected * 1;
+    var amountItemInPage = 8;
+    var itemTotal = hotels.length;
+    var pageTotal = parseInt(itemTotal / amountItemInPage);
+    if(itemTotal % amountItemInPage != 0) {
+        pageTotal++;
+    }
+    var amountShowPage = pageTotal > 7 ? 7 : pageTotal;
+    var itemFrom = (pageSelected * amountItemInPage) - amountItemInPage;
+    var itemTo = (pageSelected * amountItemInPage) - 1;
+    var hotelArr = [];
+    for(var i=itemFrom; i<=itemTo; i++) {
+        if(hotels[i] == undefined) {
+            break;
+        }
+        hotelArr.push(hotels[i]);
+    }
+    var pageFrom, pageTo;
+    if((pageSelected-3 > 1) && (pageSelected+3 < pageTotal)) {
+        pageFrom = pageSelected - 3;
+        pageTo = pageSelected + 3;
+    }
+    else {
+        if(pageSelected-3 <= 1) {
+            pageFrom = 1;
+            pageTo = amountShowPage;
+        }
+        else if(pageSelected+3 >= pageTotal) {
+            pageFrom = pageTotal-6 < 1 ? 1 : pageTotal-6;
+            pageTo = pageTotal;
+        }
+    }
+    var hotelData = '';
+    for(i=0; i<hotelArr.length; i++) {
+        hotelData += '<div class="col-lg-6 col-md-6">\
+                            <a class="latest-product__item hotel-item" href="/detail/'+ hotelArr[i]._id +'">\
+                                <div class="latest-product__item__pic">\
+                                    <img src="https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg" alt="">\
+                                </div>\
+                                <div class="latest-product__item__text">\
+                                    <h5 class="hotelName">'+ hotelArr[i].ten +'</h5>\
+                                    <p>\
+                                        <span class="score">'+ hotelArr[i].diem_trung_binh +'</span>\
+                                        <span class="level">Rất tốt</span>\
+                                        ('+ hotelArr[i].so_luong_binh_luan +' đánh giá)\
+                                    </p>\
+                                    <p>\
+                                        <b>Giá:</b> '+ hotelArr[i].gia +' Đồng\
+                                    </p>\
+                                    <p>\
+                                        <b>Địa chỉ: </b>'+ hotelArr[i].dia_chi +'</b>\
+                                    </p>\
+                                </div>\
+                            </a>\
+                        </div>';
+    }
+    var paginateData = '';
+    var classTemp = pageSelected == 1 ? 'disabled' : '';
+    paginateData += '<li class="page-item '+ classTemp +'">\
+                        <a class="page-link" aria-label="Previous" onclick="ChoosePaginateItem('+ 1 +')" title="1">\
+                            <span aria-hidden="true"> &laquo;</span>\
+                        </a>\
+                    </li>';
+    for(var i=pageFrom; i<=pageTo; i++) {
+        if(i == pageSelected) {
+            paginateData += '<li class="page-item active">\
+                                <a class="page-link">'+ i +'</a>\
+                            </li>';
+        }
+        else {
+            paginateData += '<li class="page-item">\
+                                <a class="page-link" style="cursor:pointer;" onclick="ChoosePaginateItem('+ i +')">'+ i +'</a>\
+                            </li>';
+        }
+    }
+    classTemp = pageTotal == pageSelected ? 'disabled' : '';
+    paginateData += '<li class="page-item '+ classTemp +'">\
+                        <a class="page-link" aria-label="Next" onclick="ChoosePaginateItem('+ pageTotal +')" title="'+ pageTotal +'">\
+                            <span aria-hidden="true"> &raquo;</span>\
+                        </a>\
+                    </li>';
+    res.send({
+        hotelData: hotelData,
+        paginateData: paginateData
+    });
+}
+
+module.exports.GetCommentHotelForPagination = async function(req, res) {
+    var hotelID = req.query.hotelID;
+    var comments = await binhLuan.find({ma_khach_san: hotelID})
+        .populate('ma_khach_san')
+        .populate('ma_tai_khoan')
+        .sort({thoi_gian: -1});
+
+    // Pagination
+    var pageSelected = req.query.pageSelected * 1;
+    var amountItemInPage = 6;
+    var itemTotal = comments.length;
+    var pageTotal = parseInt(itemTotal / amountItemInPage);
+    if(itemTotal % amountItemInPage != 0) {
+        pageTotal++;
+    }
+    var amountShowPage = pageTotal > 7 ? 7 : pageTotal;
+    var itemFrom = (pageSelected * amountItemInPage) - amountItemInPage;
+    var itemTo = (pageSelected * amountItemInPage) - 1;
+    var commentArr = [];
+    for(var i=itemFrom; i<=itemTo; i++) {
+        if(comments[i] == undefined) {
+            break;
+        }
+        commentArr.push(comments[i]);
+    }
+    var pageFrom, pageTo;
+    if((pageSelected-3 > 1) && (pageSelected+3 < pageTotal)) {
+        pageFrom = pageSelected - 3;
+        pageTo = pageSelected + 3;
+    }
+    else {
+        if(pageSelected-3 <= 1) {
+            pageFrom = 1;
+            pageTo = amountShowPage;
+        }
+        else if(pageSelected+3 >= pageTotal) {
+            pageFrom = pageTotal-6 < 1 ? 1 : pageTotal-6;
+            pageTo = pageTotal;
+        }
+    }
+    var commentData = '';
+    var decode = req.session.decode;
+    for(i=0; i<commentArr.length; i++) {
+        var commentFunc = '';
+        if(decode != undefined) {
+            if(decode.id == commentArr[i].ma_tai_khoan._id) {
+                commentFunc = '<span class="ml-3">\
+                                    <i class="fa fa-pencil" aria-hidden="true" title="Chỉnh sửa" style="cursor:pointer;" data-toggle="modal" data-target="#commentModal" onclick="OpenUpdateComment(\''+ commentArr[i]._id +'\')"></i>\
+                                </span>\
+                                <span class="ml-1"><i class="fa fa-trash-o" aria-hidden="true" title="Xóa" style="cursor:pointer;" onclick="DeleteComment(\''+ commentArr[i]._id +'\')"></i></span>';
+            }
+        }
+        var reviewReply = '';
+        if(commentArr[i].noi_dung_phan_hoi != '') {
+            reviewReply = '<div class="review-reply">\
+                                <div class="desc manager">\
+                                    <h4>\
+                                        <span class="reply-title text-left">\
+                                            <i class="fa fa-commenting-o aria-hidden="true"></i>\
+                                            Phản hồi từ Quản lý khách sạn\
+                                        </span>\
+                                        <span class="reply-time">'+ commentArr[i].thoi_gian_phan_hoi +'</span>\
+                                    </h4>\
+                                    <p class="content">'+ commentArr[i].noi_dung_phan_hoi +'</p>\
+                                </div>\
+                            </div>';
+        }
+        commentData += '<div class="col-12 review" id="review'+ commentArr[i]._id +'">\
+                            <img src="/uploads/'+ commentArr[i].ma_tai_khoan.avatar +'" style="width:80px; border-radius:50%; float:left;">\
+                            <div class="desc">\
+                                <h4>\
+                                    <span class="text-left review-name">'+ commentArr[i].ma_tai_khoan.ho_ten +'</span>\
+                                    <span class="text-right review-time" id="time'+ commentArr[i]._id +'">'+ commentArr[i].thoi_gian +'</span>\
+                                </h4>\
+                                <p class="star">\
+                                    <span id="score'+ commentArr[i]._id +'">'+ commentArr[i].diem +'.0</span>'+ commentFunc +'\
+                                </p>\
+                                <div>\
+                                    <p>\
+                                        <b class="good">Tốt: </b>\
+                                        <span id="goodReview'+ commentArr[i]._id +'">'+ commentArr[i].noi_dung_tot +'</span>\
+                                    </p>\
+                                    <p>\
+                                        <b class="bad">Góp ý: </b>\
+                                        <span id="badReview'+ commentArr[i]._id +'">'+ commentArr[i].noi_dung_xau +'</span>\
+                                    </p>\
+                                </div>\
+                            </div>'+ reviewReply +'\
+                        </div>';
+    }
+    var paginateData = '';
+    var classTemp = pageSelected == 1 ? 'disabled' : '';
+    paginateData += '<li class="page-item '+ classTemp +'">\
+                        <a class="page-link" aria-label="Previous" onclick="ChoosePaginateItem('+ 1 +')" title="1">\
+                            <span aria-hidden="true"> &laquo;</span>\
+                        </a>\
+                    </li>';
+    for(var i=pageFrom; i<=pageTo; i++) {
+        if(i == pageSelected) {
+            paginateData += '<li class="page-item active">\
+                                <a class="page-link">'+ i +'</a>\
+                            </li>';
+        }
+        else {
+            paginateData += '<li class="page-item">\
+                                <a class="page-link" style="cursor:pointer;" onclick="ChoosePaginateItem('+ i +')">'+ i +'</a>\
+                            </li>';
+        }
+    }
+    classTemp = pageTotal == pageSelected ? 'disabled' : '';
+    paginateData += '<li class="page-item '+ classTemp +'">\
+                        <a class="page-link" aria-label="Next" onclick="ChoosePaginateItem('+ pageTotal +')" title="'+ pageTotal +'">\
+                            <span aria-hidden="true"> &raquo;</span>\
+                        </a>\
+                    </li>';
+    res.send({
+        commentData: commentData,
+        paginateData: paginateData
+    });
 }

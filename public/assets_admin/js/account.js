@@ -67,4 +67,25 @@ function UpdateRole() {
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
-} 
+}
+
+function ChoosePaginateItem(pageSelected) {
+    var key = document.getElementById('foundByKey').value;
+    axios({
+        method: 'GET',
+        url: 'http://localhost:8000/admin/getAccountForPagination?key='+ key +'&pageSelected='+ pageSelected,
+    })
+    .then(function(response) {
+        document.getElementById('containerAccount').innerHTML = response.data.accountData;
+        document.getElementById('containerPagiItem').innerHTML = response.data.paginateData;
+    })
+    .catch(function(err) {
+        alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+        console.log(err);
+    });
+}
+
+document.getElementById('filterAccountBtn').onclick = function() {
+    var key = document.getElementById('foundByKey').value;
+    window.location.href = '/admin/account?key='+ key;
+}

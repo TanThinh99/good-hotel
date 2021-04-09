@@ -30,7 +30,7 @@ block content
                         h3.mb-0 Danh sách bình luận
                         input(type="hidden", id="token" value=token)
                     .card-body
-                        .row.icon-examples
+                        .row.icon-examples#containerComments
                             each cm in comments
                                 .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto.comment
                                     .row
@@ -55,8 +55,23 @@ block content
                                                 i.fa.fa-reply(aria-hidden='true')
                                                 | Phản hồi
         
+                        nav(aria-label='Page navigation example')
+                            ul.pagination.justify-content-center.mt-md-3.mb-md-0#containerPagiItem
+                                li.page-item.disabled
+                                    a.page-link(tabindex='-1' aria-disabled='true')
+                                        i.fa.fa-chevron-left(aria-hidden='true')
+                                -   for (var i=1; i<=amountShowPage; i++)
+                                        if i == 1
+                                            li.page-item.active
+                                                a.page-link 1
+                                        else
+                                            li.page-item
+                                                a.page-link(style="cursor:pointer;" onclick='ChoosePaginateItem('+ i +')') #{i}
+                                li.page-item
+                                    a.page-link(onclick='ChoosePaginateItem('+ pageTotal +')' title=pageTotal)
+                                        i.fa.fa-chevron-right(aria-hidden='true')
         // Footer
         include layout/footer.pug
         
 block script
-    script(src="/assets_admin/js/comment.js")
+    script(src="/assets_manager/js/myjs/comment.js")

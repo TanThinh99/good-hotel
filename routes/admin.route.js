@@ -20,4 +20,8 @@ router.get('/grantPermission/:roleID', adminCtrl.GrantPermission);
 
 router.get('/grantManager', adminCtrl.GrantManager);
 
+// =============== A J A X =================
+    // Pagination
+router.get('/getAccountForPagination', adminCtrl.GetAccountForPagination)
+
 module.exports = router;

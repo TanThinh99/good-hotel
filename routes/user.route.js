@@ -25,4 +25,8 @@ router.get('/getBillDetail/:billID', userCtrl.GetBillDetail);
 router.put('/payBill', mid.GoToAccountUser, userCtrl.PayBill);
 router.delete('/destroyBill', mid.GoToAccountUser, userCtrl.DestroyBill);
 
+    // Pagination
+router.get('/getHotelForPagination', userCtrl.GetHotelForPagination);
+router.get('/getCommentHotelForPagination', userCtrl.GetCommentHotelForPagination);
+
 module.exports = router;

@@ -261,3 +261,19 @@ function CloseCommentModal() {
     document.getElementById('bad-review').value = '';
     document.getElementById('closeCommentModal').click();
 }
+
+function ChoosePaginateItem(pageSelected) {
+    var hotelID = document.getElementById('hotelID').value;
+    axios({
+        method: 'GET',
+        url: 'http://localhost:8000/getCommentHotelForPagination?hotelID='+ hotelID +'&pageSelected='+ pageSelected,
+    })
+    .then(function(response) {
+        document.getElementById('commentFrame').innerHTML = response.data.commentData;
+        document.getElementById('containerPagiItem').innerHTML = response.data.paginateData;
+    })
+    .catch(function(err) {
+        alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+        console.log(err);
+    });
+}

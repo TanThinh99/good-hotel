@@ -38,3 +38,18 @@ function UpdateReply() {
         console.log(err);
     });
 }
+
+function ChoosePaginateItem(pageSelected) {
+    axios({
+        method: 'GET',
+        url: 'http://localhost:8000/manager/getCommentForPagination?pageSelected='+ pageSelected,
+    })
+    .then(function(response) {
+        document.getElementById('containerComments').innerHTML = response.data.commentData;
+        document.getElementById('containerPagiItem').innerHTML = response.data.paginateData;
+    })
+    .catch(function(err) {
+        alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+        console.log(err);
+    });
+}

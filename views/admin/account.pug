@@ -1,7 +1,7 @@
 extends layout/base.pug
 
 block title
-    title Quan ly tai khoan
+    title Quản lý tài khoản
 
 block header
     link(rel='stylesheet' href='/assets_admin/css/taiKhoan.css')
@@ -19,7 +19,7 @@ block content
                                 li.breadcrumb-item
                                     a(href='#')
                                         i.fas.fa-home
-                                li.breadcrumb-item.active(aria-current='page') T&agrave;i kho&#x1EA3;n
+                                li.breadcrumb-item.active(aria-current='page') Tài khoản
                     
     // Page content
     .container-fluid.mt--6
@@ -37,12 +37,13 @@ block content
                             .col-12.pl-0.mb-4
                                 .row
                                     .input-group.col-6
-                                        input.form-control(type='text' name='' id='' placeholder='Tìm theo ID hoặc họ tên')
+                                        input.form-control(type='text' id='foundByKey' value=foundByKey placeholder='Tìm theo họ tên')
                                         .input-group-append
-                                            button.btn.btn-secondary(style='height: 45px;')
+                                            button.btn.btn-secondary(style='height: 45px;' id="filterAccountBtn")
                                                 i.fa.fa-filter(aria-hidden='true')
                             input(type="hidden", id='managerRoles' value=managerStr)
                             input(type="hidden", id="token" value=token)
+                        .row#containerAccount    
                             each acc in accounts
                                 .col-lg-4.col-md-6.account
                                     div
@@ -63,18 +64,19 @@ block content
                                     button.btn.btn-light.mt-2(onclick="ShowUserDetail('"+ acc._id +"')") Xem thêm
                             
                         nav(aria-label='Page navigation example')
-                            ul.pagination.justify-content-center.mt-md-3.mb-md-0
+                            ul.pagination.justify-content-center.mt-md-3.mb-md-0#containerPagiItem
                                 li.page-item.disabled
-                                    a.page-link(href='#' tabindex='-1' aria-disabled='true')
+                                    a.page-link(tabindex='-1' aria-disabled='true')
                                         i.fa.fa-chevron-left(aria-hidden='true')
+                                -   for (var i=1; i<=amountShowPage; i++)
+                                        if i == 1
+                                            li.page-item.active
+                                                a.page-link 1
+                                        else
+                                            li.page-item
+                                                a.page-link(style="cursor:pointer;" onclick='ChoosePaginateItem('+ i +')') #{i}
                                 li.page-item
-                                    a.page-link(href='#') 1
-                                li.page-item
-                                    a.page-link(href='#') 2
-                                li.page-item.active
-                                    a.page-link(href='#') 3
-                                li.page-item
-                                    a.page-link(href='#')
+                                    a.page-link(onclick='ChoosePaginateItem('+ pageTotal +')' title=pageTotal)
                                         i.fa.fa-chevron-right(aria-hidden='true')
         
         button(id='openModalBtn' hidden data-toggle='modal' data-target='#exampleModal')
@@ -123,4 +125,4 @@ block content
         include layout/footer.pug
         
 block script
-    script(src="/assets_admin/js/account.js")                
+    script(src="/assets_admin/js/account.js")

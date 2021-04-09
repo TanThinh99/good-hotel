@@ -62,17 +62,20 @@ block content
             .row
                 .col-6
                     h4(style='font-weight: 700;color: #1c1c1c; font-size: 26px; margin-bottom: 34px;')
-                        i.fa.fa-home(style='color: greenyellow; font-size: 40px;')
-                        | &nbsp;&Dstrok;&aacute;nh gi&aacute; cao
+                        i.fa.fa-home.mr-1(style='color: greenyellow; font-size: 40px;')
+                        | Đánh giá cao
                 .col-6.form-inline(style=' margin-bottom: 34px;')
-                    select.form-control(name='', id='')
-                        option(value='') -- Ch&#x1ECD;n c&aacute;ch s&#x1EAF;p x&#x1EBF;p --
-                        option(value='') &Dstrok;i&#x1EC3;m &dstrok;&aacute;nh gi&aacute; gi&#x1EA3;m
-                        option(value='') &Dstrok;i&#x1EC3;m &dstrok;&aacute;nh gi&aacute; t&abreve;ng
-                        option(value='') Gi&aacute; gi&#x1EA3;m
-                        option(value='') Gi&aacute; t&abreve;ng
-                    button.btn.btn-info.ml-1 S&#x1EAF;p x&#x1EBF;p
+                    input(type="hidden", id="foundByKey" value=foundByKey)
+                    input(type="hidden", id="filterType" value=filterType)
+                    select.form-control(style="height:auto;" id='filterHotel')
+                        option(value='') -- Chọn cách sắp xếp --
+                        option(value='diemGiam') Điểm đánh giá giảm
+                        option(value='diemTang') Điểm đánh giá tăng
+                        option(value='giaGiam') Giá giảm
+                        option(value='giaTang') Giá tăng
+                    button.btn.btn-info.ml-1(onclick='FilterHotel()') Sắp xếp
 
+            .row#containerHotel
                 each hotel in hotels
                     .col-lg-6.col-md-6
                         a.latest-product__item.hotel-item(href='/detail/'+ hotel._id)
@@ -90,21 +93,23 @@ block content
                                 p
                                     b Địa chỉ:
                                     |  #{hotel.dia_chi}
-        
+    
         nav(aria-label='Page navigation example' style='margin-top: 20px;')
-            ul.pagination.justify-content-center
+            ul.pagination.justify-content-center#containerPagiItem
                 li.page-item.disabled
-                    a.page-link(href='#' aria-label='Previous')
+                    a.page-link(aria-label='Previous' onclick='ChoosePaginateItem(1)')
                         span(aria-hidden='true') &laquo;
-                li.page-item.active
-                    a.page-link(href='#') 1
+                -   for (var i=1; i<=amountShowPage; i++)
+                        if i == 1
+                            li.page-item.active
+                                a.page-link #{i}
+                        else 
+                            li.page-item
+                                a.page-link(style="cursor:pointer;" onclick='ChoosePaginateItem('+ i +')') #{i}
                 li.page-item
-                    a.page-link(href='#') 2
-                li.page-item
-                    a.page-link(href='#') 3
-                li.page-item
-                    a.page-link(href='#' aria-label='Next')
+                    a.page-link(aria-label='Next' onclick='ChoosePaginateItem('+ pageTotal +')' title=pageTotal)
                         span(aria-hidden='true') &raquo;
     // Latest Product Section End
 
 block script 
+    script(src="/js/myjs/index.js")

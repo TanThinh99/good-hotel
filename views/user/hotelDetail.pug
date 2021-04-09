@@ -140,9 +140,9 @@ block content
                                                         h3 23 bình luận
                                                     .col-5.text-right
                                                         button.btn.btn-info(data-toggle='modal' data-target='#commentModal' onclick='document.getElementById("commentUpdating").value="";') Viết bình luận
-                                                div#commentFrame
+                                                .row#commentFrame
                                                     each cm in comments
-                                                        .review(id='review'+ cm._id)
+                                                        .col-12.review(id='review'+ cm._id)
                                                             img(src='/uploads/'+cm.ma_tai_khoan.avatar style='width:80px; border-radius:50%; float:left;')
                                                             .desc
                                                                 h4
@@ -174,6 +174,22 @@ block content
                                                                         p.content
                                                                             | #{cm.noi_dung_phan_hoi}
                                                 
+                                                nav(class="mx-auto" aria-label='Page navigation example')
+                                                    ul.pagination.justify-content-center#containerPagiItem
+                                                        li.page-item.disabled
+                                                            a.page-link(aria-label='Previous' onclick='ChoosePaginateItem(1)')
+                                                                span(aria-hidden='true') &laquo;
+                                                        -   for (var i=1; i<=amountShowPage; i++)
+                                                                if i == 1
+                                                                    li.page-item.active
+                                                                        a.page-link #{i}
+                                                                else 
+                                                                    li.page-item
+                                                                        a.page-link(style="cursor:pointer;" onclick='ChoosePaginateItem('+ i +')') #{i}
+                                                        li.page-item
+                                                            a.page-link(aria-label='Next' onclick='ChoosePaginateItem('+ pageTotal +')' title=pageTotal)
+                                                                span(aria-hidden='true') &raquo;
+                                            
                                             .col-md-3
                                                 .rating-wrap
                                                     h3.mb-4 Tỉ lệ điểm đánh giá

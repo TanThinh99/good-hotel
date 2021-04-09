@@ -16,10 +16,31 @@ module.exports.Statistic = async function(req, res) {
 }
 
 module.exports.Account = async function(req, res) {
-    var accounts = await taiKhoan.find().populate('ma_vai_tro');
+    var accounts;
+    var key = req.query.key == undefined ? '': req.query.key;
+    accounts = await taiKhoan.find({ho_ten: {$regex: key, $options: 'i'}}).populate('ma_vai_tro');
     var params = {
-        accounts: accounts
+        foundByKey: key
     }
+    // Pagination
+    var amountItemInPage = 6;
+    var itemTotal = accounts.length;
+    var pageTotal = parseInt(itemTotal / amountItemInPage);
+    if(itemTotal % amountItemInPage != 0) {
+        pageTotal++;
+    }
+    var amountShowPage = pageTotal > 7 ? 7 : pageTotal;
+    params.pageTotal = pageTotal;
+    params.amountShowPage = amountShowPage;
+    var accountArr = [];
+    for(var i=0; i<amountItemInPage; i++) {
+        if(accounts[i] == undefined) {
+            break;
+        }
+        accountArr.push(accounts[i]);
+    }
+    params.accounts = accountArr;
+    
     var decode = req.session.decode;
     var userAccount = await taiKhoan.findById(decode.id);
     params.userAccount = userAccount;
@@ -143,3 +164,95 @@ module.exports.AddRole = async function(req, res) {
     res.render('admin/addRole', params);
 }
 
+module.exports.GetAccountForPagination = async function(req, res) {
+    var key = req.query.key;
+    var accounts = await taiKhoan.find({ho_ten: {$regex: key, $options: 'i'}}).populate('ma_vai_tro');
+    // Pagination
+    var pageSelected = req.query.pageSelected * 1;
+    var amountItemInPage = 6;
+    var itemTotal = accounts.length;
+    var pageTotal = parseInt(itemTotal / amountItemInPage);
+    if(itemTotal % amountItemInPage != 0) {
+        pageTotal++;
+    }
+    var amountShowPage = pageTotal > 7 ? 7 : pageTotal;
+    var itemFrom = (pageSelected * amountItemInPage) - amountItemInPage;
+    var itemTo = (pageSelected * amountItemInPage) - 1;
+    var accountArr = [];
+    for(var i=itemFrom; i<=itemTo; i++) {
+        if(accounts[i] == undefined) {
+            break;
+        }
+        accountArr.push(accounts[i]);
+    }
+    var pageFrom, pageTo;
+    if((pageSelected-3 > 1) && (pageSelected+3 < pageTotal)) {
+        pageFrom = pageSelected - 3;
+        pageTo = pageSelected + 3;
+    }
+    else {
+        if(pageSelected-3 <= 1) {
+            pageFrom = 1;
+            pageTo = amountShowPage;
+        }
+        else if(pageSelected+3 >= pageTotal) {
+            pageFrom = pageTotal-6 < 1 ? 1 : pageTotal-6;
+            pageTo = pageTotal;
+        }
+    }
+    var accountData = '';
+    for(i=0; i<accountArr.length; i++) {
+        var gioiTinh = accountArr[i].gioi_tinh == 1 ? 'Nam' : 'Nữ';
+        accountData += '<div class="col-lg-4 col-md-6 account">\
+                            <div>\
+                                <img class="user-avatar" id="avatar'+ accountArr[i]._id +'" src="/uploads/'+ accountArr[i].avatar +'" alt="">\
+                            </div>\
+                            <p>\
+                                <b>ID: </b>\
+                                <span>'+ accountArr[i]._id +'</span>\
+                            </p>\
+                            <p>\
+                                <b>Tên: </b>\
+                                <span id="hoTen'+ accountArr[i]._id +'">'+ accountArr[i].ho_ten +'</span>\
+                            </p>\
+                            <p>\
+                                <b>Vai trò: </b>\
+                                <span id="vaiTro'+ accountArr[i]._id +'">'+ accountArr[i].ma_vai_tro.ten +'</span>\
+                                <input type="hidden", id="maVaiTro'+ accountArr[i]._id +'" value="'+ accountArr[i].ma_vai_tro._id +'">\
+                                <input type="hidden", id="gioiTinh'+ accountArr[i]._id +'" value="'+ gioiTinh +'">\
+                                <input type="hidden", id="email'+ accountArr[i]._id +'" value="'+ accountArr[i].email +'">\
+                                <input type="hidden", id="sdt'+ accountArr[i]._id +'" value="'+ accountArr[i].so_dien_thoai +'">\
+                            </p>\
+                            <button class="btn btn-light mt-2" onclick="ShowUserDetail(\''+ accountArr[i]._id +'\')">Xem thêm</button>\
+                        </div>';
+    }
+    var paginateData = '';
+    var classTemp = pageSelected == 1 ? 'disabled' : '';
+    paginateData += '<li class="page-item '+ classTemp +'">\
+                        <a class="page-link" aria-label="Previous" onclick="ChoosePaginateItem('+ 1 +')" title="1">\
+                            <span aria-hidden="true"> &laquo;</span>\
+                        </a>\
+                    </li>';
+    for(var i=pageFrom; i<=pageTo; i++) {
+        if(i == pageSelected) {
+            paginateData += '<li class="page-item active">\
+                                <a class="page-link">'+ i +'</a>\
+                            </li>';
+        }
+        else {
+            paginateData += '<li class="page-item">\
+                                <a class="page-link" style="cursor:pointer;" onclick="ChoosePaginateItem('+ i +')">'+ i +'</a>\
+                            </li>';
+        }
+    }
+    classTemp = pageTotal == pageSelected ? 'disabled' : '';
+    paginateData += '<li class="page-item '+ classTemp +'">\
+                        <a class="page-link" aria-label="Next" onclick="ChoosePaginateItem('+ pageTotal +')" title="'+ pageTotal +'">\
+                            <span aria-hidden="true"> &raquo;</span>\
+                        </a>\
+                    </li>';
+    res.send({
+        accountData: accountData,
+        paginateData: paginateData
+    });
+}

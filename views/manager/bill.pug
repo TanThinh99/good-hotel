@@ -30,7 +30,7 @@ block content
                         h3.mb-0 Hóa đơn đặt phòng
                         input(type="hidden", id="hotelID" value=''+ hotelID)
                     .card-body
-                        .row.icon-examples
+                        .row.icon-examples#containerBills
                             each bill in bills
                                 .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto.deal
                                     .row
@@ -48,23 +48,24 @@ block content
                                         a(href="./bill/"+ bill._id)
                                             button.btn.btn-success Xem chi tiết
                         
-                        // Pagination
                         nav(aria-label='Page navigation example')
-                            ul.pagination.justify-content-center.mt-md-3.mb-md-0
+                            ul.pagination.justify-content-center.mt-md-3.mb-md-0#containerPagiItem
                                 li.page-item.disabled
-                                    a.page-link(href='#' tabindex='-1' aria-disabled='true')
+                                    a.page-link(tabindex='-1' aria-disabled='true')
                                         i.fa.fa-chevron-left(aria-hidden='true')
+                                -   for (var i=1; i<=amountShowPage; i++)
+                                        if i == 1
+                                            li.page-item.active
+                                                a.page-link 1
+                                        else
+                                            li.page-item
+                                                a.page-link(style="cursor:pointer;" onclick='ChoosePaginateItem('+ i +')') #{i}
                                 li.page-item
-                                    a.page-link(href='#') 1
-                                li.page-item
-                                    a.page-link(href='#') 2
-                                li.page-item.active
-                                    a.page-link(href='#') 3
-                                li.page-item
-                                    a.page-link(href='#')
+                                    a.page-link(onclick='ChoosePaginateItem('+ pageTotal +')' title=pageTotal)
                                         i.fa.fa-chevron-right(aria-hidden='true')
         
         // Footer
         include layout/footer.pug
         
 block script 
+    script(src="/assets_manager/js/myjs/bill.js") 
