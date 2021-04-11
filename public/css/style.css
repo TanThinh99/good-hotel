@@ -675,7 +675,7 @@ ol {
 }
 
 .hero__search__form form input {
-	width: 81%;
+	width: 86%;
 	border: none;
 	height: 48px;
 	font-size: 16px;
@@ -3173,7 +3173,7 @@ ol {
 		width: 100%;
 	}
 	.hero__search__form form input {
-		width: 69%;
+		width: 76%;
 	}
 	.hero__search__form form .hero__search__categories {
 		display: none;

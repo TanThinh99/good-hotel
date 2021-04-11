@@ -74,6 +74,7 @@ module.exports.Index = async function(req, res) {
         var account = await taiKhoan.findById(accountID).exec();
         params.username = account.ho_ten;
     }
+    params.basketTotal = GetAmountAndPriceInBasket(req);
     res.render('user/index', params);
 }
 
@@ -113,6 +114,7 @@ module.exports.Account = async function(req, res) {
     // Account's bills
     var bills = await hoaDon.find({ma_tai_khoan: decode.id}).populate("ma_loai_phong").sort({"da_thanh_toan": 1, "ngay_dat_phong": -1});
     params.bills = bills;
+    params.basketTotal = GetAmountAndPriceInBasket(req);
     res.render('user/account', params);
 }
 
@@ -160,7 +162,42 @@ module.exports.HotelDetail = async function(req, res) {
     }
     params.comments = commentArr;
     params.token = req.session.token;
+    params.basketTotal = GetAmountAndPriceInBasket(req);
     res.render('user/hotelDetail', params);
+}
+
+    // Đổi định dạng chuỗi tiền: 1000000 => 1.000.000
+function ShowMoney(money) {
+    money = money +'';
+    if(money.length <= 3) {
+        return money;
+    }   
+    else {
+        var newMoney = '';
+        while(money.length > 3) {
+            var temp = money.substring(money.length-3);
+            newMoney = '.'+ temp + newMoney;
+            money = money.substring(0, money.length-3);
+        }
+        newMoney = money + newMoney;
+        return newMoney;
+    }
+}
+
+    // Lấy tổng số lương và giá trong giỏ hàng
+function GetAmountAndPriceInBasket(req) {
+    var basket = req.session.basket;
+    basket = basket == undefined ? [] : basket;
+    var price = 0;
+    var result = {
+        amount: basket.length
+    }
+    for(var i=0; i<basket.length; i++) {
+        var total = basket[i].roomTypePrice * basket[i].amountRoom * basket[i].amountDate;
+        price += total;
+    }
+    result.price = ShowMoney(price);
+    return result;
 }
 
 module.exports.Basket = async function(req, res) {
@@ -178,6 +215,7 @@ module.exports.Basket = async function(req, res) {
         params.username = account.ho_ten;
     }
     params.token = req.session.token;
+    params.basketTotal = GetAmountAndPriceInBasket(req);
     res.render('user/basket', params);
 }
 
@@ -411,7 +449,9 @@ module.exports.GetHotelForPagination = async function(req, res) {
                                         ('+ hotelArr[i].so_luong_binh_luan +' đánh giá)\
                                     </p>\
                                     <p>\
-                                        <b>Giá:</b> '+ hotelArr[i].gia +' Đồng\
+                                        <b>Giá:</b>\
+                                        <span class="showMoney ml-2 mr-1">'+ ShowMoney(hotelArr[i].gia) +'</span>\
+                                        <b style="color: red; font-size: 18px;">VND</b>\
                                     </p>\
                                     <p>\
                                         <b>Địa chỉ: </b>'+ hotelArr[i].dia_chi +'</b>\

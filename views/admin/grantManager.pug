@@ -1,7 +1,7 @@
 extends layout/base.pug
 
 block title
-    title Cap quyen quan ly khach san
+    title Cấp quyền quản lý khách sạn
 
 block header
     link(rel='stylesheet' href='/assets_admin/css/capQuyenQuanLyKS.css')
@@ -12,15 +12,15 @@ block content
         .container-fluid
             .header-body
                 .row.align-items-center.py-4
-                    .col-lg-6.col-7
-                        h6.h2.text-white.d-inline-block.mb-0 Qu&#x1EA3;n l&yacute; kh&aacute;ch s&#x1EA1;n
+                    .col-lg-11.col-7
+                        h6.h2.text-white.d-inline-block.mb-0 Quản lý khách sạn
                         nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
                             ol.breadcrumb.breadcrumb-links.breadcrumb-dark
                                 li.breadcrumb-item
                                     a(href='#')
                                         i.fas.fa-home
-                                li.breadcrumb-item(aria-current='page') T&agrave;i kho&#x1EA3;n
-                                li.breadcrumb-item.active(aria-current='page') C&#x1EA5;p quy&#x1EC1;n qu&#x1EA3;n l&yacute; kh&aacute;ch s&#x1EA1;n
+                                li.breadcrumb-item(aria-current='page') Tài khoản
+                                li.breadcrumb-item.active(aria-current='page') Cấp quyền quản lý khách sạn
                     
     // Page content
     .container-fluid.mt--6
@@ -28,163 +28,40 @@ block content
             .col-12
                 .card
                     .card-header.bg-transparent
-                        h3.mb-0 Ch&#x1ECD;n kh&aacute;ch s&#x1EA1;n
+                        h3.mb-0 Chọn khách sạn
+                        input(type="hidden", id="token" value=token)
                     .card-body
                         .row.icon-examples
                             .input-group.col-6.ml-3.mb-4
-                                input.form-control(type='text' name='' id='' placeholder='Search by ID or Name')
+                                input.form-control(type='text' id='hotelKey' placeholder='Tìm theo ID hoặc tên khách sạn')
                                 .input-group-append
-                                    button.btn.btn-secondary(style='height: 45px;')
+                                    button.btn.btn-secondary(style='height: 45px;' id='findHotelBtn')
                                         i.fa.fa-filter(aria-hidden='true')
                             .col-md-12.col-md-6.mx-auto.hotelList
-                                .row
-                                    .hotel.col-sm-5
-                                        p
-                                            i.fa.fa-id-card-o(aria-hidden='true')
-                                            | dksjndms5d4f8d7s4
-                                        p
-                                            i.fa.fa-hospital-o(aria-hidden='true')
-                                            | Ph&#x1B0;&#x1A1;ng Nam &Dstrok;&#x1EC7; Nh&#x1EA5;t
-                                        p
-                                            i.fa.fa-map-marker(aria-hidden='true')
-                                            | An H&ograve;a, Ch&acirc;u Th&agrave;nh, An Giang
-                                    .hotel.col-sm-5.active
-                                        p
-                                            i.fa.fa-id-card-o(aria-hidden='true')
-                                            | dksjndms5d4f8d7s4
-                                        p
-                                            i.fa.fa-hospital-o(aria-hidden='true')
-                                            | Ph&#x1B0;&#x1A1;ng Nam &Dstrok;&#x1EC7; Nh&#x1EA5;t
-                                        p
-                                            i.fa.fa-map-marker(aria-hidden='true')
-                                            | An H&ograve;a, Ch&acirc;u Th&agrave;nh, An Giang
-                                    .hotel.col-sm-5
-                                        p
-                                            i.fa.fa-id-card-o(aria-hidden='true')
-                                            | dksjndms5d4f8d7s4
-                                        p
-                                            i.fa.fa-hospital-o(aria-hidden='true')
-                                            | Ph&#x1B0;&#x1A1;ng Nam &Dstrok;&#x1EC7; Nh&#x1EA5;t
-                                        p
-                                            i.fa.fa-map-marker(aria-hidden='true')
-                                            | An H&ograve;a, Ch&acirc;u Th&agrave;nh, An Giang
-                                    .hotel.col-sm-5
-                                        p
-                                            i.fa.fa-id-card-o(aria-hidden='true')
-                                            | dksjndms5d4f8d7s4
-                                        p
-                                            i.fa.fa-hospital-o(aria-hidden='true')
-                                            | Ph&#x1B0;&#x1A1;ng Nam &Dstrok;&#x1EC7; Nh&#x1EA5;t
-                                        p
-                                            i.fa.fa-map-marker(aria-hidden='true')
-                                            | An H&ograve;a, Ch&acirc;u Th&agrave;nh, An Giang
-                                    .hotel.col-sm-5
-                                        p
-                                            i.fa.fa-id-card-o(aria-hidden='true')
-                                            | dksjndms5d4f8d7s4
-                                        p
-                                            i.fa.fa-hospital-o(aria-hidden='true')
-                                            | Ph&#x1B0;&#x1A1;ng Nam &Dstrok;&#x1EC7; Nh&#x1EA5;t
-                                        p
-                                            i.fa.fa-map-marker(aria-hidden='true')
-                                            | An H&ograve;a, Ch&acirc;u Th&agrave;nh, An Giang
-                                    .hotel.col-sm-5
-                                        p
-                                            i.fa.fa-id-card-o(aria-hidden='true')
-                                            | dksjndms5d4f8d7s4
-                                        p
-                                            i.fa.fa-hospital-o(aria-hidden='true')
-                                            | Ph&#x1B0;&#x1A1;ng Nam &Dstrok;&#x1EC7; Nh&#x1EA5;t
-                                        p
-                                            i.fa.fa-map-marker(aria-hidden='true')
-                                            | An H&ograve;a, Ch&acirc;u Th&agrave;nh, An Giang
-                                    .hotel.col-sm-5
-                                        p
-                                            i.fa.fa-id-card-o(aria-hidden='true')
-                                            | dksjndms5d4f8d7s4
-                                        p
-                                            i.fa.fa-hospital-o(aria-hidden='true')
-                                            | Ph&#x1B0;&#x1A1;ng Nam &Dstrok;&#x1EC7; Nh&#x1EA5;t
-                                        p
-                                            i.fa.fa-map-marker(aria-hidden='true')
-                                            | An H&ograve;a, Ch&acirc;u Th&agrave;nh, An Giang
+                                input(type="hidden", id="hotelChosen")
+                                .row#containerHotels
+                           
             .col-12
                 .card
                     .card-header.bg-transparent
                         h3.mb-0.row
-                            .col-6 Ch&#x1ECD;n qu&#x1EA3;n l&yacute; kh&aacute;ch s&#x1EA1;n
+                            .col-6 Chọn quản lý khách sạn
                     .card-body
                         .row.icon-examples
                             .input-group.col-6.ml-5.mb-4
-                                input.form-control(type='text' name='' id='' placeholder='Search by ID or Name')
+                                input.form-control(type='text' id='managerKey' placeholder='Tìm theo ID hoặc tên quản lý')
                                 .input-group-append
-                                    button.btn.btn-secondary(style='height: 45px;')
+                                    button.btn.btn-secondary(style='height: 45px;' id='findManagerBtn')
                                         i.fa.fa-filter(aria-hidden='true')
                             .col-md-11.col-md-6.mx-auto.hotelList
-                                .row
-                                    .hotel.col-sm-5.user
-                                        p
-                                            i.fa.fa-id-card-o(aria-hidden='true')
-                                            | dksjndms5d4f8d7s4
-                                        p
-                                            i.fa.fa-user(aria-hidden='true')
-                                            | Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                        p
-                                            i.fa.fa-phone(aria-hidden='true')
-                                            | 0236541258
-                                    .hotel.col-sm-5.user.active
-                                        p
-                                            i.fa.fa-id-card-o(aria-hidden='true')
-                                            | dksjndms5d4f8d7s4
-                                        p
-                                            i.fa.fa-user(aria-hidden='true')
-                                            | Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                        p
-                                            i.fa.fa-phone(aria-hidden='true')
-                                            | 0236541258
-                                    .hotel.col-sm-5.user
-                                        p
-                                            i.fa.fa-id-card-o(aria-hidden='true')
-                                            | dksjndms5d4f8d7s4
-                                        p
-                                            i.fa.fa-user(aria-hidden='true')
-                                            | Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                        p
-                                            i.fa.fa-phone(aria-hidden='true')
-                                            | 0236541258
-                                    .hotel.col-sm-5
-                                        p
-                                            i.fa.fa-id-card-o(aria-hidden='true')
-                                            | dksjndms5d4f8d7s4
-                                        p
-                                            i.fa.fa-user(aria-hidden='true')
-                                            | Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                        p
-                                            i.fa.fa-phone(aria-hidden='true')
-                                            | 0236541258
-                                    .hotel.col-sm-5
-                                        p
-                                            i.fa.fa-id-card-o(aria-hidden='true')
-                                            | dksjndms5d4f8d7s4
-                                        p
-                                            i.fa.fa-user(aria-hidden='true')
-                                            | Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                        p
-                                            i.fa.fa-phone(aria-hidden='true')
-                                            | 0236541258
-                                    .hotel.col-sm-5
-                                        p
-                                            i.fa.fa-id-card-o(aria-hidden='true')
-                                            | dksjndms5d4f8d7s4
-                                        p
-                                            i.fa.fa-user(aria-hidden='true')
-                                            | Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
-                                        p
-                                            i.fa.fa-phone(aria-hidden='true')
-                                            | 0236541258
-                            button.btn.btn-warning.ml-6.mt-3 C&#x1EA5;p quy&#x1EC1;n qu&#x1EA3;n l&yacute; kh&aacute;ch s&#x1EA1;n
+                                input(type="hidden", id="managerChosen")
+                                .row#containerManager
+                            
+                            button.btn.btn-warning.ml-6.mt-3#grantManagerBtn
+                                | Cấp quyền quản lý khách sạn
         
         // Footer
         include layout/footer.pug
 
 block script 
+    script(src="/assets_admin/js/grantManager.js")

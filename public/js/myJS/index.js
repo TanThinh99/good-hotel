@@ -10,6 +10,7 @@ var niceSelectList = document.getElementsByClassName('nice-select');
 for(var i=0; i<niceSelectList.length; i++) {
     niceSelectList[i].style.display = 'none';
 }
+
 function ChoosePaginateItem(pageSelected) {
     var key = document.getElementById('foundByKey').value;
     var filter = document.getElementById('filterType').value;

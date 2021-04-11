@@ -95,8 +95,9 @@ header.header
                         div
                             a.shopping-cart(href='/basket')
                                 i.fa.fa-shopping-cart(aria-hidden='true')
-                                    span.amount 3
-                            span(style='font-weight: bolder; font-size: 17px; color: #f25119') 15.000.000 VND
+                                    span.amount #{basketTotal.amount}
+                            span(style='font-weight: bolder; font-size: 17px; color: #f25119') 
+                                | #{basketTotal.price} VND
 
                         .hero__search__phone__icon
                             i.fa.fa-phone

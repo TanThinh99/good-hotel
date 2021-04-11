@@ -105,3 +105,11 @@ module.exports.GrantRole = async function(req, res) {
     var result = await taiKhoanModel.findByIdAndUpdate(id, objAccount, {new: true});
     res.send(result);
 }
+
+module.exports.GrantHotelForManager = async function(req, res) {
+    var managerID = req.body.managerID;
+    var account = await taiKhoanModel.findById(managerID);
+    account.ma_khach_san = req.body.hotelID;
+    account.save();
+    res.send(account);
+}

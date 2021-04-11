@@ -5,6 +5,7 @@ const taiKhoan = require("../models/tai_khoan.model");
 const vaiTro = require("../models/vai_tro.model");
 const vaiTroCoQuyen = require("../models/vai_tro_co_quyen.model");
 const tienNghi = require("../models/tien_nghi.model");
+const khachSan = require('../models/khach_san.model');
 
 module.exports.Statistic = async function(req, res) {
     var decode = req.session.decode;
@@ -138,6 +139,7 @@ module.exports.GrantManager = async function(req, res) {
     var params = {
         userAccount: userAccount
     }
+    params.token = req.session.token;
     res.render('admin/grantManager', params);
 }
 
@@ -255,4 +257,44 @@ module.exports.GetAccountForPagination = async function(req, res) {
         accountData: accountData,
         paginateData: paginateData
     });
+}
+
+module.exports.FindHotelByKey = async function(req, res) {
+    var key = (req.query.key).toLowerCase();
+    var hotels = await khachSan.find();
+    var hotelData = '';
+    for(var i=0; i<hotels.length; i++) {
+        var _id = (hotels[i]._id +'').toLowerCase();
+        var hotelName = hotels[i].ten.toLowerCase();
+        if((_id.indexOf(key) != -1) || (hotelName.indexOf(key) != -1)) {
+            hotelData += '<div class="hotel col-sm-5" id="hotel'+ hotels[i]._id +'" onclick="ChooseItemGrant(\'hotel\', \''+ hotels[i]._id +'\')">\
+                            <p><i class="fa fa-id-card-o" aria-hidden="true"></i>'+ hotels[i]._id +'</p>\
+                            <p><i class="fa fa-hospital-o" aria-hidden="true"></i>'+ hotels[i].ten +'</p>\
+                            <p><i class="fa fa-map-marker" aria-hidden="true"></i>'+ hotels[i].dia_chi +'</p>\
+                        </div>';
+        }
+    }
+    res.send({
+        hotelData: hotelData
+    })
+}
+
+module.exports.FindManagerByKey = async function(req, res) {
+    var key = (req.query.key).toLowerCase();
+    var accounts = await taiKhoan.find();
+    var managerData = '';
+    for(var i=0; i<accounts.length; i++) {
+        var _id = (accounts[i]._id +'').toLowerCase();
+        var managerName = accounts[i].ho_ten.toLowerCase();
+        if((_id.indexOf(key) != -1) || (managerName.indexOf(key) != -1)) {
+            managerData += '<div class="hotel col-sm-5" id="manager'+ accounts[i]._id +'" onclick="ChooseItemGrant(\'manager\', \''+ accounts[i]._id +'\')">\
+                                <p><i class="fa fa-id-card-o" aria-hidden="true"></i>'+ accounts[i]._id +'</p>\
+                                <p><i class="fa fa-user" aria-hidden="true"></i>'+ accounts[i].ho_ten +'</p>\
+                                <p><i class="fa fa-phone" aria-hidden="true"></i>'+ accounts[i].so_dien_thoai +'</p>\
+                            </div>';
+        }
+    }
+    res.send({
+        managerData: managerData
+    })
 }

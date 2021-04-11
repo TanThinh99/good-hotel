@@ -175,6 +175,13 @@
 
 .roomType ul li {
     line-height: 37px;
+    font-size: 18px;
+}
+
+.roomType ul li .price {
+    color: red;
+    font-weight: bolder;
+    font-size: 20px;
 }
 
 .roomType ul li b {

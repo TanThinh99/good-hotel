@@ -43,9 +43,11 @@ block content
                     .product__details__text
                         h3.font-system-ui #{hotel.ten}
                         .product__details__rating
-                            span.score #{hotel.diem_trung_binh}
-                            span (#{hotel.so_luong_binh_luan} đánh giá)
-                        .product__details__price.font-system-ui #{hotel.gia} Đồng
+                            span.score.mr-2 #{hotel.diem_trung_binh}
+                            span(style="font-size: 17px;") (#{hotel.so_luong_binh_luan} đánh giá)
+                        .product__details__price(style='font-weight: bolder; font-size: 38px;')
+                            span.showMoney.mr-2 #{hotel.gia}
+                            | VND
                         ul
                             li.row
                                 .col-md-3
@@ -93,7 +95,9 @@ block content
                                                         span #{roomType.ten}
                                                     li
                                                         b Giá
-                                                        span #{roomType.gia} VND
+                                                        span.price
+                                                            span.showMoney.mr-1 #{roomType.gia}
+                                                            | VND
                                                     li
                                                         button.btn.btn-success(class='mt-3' data-toggle='modal' data-target='#datPhongModal' onclick='ChooseRoomType("'+ roomType._id +'")') Đặt phòng
                                             .col-lg-8.col-md-6
@@ -512,3 +516,4 @@ block content
 
 block script 
     script(src="/js/myJS/hotelDetail.js")
+    script(src="/js/myJS/updateFormatMoney.js")

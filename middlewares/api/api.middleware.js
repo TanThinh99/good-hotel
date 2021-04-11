@@ -150,3 +150,8 @@ module.exports.GrantRole = function(req, res, next) {
     var func = 'Cap vai tro';
     CheckPermission(func, res, next);
 }
+
+module.exports.GrantHotelForManager = function(req, res, next) {
+    var func = 'Cap quyen quan ly khach san';
+    CheckPermission(func, res, next);
+}

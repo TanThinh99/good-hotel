@@ -34,7 +34,7 @@ block content
                                 a(href="./addConvenient") 
                                     button.btn.btn-secondary Thêm tiện nghi mới
                     .card-body
-                        .row.icon-examples
+                        .row.icon-examples(style='overflow-x: hidden; overflow-y: scroll; max-height: 590px;')
                             input(type="hidden", id="token" value=token)
                             each conven in convens
                                 .col-lg-3.col-md-6(id='div'+ conven._id)

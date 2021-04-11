@@ -89,7 +89,8 @@ block content
                                     | (#{hotel.so_luong_binh_luan} đánh giá)
                                 p
                                     b Giá:
-                                    |  #{hotel.gia} Đồng
+                                    span.showMoney.ml-2.mr-1 #{hotel.gia}
+                                    b(style="color: red; font-size: 18px;") VND
                                 p
                                     b Địa chỉ:
                                     |  #{hotel.dia_chi}
@@ -113,3 +114,4 @@ block content
 
 block script 
     script(src="/js/myjs/index.js")
+    script(src="/js/myjs/updateFormatMoney.js")

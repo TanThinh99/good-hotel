@@ -22,6 +22,10 @@ router.get('/grantManager', adminCtrl.GrantManager);
 
 // =============== A J A X =================
     // Pagination
-router.get('/getAccountForPagination', adminCtrl.GetAccountForPagination)
+router.get('/getAccountForPagination', adminCtrl.GetAccountForPagination);
+
+    // For grant hotel manager
+router.get('/findHotelByKey', adminCtrl.FindHotelByKey);
+router.get('/findManagerByKey', adminCtrl.FindManagerByKey);
 
 module.exports = router;

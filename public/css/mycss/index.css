@@ -27,6 +27,11 @@
     box-shadow: 2px 3px 4px 3px greenyellow;
 }
 
+.hotel-item .showMoney {
+    color: red;
+    font-size: 20px;
+}
+
 .latest-product__item__text span {
     display: inline;
 }
