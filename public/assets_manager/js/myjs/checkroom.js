@@ -35,3 +35,8 @@ function ReturnRoom(billID) {
         });
     }
 }
+
+document.getElementById('filterBillBtn').onclick = function() {
+    var key = document.getElementById('foundByKey').value;
+    window.location.href = '/manager/checkRoom?key='+ key;
+}

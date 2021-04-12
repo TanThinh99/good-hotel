@@ -40,9 +40,10 @@ function UpdateReply() {
 }
 
 function ChoosePaginateItem(pageSelected) {
+    var key = document.getElementById('foundByKey').value;
     axios({
         method: 'GET',
-        url: 'http://localhost:8000/manager/getCommentForPagination?pageSelected='+ pageSelected,
+        url: 'http://localhost:8000/manager/getCommentForPagination?key='+ key +'&pageSelected='+ pageSelected,
     })
     .then(function(response) {
         document.getElementById('containerComments').innerHTML = response.data.commentData;
@@ -52,4 +53,9 @@ function ChoosePaginateItem(pageSelected) {
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
+}
+
+document.getElementById('filterCommentBtn').onclick = function() {
+    var key = document.getElementById('foundByKey').value;
+    window.location.href = '/manager/comment?key='+ key;
 }

@@ -30,12 +30,18 @@ block content
                         h3.mb-0 Hóa đơn đặt phòng
                         input(type="hidden", id="hotelID" value=''+ hotelID)
                     .card-body
+                        .input-group.col-6.ml-2.mb-3
+                            input.form-control(type='text' id='foundByKey' value=foundByKey placeholder='Tìm theo mã hóa đơn hoặc tên khách hàng')
+                            .input-group-append
+                                button.btn.btn-secondary(style='height: 45px;' id="filterBillBtn")
+                                    i.fa.fa-filter(aria-hidden='true')
                         .row.icon-examples#containerBills
                             each bill in bills
                                 .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto.deal
                                     .row
                                         .col-md-6
-                                            h3.title Thông tin phòng
+                                            h3.title Thông tin hóa đơn
+                                            p.info Mã hóa đơn: #{bill._id}
                                             p.info Loại phòng: #{bill.ma_loai_phong.ten}
                                             p.info
                                                 | Ngày đặt phòng: 
@@ -44,6 +50,7 @@ block content
                                             h3.title Thông tin khách hàng
                                             p.info Mã tài khoản: #{bill.ma_tai_khoan._id}
                                             p.info Họ tên: #{bill.ma_tai_khoan.ho_ten}
+                                            p.info Số điện thoại: #{bill.ma_tai_khoan.so_dien_thoai}
                                     .mt-md-3
                                         a(href="./bill/"+ bill._id)
                                             button.btn.btn-success Xem chi tiết
@@ -69,3 +76,5 @@ block content
         
 block script 
     script(src="/assets_manager/js/myjs/bill.js") 
+    script.
+        document.getElementById('billNav').classList.add('active');

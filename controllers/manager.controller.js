@@ -143,11 +143,31 @@ module.exports.CheckRoom = async function(req, res) {
     var day = FormatNumberInDate(date.getDate());
     var today = date.getFullYear() +'-'+ month +'-'+ day;
     params.today = today;
-    var bills = await hoaDon.find({
-        ma_loai_phong: {$in: roomTypeIDArr},
-        ngay_tra_phong: {$gte: today},
-        da_tra_phong: false
-    }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({da_thanh_toan: 1});
+    var bills, billKey = req.query.key;
+    if(billKey == undefined) {
+        bills = await hoaDon.find({
+            ma_loai_phong: {$in: roomTypeIDArr},
+            ngay_tra_phong: {$gte: today},
+            da_tra_phong: false
+        }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({da_thanh_toan: 1});
+    }
+    else {
+        bills = await hoaDon.find({
+            ma_loai_phong: {$in: roomTypeIDArr},
+            ngay_tra_phong: {$gte: today},
+            da_tra_phong: false
+        }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({da_thanh_toan: 1});
+        var tempArr = [];
+        params.foundByKey = billKey;
+        billKey = billKey.toLowerCase();
+        for(var i=0; i<bills.length; i++) {
+            var ho_ten = bills[i].ma_tai_khoan.ho_ten.toLowerCase();
+            if(ho_ten.indexOf(billKey) != -1) {
+                tempArr.push(bills[i]);
+            }
+        }
+        bills = tempArr;
+    }
     params.bills = bills;    
     res.render('manager/checkRoom', params);
 }
@@ -158,10 +178,28 @@ module.exports.Comment = async function(req, res) {
     var params = {
         account: account
     }
-    var comments = await binhLuan.find({ma_khach_san: decode.hotelID})
-        .populate('ma_tai_khoan')
-        .sort({da_xem: 1, thoi_gian: -1});
-    
+    var comments, commentKey = req.query.key;
+    if(commentKey == undefined) {
+        comments = await binhLuan.find({ma_khach_san: decode.hotelID})
+            .populate('ma_tai_khoan')
+            .sort({da_xem: 1, thoi_gian: -1});
+    }
+    else {
+        comments = await binhLuan.find({ma_khach_san: decode.hotelID})
+            .populate('ma_tai_khoan')
+            .sort({da_xem: 1, thoi_gian: -1});
+        var tempArr = [];
+        params.foundByKey = commentKey;
+        commentKey = commentKey.toLowerCase();
+        for(var i=0; i<comments.length; i++) {
+            var ho_ten = comments[i].ma_tai_khoan.ho_ten.toLowerCase();
+            if(ho_ten.indexOf(commentKey) != -1) {
+                tempArr.push(comments[i]);
+            }
+        }
+        comments = tempArr;
+    }
+
     // Pagination
     var amountItemInPage = 8;
     var itemTotal = comments.length;
@@ -209,10 +247,31 @@ module.exports.Bill = async function(req, res) {
     for(i=0; i<roomTypes.length; i++) {
         roomTypeIDArr.push(roomTypes[i].id);
     }
-    var bills = await hoaDon.find({
-        ma_loai_phong: {$in: roomTypeIDArr},
-        da_tra_phong: true
-    }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({ngay_dat_phong: 1});
+
+    var bills, billKey = req.query.key;
+    if(billKey == undefined) {
+        bills = await hoaDon.find({
+            ma_loai_phong: {$in: roomTypeIDArr},
+            da_tra_phong: true
+        }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({ngay_dat_phong: 1});
+    }
+    else {
+        bills = await hoaDon.find({
+            ma_loai_phong: {$in: roomTypeIDArr},
+            da_tra_phong: true
+        }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({ngay_dat_phong: 1});
+        var tempArr = [];
+        params.foundByKey = billKey;
+        billKey = billKey.toLowerCase();
+        for(var i=0; i<bills.length; i++) {
+            var billID = (bills[i]._id +'').toLowerCase();
+            var ho_ten = bills[i].ma_tai_khoan.ho_ten.toLowerCase();
+            if((billID.indexOf(billKey) != -1) || (ho_ten.indexOf(billKey) != -1)) {
+                tempArr.push(bills[i]);
+            }
+        }
+        bills = tempArr;
+    }
 
     // Pagination
     var amountItemInPage = 6;
@@ -267,10 +326,27 @@ module.exports.ReturnRoom = async function(req, res) {
 
 module.exports.GetCommentForPagination = async function(req, res) {
     var decode = req.session.decode;
-    var comments = await binhLuan.find({ma_khach_san: decode.hotelID})
-        .populate('ma_tai_khoan')
-        .sort({da_xem: 1, thoi_gian: -1});
-    
+    var comments, commentKey = req.query.key;
+    if(commentKey == undefined) {
+        comments = await binhLuan.find({ma_khach_san: decode.hotelID})
+            .populate('ma_tai_khoan')
+            .sort({da_xem: 1, thoi_gian: -1});
+    }
+    else {
+        comments = await binhLuan.find({ma_khach_san: decode.hotelID})
+            .populate('ma_tai_khoan')
+            .sort({da_xem: 1, thoi_gian: -1});
+        var tempArr = [];
+        commentKey = commentKey.toLowerCase();
+        for(var i=0; i<comments.length; i++) {
+            var ho_ten = comments[i].ma_tai_khoan.ho_ten.toLowerCase();
+            if(ho_ten.indexOf(commentKey) != -1) {
+                tempArr.push(comments[i]);
+            }
+        }
+        comments = tempArr;
+    }
+
     // Pagination
     var pageSelected = req.query.pageSelected * 1;
     var amountItemInPage = 8;
@@ -375,11 +451,30 @@ module.exports.GetBillForPagination = async function(req, res) {
     for(i=0; i<roomTypes.length; i++) {
         roomTypeIDArr.push(roomTypes[i].id);
     }
-    var bills = await hoaDon.find({
-        ma_loai_phong: {$in: roomTypeIDArr},
-        da_tra_phong: true
-    }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({ngay_dat_phong: 1});
-    
+
+    var bills, billKey = req.query.key;
+    if(billKey == undefined) {
+        bills = await hoaDon.find({
+            ma_loai_phong: {$in: roomTypeIDArr},
+            da_tra_phong: true
+        }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({ngay_dat_phong: 1});
+    }
+    else {
+        bills = await hoaDon.find({
+            ma_loai_phong: {$in: roomTypeIDArr},
+            da_tra_phong: true
+        }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({ngay_dat_phong: 1});
+        var tempArr = [];
+        billKey = billKey.toLowerCase();
+        for(var i=0; i<bills.length; i++) {
+            var billID = (bills[i]._id +'').toLowerCase();
+            var ho_ten = bills[i].ma_tai_khoan.ho_ten.toLowerCase();
+            if((billID.indexOf(billKey) != -1) || (ho_ten.indexOf(billKey) != -1)) {
+                tempArr.push(bills[i]);
+            }
+        }
+        bills = tempArr;
+    }
     // Pagination
     var pageSelected = req.query.pageSelected * 1;
     var amountItemInPage = 6;
@@ -418,7 +513,8 @@ module.exports.GetBillForPagination = async function(req, res) {
         billData += '<div class="col-lg-11 col-md-6 btn-icon-clipboard mx-auto deal">\
                         <div class="row">\
                             <div class="col-md-6">\
-                                <h3 class="title">Thông tin phòng</h3>\
+                                <h3 class="title">Thông tin hóa đơn</h3>\
+                                <p class="info">Mã hóa đơn: '+ billArr[i]._id +'</p>\
                                 <p class="info">Loại phòng: '+ billArr[i].ma_loai_phong.ten +'</p>\
                                 <p class="info">Ngày đặt phòng: <em>'+ billArr[i].ngay_dat_phong +'</em></p>\
                             </div>\
@@ -426,6 +522,7 @@ module.exports.GetBillForPagination = async function(req, res) {
                                 <h3 class="title">Thông tin khách hàng</h3>\
                                 <p class="info">Mã tài khoản: '+ billArr[i].ma_tai_khoan._id +'</p>\
                                 <p class="info">Họ tên: '+ billArr[i].ma_tai_khoan.ho_ten +'</p>\
+                                <p class="info">Số điện thoại: '+ billArr[i].ma_tai_khoan.so_dien_thoai +'</p>\
                             </div>\
                         </div>\
                         <div class="mt-md-3">\

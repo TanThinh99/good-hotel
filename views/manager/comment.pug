@@ -30,6 +30,11 @@ block content
                         h3.mb-0 Danh sách bình luận
                         input(type="hidden", id="token" value=token)
                     .card-body
+                        .input-group.col-6.ml-2.mb-3
+                            input.form-control(type='text' id='foundByKey' value=foundByKey placeholder='Tìm theo tên khách hàng bình luận')
+                            .input-group-append
+                                button.btn.btn-secondary(style='height: 45px;' id="filterCommentBtn")
+                                    i.fa.fa-filter(aria-hidden='true')
                         .row.icon-examples#containerComments
                             each cm in comments
                                 .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto.comment
@@ -75,3 +80,5 @@ block content
         
 block script
     script(src="/assets_manager/js/myjs/comment.js")
+    script.
+        document.getElementById('commentNav').classList.add('active');
