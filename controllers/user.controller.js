@@ -1,8 +1,8 @@
 const paypal = require('paypal-rest-sdk');
 paypal.configure({
     'mode': 'sandbox', //sandbox or live
-    'client_id': 'AatfZrTlZLoy1bXU6A3cz7RX26dLX1nKVUJC0sRVNB6OWwehWfEoQ7c5V4sGoU846GXEnRhwr_C2Hz-N',
-    'client_secret': 'EDXuIMqCrS5L9vMXjjrrkXC7zYS8NSK1U2ozZR7qze9O9AdXXsnPNrX_ii6BIz3bsGCI-JTwJbVmeiCY'
+    'client_id': process.env.PAYPAL_CLIENT_ID,
+    'client_secret': process.env.PAYPAL_CLIENT_SECRET
 });
 
 const taiKhoan = require('../models/tai_khoan.model');
