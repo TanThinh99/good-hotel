@@ -6,9 +6,14 @@ var userCtrl = require('./../controllers/user.controller');
 
 router.get('', userCtrl.Index);
 router.get('/account', mid.GoToAccountUser, userCtrl.Account);
-router.get('/detail/:hotelID', userCtrl.HotelDetail);
-router.get('/basket', userCtrl.Basket);
 router.get('/logout', userCtrl.Logout);
+router.get('/detail/:hotelID', userCtrl.HotelDetail);
+
+router.get('/basket', userCtrl.Basket);
+router.get('/checkout', userCtrl.Checkout);
+router.post('/onlinePayment', userCtrl.OnlinePayment);
+router.get('/successPayment', userCtrl.SuccessPayment);
+router.get('/cancelPayment', userCtrl.CancelPayment);
 
 // AJAX
     // Choose address
@@ -28,5 +33,6 @@ router.delete('/destroyBill', mid.GoToAccountUser, userCtrl.DestroyBill);
     // Pagination
 router.get('/getHotelForPagination', userCtrl.GetHotelForPagination);
 router.get('/getCommentHotelForPagination', userCtrl.GetCommentHotelForPagination);
+router.get('/getBillForPagination', userCtrl.GetBillForPagination);
 
 module.exports = router;

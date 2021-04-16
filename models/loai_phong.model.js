@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+const khachSan = require('./khach_san.model');
 
 var loaiPhongSchema = new mongoose.Schema({
     ten: String,
@@ -7,7 +8,10 @@ var loaiPhongSchema = new mongoose.Schema({
     so_luong_con_lai: Number,
     hinh_anh_360: String,
     disabled: Boolean,
-    ma_khach_san: String
+    ma_khach_san: {
+        type: String,
+        ref: khachSan
+    }
 }, {
     versionKey: false
 });

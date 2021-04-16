@@ -1,3 +1,10 @@
+const paypal = require('paypal-rest-sdk');
+paypal.configure({
+    'mode': 'sandbox', //sandbox or live
+    'client_id': 'AatfZrTlZLoy1bXU6A3cz7RX26dLX1nKVUJC0sRVNB6OWwehWfEoQ7c5V4sGoU846GXEnRhwr_C2Hz-N',
+    'client_secret': 'EDXuIMqCrS5L9vMXjjrrkXC7zYS8NSK1U2ozZR7qze9O9AdXXsnPNrX_ii6BIz3bsGCI-JTwJbVmeiCY'
+});
+
 const taiKhoan = require('../models/tai_khoan.model');
 const tinhThanh = require('../models/tinh_thanh_pho.model');
 const quanHuyen = require('../models/quan_huyen.model');
@@ -7,6 +14,7 @@ const loaiPhong = require('../models/loai_phong.model');
 const hinhAnh = require('../models/hinh_anh.model');
 const hoaDon = require('../models/hoa_don.model');
 const binhLuan = require('../models/binh_luan.model');
+const tienNghiKS = require('../models/tien_nghi_khach_san.model');
 
 module.exports.Index = async function(req, res) {
     var hotels, params = {}
@@ -112,8 +120,31 @@ module.exports.Account = async function(req, res) {
         params.streetName = streetName;    
     }
     // Account's bills
-    var bills = await hoaDon.find({ma_tai_khoan: decode.id}).populate("ma_loai_phong").sort({"da_thanh_toan": 1, "ngay_dat_phong": -1});
-    params.bills = bills;
+    var bills = await hoaDon.find({ma_tai_khoan: decode.id})
+        .populate("ma_loai_phong")
+        .populate({
+            path: 'ma_loai_phong',
+            populate: {path: 'ma_khach_san'}
+        })
+        .sort({"da_thanh_toan": 1, "ngay_dat_phong": -1});
+    // Pagination
+    var amountItemInPage = 3;
+    var itemTotal = bills.length;
+    var pageTotal = parseInt(itemTotal / amountItemInPage);
+    if(itemTotal % amountItemInPage != 0) {
+        pageTotal++;
+    }
+    var amountShowPage = pageTotal > 7 ? 7 : pageTotal;
+    params.amountShowPage = amountShowPage;
+    params.pageTotal = pageTotal;
+    var billArr = [];
+    for(var i=0; i<amountItemInPage; i++) {
+        if(bills[i] == undefined) {
+            break;
+        }
+        billArr.push(bills[i]);
+    }
+    params.bills = billArr;
     params.basketTotal = GetAmountAndPriceInBasket(req);
     res.render('user/account', params);
 }
@@ -124,6 +155,13 @@ module.exports.HotelDetail = async function(req, res) {
     var params = {
         hotel: hotel
     }
+    var hotelImages = await hinhAnh.find({ma_khach_san: hotelID});
+    params.hotelImages = hotelImages;
+    params.amountHotelImages = hotelImages.length;
+
+    var hotelConven = await tienNghiKS.find({ma_khach_san: hotelID}).populate('ma_tien_nghi');
+    params.hotelConvenient = hotelConven;
+
     var decode = req.session.decode;
     if(decode != undefined) {
         var accountID = decode.id;
@@ -143,6 +181,7 @@ module.exports.HotelDetail = async function(req, res) {
         .populate('ma_khach_san')
         .populate('ma_tai_khoan')
         .sort({thoi_gian: -1});
+    params.amountComment = comments.length;
     // Pagination
     var amountItemInPage = 6;
     var itemTotal = comments.length;
@@ -184,7 +223,7 @@ function ShowMoney(money) {
     }
 }
 
-    // Lấy tổng số lương và giá trong giỏ hàng
+    // Lấy tổng số lượng và giá trong giỏ hàng
 function GetAmountAndPriceInBasket(req) {
     var basket = req.session.basket;
     basket = basket == undefined ? [] : basket;
@@ -217,6 +256,191 @@ module.exports.Basket = async function(req, res) {
     params.token = req.session.token;
     params.basketTotal = GetAmountAndPriceInBasket(req);
     res.render('user/basket', params);
+}
+
+module.exports.Checkout = async function(req, res) {
+    var params = {
+        basketTotal: GetAmountAndPriceInBasket(req),
+        token: req.session.token
+    }
+    var decode = req.session.decode;
+    if(decode != undefined) {
+        var account = await taiKhoan.findById(decode.id);
+        params.username = account.ho_ten;
+    }
+    res.render('user/checkout', params);
+}
+
+module.exports.OnlinePayment = function(req, res) {
+    var basket = req.session.basket;
+    basket = basket == undefined ? [] : basket;
+    var itemsArr = [];
+    var usdPrice = 23000;
+    var basketTotalPrice = 0;
+        // Items in basket
+    for(var i=0; i<basket.length; i++) {
+        var price = (basket[i].amountRoom * basket[i].amountDate * basket[i].roomTypePrice) / usdPrice;
+        basketTotalPrice += price;
+        var priceArr = (price+'').split('.');
+        if(priceArr.length == 1) {
+            price = priceArr[0] +'00';
+        }
+        else {
+            var duoi = priceArr[1].length >= 3 ? priceArr[1].substring(0, 2) : priceArr[1];
+            duoi = duoi.length == 1 ? duoi+'0' : duoi;
+            price = priceArr[0] +'.'+ duoi;
+        }
+        
+        var obj = {
+            "name": "phòng "+ basket[i].roomTypeName,
+            "sku": "Khách sạn "+ basket[i].hotelName,
+            "price": price,
+            "currency": "USD",
+            "quantity": basket[i].amountRoom
+        }
+        itemsArr.push(obj);
+    }
+        // Udate format for basketTotalPrice
+    var priceArr = (basketTotalPrice+'').split('.');
+    if(priceArr.length == 1) {
+        basketTotalPrice = priceArr[0] +'00';
+    }
+    else {
+        var duoi = priceArr[1].length >= 3 ? priceArr[1].substring(0, 2) : priceArr[1];
+        duoi = duoi.length == 1 ? duoi+'0' : duoi;
+        basketTotalPrice = priceArr[0] +'.'+ duoi;
+    }
+    var create_payment_json = {
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"
+        },
+        "redirect_urls": {
+            "return_url": "http://localhost:8000/successPayment",
+            "cancel_url": "http://localhost:8000/cancelPayment"
+        },
+        "transactions": [{
+            "item_list": {
+                "items": itemsArr
+                // [{
+                //     "name": "Ao khoac",
+                //     "sku": "Khách sạn ABC",
+                //     "price": "20.00",
+                //     "currency": "USD",
+                //     "quantity": 2
+                // }]
+            },
+            "amount": {
+                "currency": "USD",
+                "total": basketTotalPrice
+            },
+            "description": "Các đơn đặt phòng"
+        }]
+    }
+    paypal.payment.create(create_payment_json, function (error, payment) {
+        if (error) {
+            console.log(error);
+            var str = '<script>\
+                            alert("Thanh toán trực tuyến gặp vấn đề, quý khách vui lòng thử lại sau!");\
+                            location.reload();\
+                        </script>';
+            res.send(str);
+        } else {
+            for(var i=0; i<payment.links.length; i++) {
+                if(payment.links[i].rel == 'approval_url') {
+                    res.redirect(payment.links[i].href);
+                }
+            }
+        }
+    });
+}
+
+function FormatNumberInDate(number) {
+    if(number < 10) {
+        return '0'+ number;
+    }
+    return number;
+}
+
+module.exports.SuccessPayment = function(req, res) {
+    var payerID = req.query.PayerID;
+    var paymentID = req.query.paymentId;
+    var basket = req.session.basket;
+    basket = basket == undefined ? [] : basket;
+    var usdPrice = 23000;
+    var basketTotalPrice = 0;
+    for(var i=0; i<basket.length; i++) {
+        var price = (basket[i].amountRoom * basket[i].amountDate * basket[i].roomTypePrice) / usdPrice;
+        basketTotalPrice += price;
+    }
+    var priceArr = (basketTotalPrice+'').split('.');
+    if(priceArr.length == 1) {
+        basketTotalPrice = priceArr[0] +'00';
+    }
+    else {
+        var duoi = priceArr[1].length >= 3 ? priceArr[1].substring(0, 2) : priceArr[1];
+        duoi = duoi.length == 1 ? duoi+'0' : duoi;
+        basketTotalPrice = priceArr[0] +'.'+ duoi;
+    }
+    var execute_payment_json = {
+        "payer_id": payerID,
+        "transactions": [{
+            "amount": {
+                "currency": "USD",
+                "total": basketTotalPrice
+            },
+        }]
+    }
+    paypal.payment.execute(paymentID, execute_payment_json, async function (error, payment) {
+        if (error) {
+            console.log(error);
+            var str = '<script>\
+                            alert("Thanh toán không thành công, quý khách vui lòng thử lại!");\
+                            window.location.href = "/checkout";\
+                        </script>';
+            res.send(str);
+        } else {
+                // Tạo đơn đặt phòng đã thanh toán xong
+            var date = new Date();
+            var month = FormatNumberInDate(date.getMonth() + 1);
+            var day = FormatNumberInDate(date.getDate());
+            var hour = FormatNumberInDate(date.getHours());
+            var minute = FormatNumberInDate(date.getMinutes());
+            var second = FormatNumberInDate(date.getSeconds());    
+            var time = date.getFullYear() +"-"+ month +"-"+ day +" "+ hour +":"+ minute +":"+ second;
+            
+            var decode = req.session.decode;
+            var basket = req.session.basket;
+            basket = basket == undefined ? [] : basket;
+            var objArr = [];
+            for(i=0; i<basket.length; i++) {
+                var obj = {
+                    ngay_dat_phong: time,
+                    ngay_nhan_phong: basket[i].fromDate,
+                    ngay_tra_phong: basket[i].toDate,
+                    gia_dat_phong: basket[i].roomTypePrice,
+                    so_luong_phong: basket[i].amountRoom,
+                    da_thanh_toan: true,
+                    da_tra_phong: false,
+                    ma_tai_khoan: decode.id,
+                    ma_loai_phong: basket[i].roomTypeID
+                }
+                objArr.push(obj);
+            }
+            await hoaDon.insertMany(objArr);
+                // Xóa các đơn đặt phòng trong giỏ hàng
+            req.session.basket = [];
+            var str = '<script>\
+                            alert("Thanh toán thành công, chúc quý khách có những trải nghiệm vui vẻ ^^");\
+                            window.location.href = "/";\
+                        </script>';
+            res.send(str);
+        }
+    });
+}
+
+module.exports.CancelPayment = function(req, res) {
+    res.redirect('/checkout');
 }
 
 module.exports.Logout = function(req, res) {
@@ -353,7 +577,12 @@ module.exports.DeleteInBasket = async function(req, res) {
     // Function to Bills in account's information
 module.exports.GetBillDetail = async function(req, res) {
     var billID = req.params.billID;
-    var bill = await hoaDon.findById(billID).populate('ma_loai_phong');
+    var bill = await hoaDon.findById(billID)
+        .populate('ma_loai_phong')
+        .populate({
+            path: 'ma_loai_phong',
+            populate: {path: 'ma_khach_san'}
+        });
     res.json(bill);
 }
 
@@ -608,6 +837,116 @@ module.exports.GetCommentHotelForPagination = async function(req, res) {
                     </li>';
     res.send({
         commentData: commentData,
+        paginateData: paginateData
+    });
+}
+
+module.exports.GetBillForPagination = async function(req, res) {
+    var decode = req.session.decode;
+    if(decode == undefined) {
+        res.redirect('/');
+    }
+    var bills = await hoaDon.find({ma_tai_khoan: decode.id})
+        .populate("ma_loai_phong")
+        .populate({
+            path: 'ma_loai_phong',
+            populate: {path: 'ma_khach_san'}
+        })
+        .sort({"da_thanh_toan": 1, "ngay_dat_phong": -1});
+    
+    // Pagination
+    var pageSelected = req.query.pageSelected * 1;
+    var amountItemInPage = 3;
+    var itemTotal = bills.length;
+    var pageTotal = parseInt(itemTotal / amountItemInPage);
+    if(itemTotal % amountItemInPage != 0) {
+        pageTotal++;
+    }
+    var amountShowPage = pageTotal > 7 ? 7 : pageTotal;
+    var itemFrom = (pageSelected * amountItemInPage) - amountItemInPage;
+    var itemTo = (pageSelected * amountItemInPage) - 1;
+    var billArr = [];
+    for(var i=itemFrom; i<=itemTo; i++) {
+        if(bills[i] == undefined) {
+            break;
+        }
+        billArr.push(bills[i]);
+    }
+    var pageFrom, pageTo;
+    if((pageSelected-3 > 1) && (pageSelected+3 < pageTotal)) {
+        pageFrom = pageSelected - 3;
+        pageTo = pageSelected + 3;
+    }
+    else {
+        if(pageSelected-3 <= 1) {
+            pageFrom = 1;
+            pageTo = amountShowPage;
+        }
+        else if(pageSelected+3 >= pageTotal) {
+            pageFrom = pageTotal-6 < 1 ? 1 : pageTotal-6;
+            pageTo = pageTotal;
+        }
+    }
+    var billData = '';
+    for(i=0; i<billArr.length; i++) {
+        var funcStr = '';
+        if(billArr[i].da_thanh_toan == false) {
+            funcStr = '<button class="btn btn-success mr-2" onclick="PayBill(\''+ billArr[i]._id +'\')">\
+                            <i class="fa fa-credit-card mr-1" aria-hidden="true"></i>Thanh toán\
+                        </button>\
+                        <button class="btn btn-danger" onclick="DestroyBill(\''+ billArr[i]._id +'\')">\
+                            <i class="fa fa-ban mr-1" aria-hidden="true"></i>Hủy đặt phòng\
+                        </button>';
+        }
+        billData += '<div class="col-lg-11 col-md-6 mx-auto bill" id="bill'+ billArr[i]._id +'">\
+                        <div class="row">\
+                            <div class="col-md-7">\
+                                <h4 class="title">Thông tin khách sạn</h4>\
+                                <p>Tên: '+ billArr[i].ma_loai_phong.ma_khach_san.ten +'</p>\
+                                <p>Số điện thoại: '+ billArr[i].ma_loai_phong.ma_khach_san.so_dien_thoai +'</p>\
+                                <p>Địa chỉ: '+ billArr[i].ma_loai_phong.ma_khach_san.dia_chi +'</p>\
+                            </div>\
+                            <div class="col-md-5">\
+                                <h4 class="title">Thông tin loại phòng</h4>\
+                                <p>Loại phòng: '+ billArr[i].ma_loai_phong.ten +'</p>\
+                                <p>Ngày đặt phòng: <em>'+ billArr[i].ngay_dat_phong +'</em></p>\
+                                <p>Ngày nhận phòng: <em>'+ billArr[i].ngay_nhan_phong +'</em></p>\
+                            </div>\
+                        </div>\
+                        <div class="mt-2">\
+                            <button class="btn btn-info mr-2" onclick="GetBillDetail(\''+ billArr[i]._id +'\')">\
+                                <i class="fa fa-info-circle mr-1" aria-hidden="true"></i>Xem chi tiết\
+                            </button>'+ funcStr +'\
+                        </div>\
+                    </div>';
+    }
+    var paginateData = '';
+    var classTemp = pageSelected == 1 ? 'disabled' : '';
+    paginateData += '<li class="page-item '+ classTemp +'">\
+                        <a class="page-link" aria-label="Previous" onclick="ChoosePaginateItem('+ 1 +')" title="1">\
+                            <span aria-hidden="true"> &laquo;</span>\
+                        </a>\
+                    </li>';
+    for(var i=pageFrom; i<=pageTo; i++) {
+        if(i == pageSelected) {
+            paginateData += '<li class="page-item active">\
+                                <a class="page-link">'+ i +'</a>\
+                            </li>';
+        }
+        else {
+            paginateData += '<li class="page-item">\
+                                <a class="page-link" style="cursor:pointer;" onclick="ChoosePaginateItem('+ i +')">'+ i +'</a>\
+                            </li>';
+        }
+    }
+    classTemp = pageTotal == pageSelected ? 'disabled' : '';
+    paginateData += '<li class="page-item '+ classTemp +'">\
+                        <a class="page-link" aria-label="Next" onclick="ChoosePaginateItem('+ pageTotal +')" title="'+ pageTotal +'">\
+                            <span aria-hidden="true"> &raquo;</span>\
+                        </a>\
+                    </li>';
+    res.send({
+        billData: billData,
         paginateData: paginateData
     });
 }

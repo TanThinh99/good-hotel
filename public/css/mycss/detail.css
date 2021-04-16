@@ -146,17 +146,14 @@
     overflow-y: hidden;
 }
 
-.images .containImages {
-    width: 1000px;
-}
-
-.images .containImages img {
+.images #containImages img {
     width: 100px;
     height: 100px;
     cursor: pointer;
+    margin-right: 10px;
 }
 
-.images .containImages .active {
+.images #containImages .active {
     border: 4px solid #45fffc;
 }
 
@@ -204,6 +201,7 @@
     height: 135px;
     width: 175px;
     margin-right: 10px;
+    cursor: pointer;
 }
 
 /* REVIEW */

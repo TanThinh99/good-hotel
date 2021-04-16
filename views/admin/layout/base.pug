@@ -58,19 +58,9 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
                 // Navigation
                 ul.navbar-nav.mb-md-3
                     li.nav-item
-                        a.nav-link(href='/logout' onclick='return Logout()')
+                        a.nav-link(href='/logout')
                             i.ni.ni-user-run
                             span.nav-link-text Đăng xuất
-
-                    script.
-                        function Logout() {
-                            if(confirm('Bạn sẽ đăng xuất?')) {
-                                return true;
-                            }
-                            else {
-                                return false;
-                            }
-                        }
 
 // Main content
 #panel.main-content
@@ -92,17 +82,17 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
                         .dropdown-menu.dropdown-menu-right
                             .dropdown-header.noti-title
                                 h6.text-overflow.m-0 Xin chào!
-                            a.dropdown-item(href='#!')
+                            a.dropdown-item(href='/account')
                                 i.ni.ni-single-02
                                 span Thông tin cá nhân
-                            a.dropdown-item(href='#!')
+                            a.dropdown-item(href='/')
                                 i.ni.ni-settings-gear-65
                                 span Đi đến Trang chủ
-                            a.dropdown-item(href='#!')
+                            a.dropdown-item(href='#')
                                 i.ni.ni-support-16
                                 span Hỗ trợ
                             .dropdown-divider
-                            a.dropdown-item(href='#!')
+                            a.dropdown-item(href='/logout')
                                 i.ni.ni-user-run
                                 span Đăng xuất
     // Header End

@@ -79,31 +79,3 @@ function UpdatePrice(itemID, amountDate, amountRoom) {
     basketTotal = ShowMoney(basketTotal);
     document.getElementById('basketTotal').innerHTML = basketTotal;
 }
-
-function CreateBill() {
-    var basketPrice = document.getElementById('basketTotalHidden').value;
-    if(basketPrice == '0') {
-        alert('Giỏ hàng quý khách đang rỗng, không thể tạo đơn đặt phòng!');
-        return;
-    }
-    var token = document.getElementById('token').value;
-    if(token == '') {
-        alert('Quý khách vui lòng đăng nhập để có thể tạo đơn đặt phòng');
-        return;
-    }
-    axios({
-        method: 'POST',
-        url: 'http://localhost:8000/api/hoa_don',
-        headers: {
-            'Authorization': 'bearer '+ token
-        }            
-    })
-    .then(function(response) {
-        alert('Cảm ơn quý khách đã đặt phòng trên website ^^');
-        location.reload();
-    })
-    .catch(function(err) {
-        alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
-        console.log(err);
-    });            
-}

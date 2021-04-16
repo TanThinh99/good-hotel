@@ -22,15 +22,7 @@ function ChooseControl(self, typeContent) {
         else if(typeContent == 'checkRoomContent') {
             document.getElementById('contentTitle').innerHTML = 'Lịch sử đặt phòng';
         }
-    }
-    else {
-        if(confirm('Quý khách sẽ đăng xuất?')) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }                
+    }              
 }
 
 document.getElementById('avatar').onchange = function(event) {
@@ -220,6 +212,21 @@ function UpdateAccount() {
 }
 
     // For Bill
+function ChoosePaginateItem(pageSelected) {
+    axios({
+        method: 'GET',
+        url: 'http://localhost:8000/getBillForPagination?pageSelected='+ pageSelected,
+    })
+    .then(function(response) {
+        document.getElementById('containBills').innerHTML = response.data.billData;
+        document.getElementById('containerPagiItem').innerHTML = response.data.paginateData;
+    })
+    .catch(function(err) {
+        alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+        console.log(err);
+    });
+}
+
 function GetBillDetail(billID) {
     axios({
         method: 'GET',
@@ -232,7 +239,7 @@ function GetBillDetail(billID) {
             contentList[i].style.display = 'none';
         }
         var data = response.data;
-        document.getElementById('hotelName').innerHTML = data.ma_loai_phong.ten;
+        document.getElementById('hotelName').innerHTML = data.ma_loai_phong.ma_khach_san.ten;
         document.getElementById('roomTypeName').innerHTML = data.ma_loai_phong.ten;
         document.getElementById('roomTypePrice').innerHTML = data.gia_dat_phong;
         document.getElementById('checkRoomDate').innerHTML = data.ngay_dat_phong;

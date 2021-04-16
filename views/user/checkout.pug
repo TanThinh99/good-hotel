@@ -1,0 +1,43 @@
+extends layout/base.pug
+
+block title 
+    <title>Thanh toán</title>
+
+block header
+
+block content
+    // Breadcrumb Section Begin
+    section.breadcrumb-section.set-bg(data-setbg='img/breadcrumb.jpg')
+        .container
+            .row
+                .col-lg-12.text-center
+                    .breadcrumb__text
+                        h2 Phương thức thanh toán
+                        .breadcrumb__option
+                            a(href='./index.html') Home
+                            span Shopping Cart
+    // Breadcrumb Section End
+    
+    // Shoping Cart Section Begin
+    section.shoping-cart.spad
+        input(type="hidden", id="token" value=token)
+        .container
+            .alert.alert-warning
+                i.fa.fa-exclamation-triangle.mr-2(aria-hidden="true" style='font-size:20px;')
+                | Các đơn đặt phòng cần được thanh toán trước ngày nhận phòng 2 ngày (VD: Ngày nhận phòng là 15-03-2021, hạn chót thanh toán là hết ngày 13-03-2021)
+            if basketTotal.amount != 0
+                .row 
+                    .col-12.mb-4.mt-4
+                        .btn.btn-light(style='line-height: 2.7; font-size: 19px;' onclick='CreateBill()')
+                            i.fa.fa-money.mr-2(aria-hidden="true" style='font-size:26px;')
+                            | Thanh toán bằng tiền mặt tại khách sạn
+                    .col-12
+                        form(action="/onlinePayment", method="post")
+                            button.btn.btn-light(style='line-height: 2.7; font-size: 19px;')
+                                i.fa.fa-credit-card.mr-2(aria-hidden="true" style='font-size:26px;')
+                                | Thanh toán trực tuyến
+                                img.ml-2(src="/img/payment-item.png" style='height:25px;' alt="")   
+    // Shoping Cart Section End
+
+block script
+    script(src="/js/myjs/checkout.js")

@@ -26,14 +26,17 @@ block content
                 .col-lg-6.col-md-6
                     .product__details__pic
                         .product__details__pic__item
-                            img.product__details__pic__item--large(onclick='ChooseCarouselImage(0)' src='https://noithatamber.vn/images/uploaded/ph%C3%B2ng%20ng%E1%BB%A7%202.jpg' alt='' style='cursor: pointer;')
+                            img.product__details__pic__item--large(onclick='ChooseCarouselImage(0)' src='/uploads/'+hotelImages[0].ten alt=hotelImages[0].ten style='cursor: pointer;')
                         .hotelImages
-                            .containHotelImages
-                                img(onclick='ChooseCarouselImage(1)' src='https://lh3.googleusercontent.com/proxy/1KNaPxJGDd6XEV4ld80qi5oz3Dgsjli7VtxFSN3fiM1-zvY-s674JJytGS_xZRbTzaKwuhkQqF9WmOhu6aqRbF_Y0cHrgSFz6RV71pkMTAfe_9_GBOMcgOaoIXW70oGZbn_S0FSRVjaaggKoPwiauUuWDfbWAA' alt='')
-                                img(onclick='ChooseCarouselImage(2)' src='https://wedo.vn/wp-content/uploads/2019/07/thiet-ke-phong-ngu-15m2-12.jpg' alt='')
-                                img(onclick='ChooseCarouselImage(3)' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                                img(onclick='ChooseCarouselImage(4)' src='https://xuongnoithatdep.com/upload/images/combo-noi-that-phong-ngu-2.png' alt='')
-                                img(onclick='ChooseCarouselImage(5)' src='https://afamilycdn.com/150157425591193600/2020/5/25/7-15903740976832059393369-63-0-1001-1500-crop-1590374332746174200395.jpg' alt='')
+                            .containHotelImages(style='width:'+ (amountHotelImages*110) +'px;')
+                                -   var imagesArr = '';
+                                -   var count = 0;
+                                each image in hotelImages
+                                    img(onclick='ChooseCarouselImage('+ count +', "hotelImageArr")' src='/uploads/'+image.ten alt=image.ten)
+                                    -   imagesArr += image.ten + ' ';
+                                    -   count++;
+                                input(type="hidden", id="hotelImageArr" value=imagesArr)
+
                 .col-lg-6.col-md-6
                     input(type="hidden", id="hotelID" value=hotel._id)
                     input(type="hidden", id="token" value=token)
@@ -74,15 +77,15 @@ block content
                     .product__details__tab
                         ul.nav.nav-tabs(role='tablist')
                             li.nav-item
-                                a.nav-link.active(data-toggle='tab' href='#tabs-1' role='tab' aria-selected='true') Lo&#x1EA1;i ph&ograve;ng
+                                a.nav-link.active(data-toggle='tab' href='#tabs-1' role='tab' aria-selected='true') Loại phòng
                             li.nav-item
-                                a.nav-link(data-toggle='tab' href='#tabs-2' role='tab' aria-selected='false') Ti&#x1EC7;n nghi
+                                a.nav-link(data-toggle='tab' href='#tabs-2' role='tab' aria-selected='false') Tiện nghi
                             li.nav-item
                                 a.nav-link(data-toggle='tab' href='#tabs-3' role='tab' aria-selected='false') Google Map
                             li.nav-item
                                 a.nav-link(data-toggle='tab' href='#tabs-4' role='tab' aria-selected='false')
                                     | Đánh giá
-                                    span (10)
+                                    span  (#{amountComment})
                         .tab-content
                             #tabs-1.tab-pane.active(role='tabpanel')
                                 .product__details__tab__desc
@@ -103,37 +106,24 @@ block content
                                             .col-lg-8.col-md-6
                                                 .roomImageFrame
                                                     .roomImages(style='width: '+ (roomType.amountImagesRoomType*185) +'px;')
+                                                        -   var roomImages = ''; 
+                                                        -   var count = 0;
                                                         each image in roomType.imagesRoomType
-                                                            img(src='/uploads/'+image.ten alt=image.ten)
+                                                            img(onclick='ChooseCarouselImage('+ count +', "roomImages'+ roomType._id +'")' src='/uploads/'+image.ten alt=image.ten)
+                                                            -   roomImages += image.ten +' ';
+                                                            -   count++;
+                                                        input(type="hidden", id="roomImages"+roomType._id value=roomImages)
                                                         
                             #tabs-2.tab-pane(role='tabpanel')
                                 .product__details__tab__desc
-                                    .convenients
-                                        i.fa.fa-wifi(aria-hidden='true')
-                                        | Wifi
-                                    .convenients
-                                        i.fa.fa-wifi(aria-hidden='true')
-                                        | Wifi
-                                    .convenients
-                                        i.fa.fa-wifi(aria-hidden='true')
-                                        | Wifi
-                                    .convenients
-                                        i.fa.fa-wifi(aria-hidden='true')
-                                        | Wifi
-                                    .convenients
-                                        i.fa.fa-wifi(aria-hidden='true')
-                                        | Wifi
-                                    .convenients
-                                        i.fa.fa-wifi(aria-hidden='true')
-                                        | Wifi
-                                    .convenients
-                                        i.fa.fa-wifi(aria-hidden='true')
-                                        | Wifi
-                                    .convenients
-                                        i.fa.fa-wifi(aria-hidden='true')
-                                        | Wifi
+                                    each conven in hotelConvenient
+                                        .convenients
+                                            i.fa.fa-wifi(class=conven.ma_tien_nghi.hinh_anh aria-hidden='true')
+                                            | #{conven.ma_tien_nghi.ten}
+                                    
                             #tabs-3.tab-pane(role='tabpanel')
                                 iframe(src=hotel.google_map height='450' style='border:0; width:100%; margin-top:46px;' allowfullscreen='' loading='lazy')
+                            
                             #tabs-4.tab-pane(role='tabpanel')
                                 .product__details__tab__desc
                                     #v-pills-3.tab-pane.fade.active.show(role='tabpanel' aria-labelledby='v-pills-day-3-tab')
@@ -141,7 +131,7 @@ block content
                                             .col-md-9
                                                 .row.mb-3
                                                     .col-7
-                                                        h3 23 bình luận
+                                                        h3 #{amountComment} bình luận
                                                     .col-5.text-right
                                                         button.btn.btn-info(data-toggle='modal' data-target='#commentModal' onclick='document.getElementById("commentUpdating").value="";') Viết bình luận
                                                 .row#commentFrame
@@ -212,6 +202,7 @@ block content
                                                     p.star
                                                         span.score 4.0
                                                         span (98%) 0 Reviews
+    
     // Product Details Section End
 
     // Modal COMMENT
@@ -281,13 +272,8 @@ block content
         #imageFrame
             img#imgMain(src='https://noithatamber.vn/images/uploaded/ph%C3%B2ng%20ng%E1%BB%A7%202.jpg' alt='')
         .images
-            .containImages
-                img#img0.active(onclick='ChooseImage(0)' src='https://noithatamber.vn/images/uploaded/ph%C3%B2ng%20ng%E1%BB%A7%202.jpg' alt='')
-                img#img1(onclick='ChooseImage(1)' src='https://lh3.googleusercontent.com/proxy/1KNaPxJGDd6XEV4ld80qi5oz3Dgsjli7VtxFSN3fiM1-zvY-s674JJytGS_xZRbTzaKwuhkQqF9WmOhu6aqRbF_Y0cHrgSFz6RV71pkMTAfe_9_GBOMcgOaoIXW70oGZbn_S0FSRVjaaggKoPwiauUuWDfbWAA' alt='')
-                img#img2(onclick='ChooseImage(2)' src='https://wedo.vn/wp-content/uploads/2019/07/thiet-ke-phong-ngu-15m2-12.jpg' alt='')
-                img#img3(onclick='ChooseImage(3)' src='https://wedo.vn/wp-content/uploads/2018/08/thiet-ke-noi-that-phong-ngu-15m2-dep-4.jpg' alt='')
-                img#img4(onclick='ChooseImage(4)' src='https://xuongnoithatdep.com/upload/images/combo-noi-that-phong-ngu-2.png' alt='')
-                img#img5(onclick='ChooseImage(5)' src='https://afamilycdn.com/150157425591193600/2020/5/25/7-15903740976832059393369-63-0-1001-1500-crop-1590374332746174200395.jpg' alt='')
+            #containImages
+                //- img#img0.active(onclick='ChooseImage(0)' src='https://noithatamber.vn/E1%BB%A7%202.jpg' alt='')
         .closeSlider(onclick="document.getElementById('imageListSlider').style.display = 'none';")
             i.fa.fa-times(aria-hidden='true')
         #turnLeft(onclick="TurnImage('left')")

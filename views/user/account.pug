@@ -38,7 +38,7 @@ block content
                             | Hóa đơn
                     .infoNav
                         span
-                            a(href="/logout" onclick="return ChooseControl(this, '')") 
+                            a(href="/logout") 
                                 i.fa.fa-sign-out.mr-2
                                 | Đăng xuất
                 .col-lg-10.col-md-8.order-md-1.order-2
@@ -194,15 +194,15 @@ block content
                                                 | Cập nhật
                     // Lịch sử đặt phòng
                     #checkRoomContent.mainContent(style='display:none;')
-                        .row.icon-examples
+                        .row.icon-examples#containBills
                             each bill in bills
                                 .col-lg-11.col-md-6.mx-auto.bill(id='bill'+bill._id)
                                     .row
                                         .col-md-7
                                             h4.title Thông tin khách sạn
-                                            p Tên: &Dstrok;&#x1EC7; Nh&#x1EA5;t
-                                            p Số điện thoại: 0236541258
-                                            p Địa chỉ: An H&ograve;a, Ch&acirc;u Th&agrave;nh, An Giang
+                                            p Tên: #{bill.ma_loai_phong.ma_khach_san.ten}
+                                            p Số điện thoại: #{bill.ma_loai_phong.ma_khach_san.so_dien_thoai}
+                                            p Địa chỉ: #{bill.ma_loai_phong.ma_khach_san.dia_chi}
                                         .col-md-5
                                             h4.title Thông tin loại phòng
                                             p Loại phòng: #{bill.ma_loai_phong.ten}
@@ -224,20 +224,22 @@ block content
                                                 i.fa.fa-ban.mr-1(aria-hidden='true')
                                                 | Hủy đặt phòng
                             
-                            nav(aria-label='Page navigation example' style='margin: 20px auto auto;')
-                                ul.pagination.justify-content-center
-                                    li.page-item.disabled
-                                        a.page-link(href='#' aria-label='Previous')
-                                            span(aria-hidden='true') &laquo;
-                                    li.page-item.active
-                                        a.page-link(href='#') 1
-                                    li.page-item
-                                        a.page-link(href='#') 2
-                                    li.page-item
-                                        a.page-link(href='#') 3
-                                    li.page-item
-                                        a.page-link(href='#' aria-label='Next')
-                                            span(aria-hidden='true') &raquo;
+                        nav(aria-label='Page navigation example' style='margin: 20px auto auto;')
+                            ul.pagination.justify-content-center#containerPagiItem
+                                li.page-item.disabled
+                                    a.page-link(aria-label='Previous' onclick='ChoosePaginateItem(1)')
+                                        span(aria-hidden='true') &laquo;
+                                -   for (var i=1; i<=amountShowPage; i++)
+                                        if i == 1
+                                            li.page-item.active
+                                                a.page-link #{i}
+                                        else 
+                                            li.page-item
+                                                a.page-link(style="cursor:pointer;" onclick='ChoosePaginateItem('+ i +')') #{i}
+                                li.page-item
+                                    a.page-link(aria-label='Next' onclick='ChoosePaginateItem('+ pageTotal +')' title=pageTotal)
+                                        span(aria-hidden='true') &raquo;
+                
                     // Chi tiet hoa don
                     #billDetailContent.mainContent(style='display:none;')
                         .row.icon-examples
