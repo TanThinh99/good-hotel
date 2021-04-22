@@ -13,7 +13,6 @@ router.get('/basket', userCtrl.Basket);
 router.get('/checkout', userCtrl.Checkout);
 router.post('/onlinePayment', userCtrl.OnlinePayment);
 router.get('/successPayment', userCtrl.SuccessPayment);
-router.get('/cancelPayment', userCtrl.CancelPayment);
 
 // AJAX
     // Choose address
@@ -27,7 +26,8 @@ router.delete('/deleteInBasket', userCtrl.DeleteInBasket);
 
     // Bill
 router.get('/getBillDetail/:billID', userCtrl.GetBillDetail);
-router.put('/payBill', mid.GoToAccountUser, userCtrl.PayBill);
+router.get('/payBill', mid.GoToAccountUser, userCtrl.PayBill);
+router.get('/successPaymentOfBill', mid.GoToAccountUser, userCtrl.SuccessPaymentOfBill);
 router.delete('/destroyBill', mid.GoToAccountUser, userCtrl.DestroyBill);
 
     // Pagination

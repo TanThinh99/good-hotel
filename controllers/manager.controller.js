@@ -143,20 +143,14 @@ module.exports.CheckRoom = async function(req, res) {
     var day = FormatNumberInDate(date.getDate());
     var today = date.getFullYear() +'-'+ month +'-'+ day;
     params.today = today;
-    var bills, billKey = req.query.key;
-    if(billKey == undefined) {
-        bills = await hoaDon.find({
-            ma_loai_phong: {$in: roomTypeIDArr},
-            ngay_tra_phong: {$gte: today},
-            da_tra_phong: false
-        }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({da_thanh_toan: 1});
-    }
-    else {
-        bills = await hoaDon.find({
-            ma_loai_phong: {$in: roomTypeIDArr},
-            ngay_tra_phong: {$gte: today},
-            da_tra_phong: false
-        }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({da_thanh_toan: 1});
+    var bills = await hoaDon.find({
+        ma_loai_phong: {$in: roomTypeIDArr},
+        ngay_tra_phong: {$gte: today},
+        da_tra_phong: false
+    }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({da_thanh_toan: 1});
+    
+    var billKey = req.query.key;
+    if(billKey != undefined) {
         var tempArr = [];
         params.foundByKey = billKey;
         billKey = billKey.toLowerCase();
@@ -310,17 +304,31 @@ module.exports.BillDetail = async function(req, res) {
     // Check Room
 module.exports.DestroyBill = async function(req, res) {
     var billID = req.body.billID;
-    await hoaDon.findByIdAndDelete(billID);
+    var bill = await hoaDon.findByIdAndDelete(billID);
+
+    // increase amountRoom in roomType and hotel
+    var roomType = await loaiPhong.findById(bill.ma_loai_phong);
+    roomType.so_luong_con_lai = roomType.so_luong_con_lai + bill.so_luong_phong;
+    roomType.save();
+    var hotel = await khachSan.findById(roomType.ma_khach_san);
+    hotel.so_phong_con_lai = hotel.so_phong_con_lai + bill.so_luong_phong;
+    hotel.save();
     res.sendStatus(200);
 }
 
 module.exports.ReturnRoom = async function(req, res) {
     var billID = req.body.billID;
     var bill = await hoaDon.findById(billID);
-    // var roomAmount = bill.so_luong_phong;
-
     bill.da_tra_phong = true;
     bill.save();
+
+    // increase amountRoom in roomType and hotel
+    var roomType = await loaiPhong.findById(bill.ma_loai_phong);
+    roomType.so_luong_con_lai = roomType.so_luong_con_lai + bill.so_luong_phong;
+    roomType.save();
+    var hotel = await khachSan.findById(roomType.ma_khach_san);
+    hotel.so_phong_con_lai = hotel.so_phong_con_lai + bill.so_luong_phong;
+    hotel.save();
     res.sendStatus(200);
 }
 

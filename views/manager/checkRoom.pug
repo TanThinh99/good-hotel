@@ -58,10 +58,9 @@ block content
                                                 | Xem chi tiết
 
                                         - var receiveDate = new Date(bill.ngay_nhan_phong);
-                                        - var receiveLastDate = new Date(receiveDate.getTime() - (24*60*60*1000));
                                         - var now = new Date(today);
                                         if bill.da_thanh_toan == false
-                                            if receiveLastDate.getTime() <= now.getTime()
+                                            if receiveDate.getTime() <= now.getTime()
                                                 button.btn.btn-danger(onclick='DestroyBill("'+ bill._id +'")')
                                                     i.fa.fa-ban.mr-1(style='color:white;' aria-hidden="true")
                                                     | Hủy phòng
@@ -69,11 +68,10 @@ block content
                                                 button.btn.btn-danger.diabled(disabled) 
                                                     i.fa.fa-ban.mr-1(style='color:white;' aria-hidden="true")
                                                     | Hủy phòng
-                                        if receiveDate.getTime() >= now.getTime()
-                                            if bill.da_thanh_toan
-                                                button.btn.btn-success(onclick='ReturnRoom("'+ bill._id +'")')
-                                                    i.fa.fa-bookmark.mr-1(style='color:white;' aria-hidden="true")
-                                                    | Trả phòng
+                                        if bill.da_thanh_toan
+                                            button.btn.btn-success(onclick='ReturnRoom("'+ bill._id +'")')
+                                                i.fa.fa-bookmark.mr-1(style='color:white;' aria-hidden="true")
+                                                | Trả phòng
                             
         // Footer
         include layout/footer.pug

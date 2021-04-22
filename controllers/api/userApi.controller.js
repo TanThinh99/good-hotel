@@ -40,12 +40,12 @@ module.exports.PostLogin = async function(req, res) {
 
         var allow = '';
         var hasPermiss = await vaiTroCoQuyen.findOne({ma_vai_tro: rs.ma_vai_tro, ma_quyen: adminPageID}).exec();
-        if( hasPermiss != null) {
+        if(hasPermiss != null) {
             allow = 'Vao trang admin';
         }
         else {
             var hasPermiss = await vaiTroCoQuyen.findOne({ma_vai_tro: rs.ma_vai_tro, ma_quyen: managerPageID}).exec();
-            if( hasPermiss != null) {
+            if((hasPermiss != null) && (rs.ma_khach_san != '')) {
                 allow = 'Vao trang quan ly khach san';
             }
         }

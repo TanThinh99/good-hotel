@@ -1,9 +1,17 @@
-function CreateBill() {
+function CheckLogin() {
     var token = document.getElementById('token').value;
     if(token == '') {
         alert('Quý khách vui lòng đăng nhập để có thể tạo đơn đặt phòng');
+        return false;
+    }
+    return true;
+}
+
+function CreateBill() {
+    if(CheckLogin() == false) {
         return;
     }
+    var token = document.getElementById('token').value;
     axios({
         method: 'POST',
         url: 'http://localhost:8000/api/hoa_don',

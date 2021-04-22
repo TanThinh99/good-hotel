@@ -280,8 +280,17 @@ module.exports.FindHotelByKey = async function(req, res) {
 }
 
 module.exports.FindManagerByKey = async function(req, res) {
+    // Get roles have this permission "Vao trang quan ly khach san"
+    var permissName = 'Vao trang quan ly khach san';
+    var permission = await quyen.findOne({ten: permissName});
+    var rolesHaveThisPermiss = await vaiTroCoQuyen.find({ma_quyen: permission._id});
+    var roleArr = [];
+    for(var i=0; i<rolesHaveThisPermiss.length; i++) {
+        roleArr.push(rolesHaveThisPermiss[i].ma_vai_tro);
+    }
+
     var key = (req.query.key).toLowerCase();
-    var accounts = await taiKhoan.find();
+    var accounts = await taiKhoan.find({ma_vai_tro: {$in: roleArr}});
     var managerData = '';
     for(var i=0; i<accounts.length; i++) {
         var _id = (accounts[i]._id +'').toLowerCase();

@@ -18,6 +18,10 @@ function DeleteItem(itemID) {
             
             basketTotal = ShowMoney(basketTotal);
             document.getElementById('basketTotal').innerHTML = basketTotal;
+
+            var basketInfo = response.data.basketInfo;
+            document.getElementById('amountInBasketHeader').innerHTML = basketInfo.amount;
+            document.getElementById('basketPriceHeader').innerHTML = basketInfo.price +' VND';
         })
         .catch(function(err) {
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
@@ -25,6 +29,44 @@ function DeleteItem(itemID) {
         });                
     }
 }
+
+function SetFromDate() {
+    // FROM DATE
+    var tomorrow = new Date(new Date().getTime() + (24*60*60*1000));
+    var date = tomorrow.getDate();
+    if(date < 10) {
+        date = '0'+ date;
+    }
+    var month = tomorrow.getMonth() + 1;
+    if(month < 10) {
+        month = '0'+ month;
+    }
+    var year = tomorrow.getFullYear();
+    var minDate = year +'-'+ month +'-'+ date;
+        // LIMIT DATE
+    month = month*1 + 3;
+    if(month > 12) {
+        month = month - 12;
+        year++;
+    }
+    var limitDate = new Date(year +'-'+ month +'-'+ date);
+    month = limitDate.getMonth();
+    if(month < 10) {
+        month = '0'+ month;
+    }
+    date = limitDate.getDate();
+    if(date < 10) {
+        date = '0'+ date;
+    }
+    var maxDate = year +'-'+ month +'-'+ date;
+    var fromDateList = document.getElementsByClassName('fromDate');
+    for(var i=0; i<fromDateList.length; i++) {
+        fromDateList[i].min = minDate;
+        fromDateList[i].max = maxDate;
+    }
+}
+
+SetFromDate();
 
 function ChangeFromDate(itemID) {
     var fromDate = document.getElementById('fromDate'+ itemID);
@@ -43,6 +85,7 @@ function UpdateItem(itemID) {
     var d1 = new Date(fromDate);
     var d2 = new Date(toDate);
     var amountDate = (d2-d1)/(24 * 3600 * 1000);
+    amountDate = amountDate == 0 ? 1: amountDate;
     axios({
         method: 'PUT',
         url: 'http://localhost:8000/updateInBasket',
@@ -55,6 +98,10 @@ function UpdateItem(itemID) {
         }            
     })
     .then(function(response) {
+        var basketInfo = response.data.basketInfo;
+        document.getElementById('amountInBasketHeader').innerHTML = basketInfo.amount;
+        document.getElementById('basketPriceHeader').innerHTML = basketInfo.price +' VND';
+
         UpdatePrice(itemID, amountDate, amountRoom);
     })
     .catch(function(err) {

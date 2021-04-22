@@ -10,7 +10,8 @@ module.exports.List = async function(req, res) {
     res.json(docs);
 }
 
-module.exports.Add = function(req, res) {
+module.exports.Add = async function(req, res) {
+    var memberRoleID = '603fa4dd21cda10ea4419cc4';
     var obj = {
         ho_ten: req.body.ho_ten,
         gioi_tinh: true,
@@ -20,20 +21,12 @@ module.exports.Add = function(req, res) {
         avatar: '',
         username: req.body.username,
         password: sha(req.body.password),
+        ma_vai_tro: memberRoleID,
         ma_khach_san: '',
         maxp: ''
     }
-    vaiTroModel.findOne({ ten: 'member' }, function(err, doc) {
-        obj.ma_vai_tro = doc._id;
-        // console.log(doc);
-
-        taiKhoanModel.insertMany([obj], function(err, docs) {
-            if (err) 
-                throw console.log(err);
-            else 
-                res.send('success');
-        });
-    });    
+    var doc = await taiKhoanModel.insertMany([obj]);
+    res.send('success');
 }
 
 module.exports.Detail = async function(req, res) {

@@ -78,8 +78,8 @@ function DistrictAjax(cityID) {
         url: 'http://localhost:8000/district_of_city/'+ cityID
     })
     .then(function(response) {
-        console.log(response);
-        document.getElementById('containDistContent').innerHTML = response.data;
+        document.getElementById('containDistContent').innerHTML = response.data.distStr;
+        WardAjax(response.data.firstDistID);
     })
     .catch(function(err) {
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
@@ -107,7 +107,6 @@ function WardAjax(distID) {
         url: 'http://localhost:8000/wards_of_district/'+ distID
     })
     .then(function(response) {
-        console.log(response);
         document.getElementById('containWardContent').innerHTML = response.data;
     })
     .catch(function(err) {
@@ -137,7 +136,7 @@ function UpdateInfo() {
         var distName = document.getElementById('distMain').innerHTML;
         var cityName = document.getElementById('cityMain').innerHTML;
         var streetName = document.getElementById('streetName').value;
-        streetName = streetName==''?'':streetName+', ';
+        streetName = streetName.trim() == '' ? '' : streetName+', ';
         address = streetName + wardName +', '+ distName +', '+ cityName;
     }
     var hoTen = document.getElementById('name').value;
@@ -167,8 +166,7 @@ function UpdateInfo() {
         }                
     })
     .then(function(response) {
-        console.log(response);
-        alert('cap nhat thanh cong!')
+        alert('Quý khách đã cập nhật thông tin thành công!')
     })
     .catch(function(err) {
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
@@ -198,8 +196,7 @@ function UpdateAccount() {
             }                
         })
         .then(function(response) {
-            console.log(response);
-            alert('cap nhat thanh cong!')
+            alert('Quý khách đã cập nhật tài khoản thành công!')
         })
         .catch(function(err) {
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
@@ -264,21 +261,7 @@ function GetBillDetail(billID) {
 }
 
 function PayBill(billID) {
-    axios({
-        method: 'PUT',
-        url: 'http://localhost:8000/payBill',
-        data: {
-            "billID": billID
-        }                
-    })
-    .then(function(response) {
-        alert('Thanh toán đơn đặt phòng thành công. Cảm ơn quý khách ^^');
-        location.reload();
-    })
-    .catch(function(err) {
-        alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
-        console.log(err);
-    });
+    window.location.href = 'http://localhost:8000/payBill?billID='+ billID;
 }
 
 function DestroyBill(billID) {

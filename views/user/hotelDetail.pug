@@ -102,7 +102,12 @@ block content
                                                             span.showMoney.mr-1 #{roomType.gia}
                                                             | VND
                                                     li
-                                                        button.btn.btn-success(class='mt-3' data-toggle='modal' data-target='#datPhongModal' onclick='ChooseRoomType("'+ roomType._id +'")') Đặt phòng
+                                                        if roomType.so_luong_con_lai == 0
+                                                            button.btn.btn-success(class='mt-3' disabled) Hết phòng
+                                                        else
+                                                            button.btn.btn-success(class='mt-3' data-toggle='modal' data-target='#datPhongModal' onclick='ChooseRoomType("'+ roomType._id +'", "'+ roomType.so_luong_con_lai +'")') Đặt phòng
+                                                        if roomType.hinh_anh_360 != ''
+                                                            button.btn.btn-info(class='mt-3 ml-2' onclick='OpenImage360("'+ roomType.hinh_anh_360 +'")') Ảnh 360 độ
                                             .col-lg-8.col-md-6
                                                 .roomImageFrame
                                                     .roomImages(style='width: '+ (roomType.amountImagesRoomType*185) +'px;')
@@ -115,10 +120,10 @@ block content
                                                         input(type="hidden", id="roomImages"+roomType._id value=roomImages)
                                                         
                             #tabs-2.tab-pane(role='tabpanel')
-                                .product__details__tab__desc
+                                .product__details__tab__desc.row
                                     each conven in hotelConvenient
-                                        .convenients
-                                            i.fa.fa-wifi(class=conven.ma_tien_nghi.hinh_anh aria-hidden='true')
+                                        .convenients.col-3
+                                            i.fa(class=conven.ma_tien_nghi.hinh_anh aria-hidden='true')
                                             | #{conven.ma_tien_nghi.ten}
                                     
                             #tabs-3.tab-pane(role='tabpanel')
@@ -281,6 +286,13 @@ block content
         #turnRight(onclick="TurnImage('right')")
             i.fa.fa-chevron-right(aria-hidden='true')
     // Image List Slider End
+
+    // Image 360
+    #image360
+        iframe#image360Frame(src="", frameborder="0") 
+        .closeSlider(onclick="document.getElementById('image360').style.display = 'none';")
+            i.fa.fa-times(aria-hidden='true')
+    // Image 360 End
 
     // Related Product Section Begin
     section.related-product

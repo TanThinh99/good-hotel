@@ -21,12 +21,16 @@ function CloseModal() {
 }
 
 function Register() {
+    var pass1 = document.getElementById('pass1').value;
+    var pass2 = document.getElementById('pass2').value;
+    if((pass1 != pass2) || (pass1 == '')) {
+        alert('Mật khẩu không được rỗng, mật khẩu xác nhận phải trùng khớp với mật khẩu!');
+        return;
+    }
     var hoTen = document.getElementById('hoTen').value;
     var sdt = document.getElementById('sdt').value;
     var email = document.getElementById('email').value;
     var username = document.getElementById('username').value;
-    var password = document.getElementById('pass1').value;
-
     axios({
         method: 'POST',
         url: 'http://localhost:8000/api/tai_khoan',
@@ -35,12 +39,11 @@ function Register() {
             so_dien_thoai: sdt,
             email: email,
             username: username,
-            password: password
+            password: pass1
         }
     })
-    .then(function(response ) {
+    .then(function(response) {
         alert('Quý khách đăng ký tài khoản thành công!');
-        console.log(response);
     })
     .catch(function(err) {
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');

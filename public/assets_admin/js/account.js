@@ -55,8 +55,7 @@ function UpdateRole() {
         }                
     })
     .then(function(response) {
-        console.log(response);
-        alert('cap nhat thanh cong!');
+        alert('Đã cập nhật lại vai trò cho tài khoản!');
 
         // update user view
         var roleName = document.getElementById('option'+ roleSelected).innerHTML;

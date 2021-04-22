@@ -22,8 +22,7 @@ function AddRoomType() {
         }                                  
     })
     .then(function(response) {
-        // console.log(response);
-        alert('Them loai phong thành công!')
+        alert('Thêm loại phòng thành công!')
     })
     .catch(function(err) {
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');

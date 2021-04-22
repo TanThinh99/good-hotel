@@ -18,9 +18,11 @@ window.onload = function () {
                     }
                     reader.readAsDataURL(file);
                 } else {
-                    alert(file.name + " is not a valid image file.");
+                    alert(file.name + " là hình ảnh không hợp lệ. Tên hình không được có khoảng trắng hoặc ký tự đặc biệt!");
                     dvPreview.innerHTML = "";
-                    return false;
+                    document.getElementById('fileupload').value = '';
+                    document.getElementById('dvPreview').value = '';
+                    break;
                 }
             }
         } 
@@ -62,8 +64,8 @@ function DistrictAjax(cityID) {
         url: 'http://localhost:8000/district_of_city/'+ cityID
     })
     .then(function(response) {
-        console.log(response);
-        document.getElementById('containDistContent').innerHTML = response.data;
+        document.getElementById('containDistContent').innerHTML = response.data.distStr;
+        WardAjax(response.data.firstDistID);
     })
     .catch(function(err) {
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
@@ -91,7 +93,6 @@ function WardAjax(distID) {
         url: 'http://localhost:8000/wards_of_district/'+ distID
     })
     .then(function(response) {
-        console.log(response);
         document.getElementById('containWardContent').innerHTML = response.data;
     })
     .catch(function(err) {
@@ -147,8 +148,7 @@ function UpdateHotel() {
         }                
     })
     .then(function(response) {
-        console.log(response);
-        alert('cap nhat thanh cong!')
+        alert('Cập nhật xong thông tin khách sạn!')
     })
     .catch(function(err) {
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
@@ -192,7 +192,6 @@ function UploadImage() {
             }                                  
         })
         .then(function(response) {
-            console.log(response);
             alert('Tải hình ảnh thành công!')
             location.reload();
         })
@@ -215,7 +214,6 @@ function DeleteImage() {
             }                                  
         })
         .then(function(response) {
-            console.log(response);
             document.getElementById(imageID).hidden = true;
             CloseImageBox();
             return true;

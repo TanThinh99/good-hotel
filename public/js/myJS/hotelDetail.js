@@ -48,25 +48,33 @@ function ChooseCarouselImage(position, imageArr) {
     document.getElementById('imageListSlider').style.display = 'block';
 }
 
-function ChooseRoomType(roomTypeID) {
+function OpenImage360(link) {
+    document.getElementById('image360Frame').src = link;
+    document.getElementById('image360').style.display = 'block';
+}
+
+function ChooseRoomType(roomTypeID, maxRoom) {
     document.getElementById('roomTypeIDSelected').value = roomTypeID;
+    if(maxRoom < 5) {
+        document.getElementById('amountRoom').max = maxRoom;
+    }    
 }
 
 function SetFromDate() {
         // FROM DATE
-    var today = new Date();
-    var date = today.getDate();
+    var tomorrow = new Date(new Date().getTime() + (24*60*60*1000));
+    var date = tomorrow.getDate();
     if(date < 10) {
         date = '0'+ date;
     }
-    var month = today.getMonth() + 1;
+    var month = tomorrow.getMonth() + 1;
     if(month < 10) {
         month = '0'+ month;
     }
-    document.getElementById('fromDate').min = today.getFullYear() +'-'+ month +'-'+ date;
+    var year = tomorrow.getFullYear();
+    document.getElementById('fromDate').min = year +'-'+ month +'-'+ date;
         // LIMIT DATE
     month = month*1 + 3;
-    var year = today.getFullYear();
     if(month > 12) {
         month = month - 12;
         year++;
@@ -82,6 +90,7 @@ function SetFromDate() {
     }
     document.getElementById('fromDate').max = year +'-'+ month +'-'+ date;
 }
+
 SetFromDate();
 
 document.getElementById('fromDate').onchange = function(req, res) {
@@ -118,6 +127,10 @@ function CheckRoom() {
             document.getElementById('fromDate').value = '';
             document.getElementById('toDate').value = '';
             document.getElementById('closeCheckRoom').click();
+
+            var basketInfo = response.data.basketInfo;
+            document.getElementById('amountInBasketHeader').innerHTML = basketInfo.amount;
+            document.getElementById('basketPriceHeader').innerHTML = basketInfo.price +' VND';
         })
         .catch(function(err) {
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');

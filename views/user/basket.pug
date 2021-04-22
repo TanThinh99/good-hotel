@@ -31,32 +31,37 @@ block content
                             | #{item.hotelName}
                         p.info
                             span.title Loại phòng 
-                            | #{item.roomTypeName}
+                            | #{item.roomType.ten}
                     .col-3
                         p.info
                             span.title.mr-1 Giá phòng
-                            span.showMoney.mr-1 #{item.roomTypePrice}
+                            span.showMoney.mr-1 #{item.roomType.gia}
                             | VND
-                            input(type="hidden", id="price"+ item.itemID value=item.roomTypePrice)
+                            input(type="hidden", id="price"+ item.itemID value=item.roomType.gia)
                         p.quantity.form-inline.info
                             span.title Số phòng
-                            input.form-control.ml-1(type='number' id='amountRoom'+item.itemID value=item.amountRoom min='1' step='1' max='5' style='width:100px;' onchange='UpdateItem("'+ item.itemID +'")')
+                            -   var maxRoom = item.roomType.so_luong_con_lai < 5 ? item.roomType.so_luong_con_lai : '5'
+                            input.form-control.ml-1(type='number' id='amountRoom'+item.itemID value=item.amountRoom min='1' step='1' max=maxRoom style='width:100px;' onchange='UpdateItem("'+ item.itemID +'")')
                     .col-3
                         p.form-inline.info(style='margin-bottom: -10px;')
                             span.title Từ ngày&nbsp;&nbsp;
-                            input.form-control.ml-1(type='date' id='fromDate'+item.itemID value=item.fromDate onchange='ChangeFromDate("'+ item.itemID +'")')
+                            input.form-control.ml-1.fromDate(style='width: 73%;' type='date' id='fromDate'+item.itemID value=item.fromDate onchange='ChangeFromDate("'+ item.itemID +'")')
                         p.form-inline.info
                             span.title Đến ngày&nbsp;
                             input.form-control(type='date' id='toDate'+item.itemID min=item.fromDate value=item.toDate onchange='UpdateItem("'+ item.itemID +'")')
                     .col-2.text-center
                         p.title.info Tổng cộng
                         p.info.totalPrice
-                            span.showMoney.mr-1(id='itemTotal'+ item.itemID) #{item.amountRoom * item.amountDate * item.roomTypePrice}
+                            span.showMoney.mr-1(id='itemTotal'+ item.itemID) #{item.amountRoom * item.amountDate * item.roomType.gia}
                             | VND
-                            input(type="hidden", id="itemTotalHidden"+item.itemID value=item.amountRoom*item.amountDate*item.roomTypePrice)
+                            input(type="hidden", id="itemTotalHidden"+item.itemID value=item.amountRoom*item.amountDate*item.roomType.gia)
                     .col-1
                         i.fa.fa-times.func(aria-hidden='true' onclick='DeleteItem("'+ item.itemID +'")')
-            
+                    
+                    each conven in item.convens 
+                        .col-3.convenients
+                            i.fa(class=conven.ma_tien_nghi.hinh_anh aria-hidden='true')
+                            | #{conven.ma_tien_nghi.ten}
             .row
                 .col-lg-6.mt-4
                     if account
@@ -81,7 +86,7 @@ block content
                                 | TỔNG GIỎ HÀNG 
                                 - var total = 0;
                                 - for(i=0; i<basket.length; i++)
-                                    - total += basket[i].amountRoom * basket[i].amountDate * basket[i].roomTypePrice;
+                                    - total += basket[i].amountRoom * basket[i].amountDate * basket[i].roomType.gia;
                                 span VND
                                 span.showMoney.mr-1(id='basketTotal') #{total}
                                 input(type="hidden", id="basketTotalHidden" value=total)

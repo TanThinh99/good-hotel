@@ -95,8 +95,8 @@ header.header
                         div
                             a.shopping-cart(href='/basket')
                                 i.fa.fa-shopping-cart(aria-hidden='true')
-                                    span.amount #{basketTotal.amount}
-                            span(style='font-weight: bolder; font-size: 17px; color: #f25119') 
+                                    span.amount#amountInBasketHeader #{basketTotal.amount}
+                            span(id='basketPriceHeader' style='font-weight: bolder; font-size: 17px; color: #f25119') 
                                 | #{basketTotal.price} VND
 
                         .hero__search__phone__icon
@@ -126,26 +126,26 @@ header.header
                     #loginTabPane.tab-pane.active
                         .form-group
                             .col-sm-12
-                                label(for='uid') T&ecirc;n &dstrok;&abreve;ng nh&#x1EAD;p
+                                label(for='uid') Tên đăng nhập
                                 input#uid.form-control(placeholder='Nhập tên đăng nhập ...' type='text')
                         .form-group
                             .col-sm-12
-                                label(for='pass') M&#x1EAD;t kh&#x1EA9;u
+                                label(for='pass') Mật khẩu
                                 input#pass.form-control(placeholder='Nhập mật khẩu ...' type='password')
                         .form-group(style='margin-top: 27px;')
                             .col-sm-10
                                 button.btn.btn-primary.btn-radius.btn-brd.grd1(onclick='Login()')
                                     | Đăng nhập
-                                a.for-pwd.btn.btn-link(href='javascript:;') Forgot your password?
+                                a.for-pwd.btn.btn-link(href='javascript:;') Quên mật khẩu?
                     #regTabPane.tab-pane
                         form.form-horizontal(role='form')
                             .form-group
                                 .col-sm-12
-                                    label(for='hoTen') H&#x1ECD; t&ecirc;n
+                                    label(for='hoTen') Họ tên
                                     input#hoTen.form-control(placeholder='Nhập tên ...' type='text')
                             .form-group
                                 .col-sm-12
-                                    label(for='sdt') S&#x1ED1; &dstrok;i&#x1EC7;n tho&#x1EA1;i
+                                    label(for='sdt') Số điện thoại
                                     input#sdt.form-control(placeholder='Nhập số điện thoại ...' type='text')
                             .form-group
                                 .col-sm-12
@@ -157,11 +157,11 @@ header.header
                                     input#username.form-control(placeholder='Nhập tên đăng nhập ...' type='text')
                             .form-group
                                 .col-sm-12
-                                    label(for='pass1') M&#x1EAD;t kh&#x1EA9;u
+                                    label(for='pass1') Mật khẩu
                                     input#pass1.form-control(placeholder='Nhập mật khẩu ...' type='password')
                             .form-group
                                 .col-sm-12
-                                    label(for='pass2') X&aacute;c nh&#x1EAD;n m&#x1EAD;t kh&#x1EA9;u
+                                    label(for='pass2') Xác nhận mật khẩu
                                     input#pass2.form-control(placeholder='Nhập lại mật khẩu ...' type='password')
                             .form-group(style='margin-top: 27px;')
                                 .col-sm-12
@@ -170,6 +170,5 @@ header.header
                                     button.btn.btn-light.btn-radius.btn-brd.grd1(type='reset')
                                         | Làm lại
             .modal-footer
-                button#closeLoginModal.btn.btn-secondary(type='button' data-dismiss='modal') Close
-                // <button type="button" class="btn btn-primary" onclick="CloseModal()">Save changes</button>
+                button#closeLoginModal.btn.btn-secondary(type='button' data-dismiss='modal') Đóng
 // Modal End
