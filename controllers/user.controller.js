@@ -1,9 +1,19 @@
-const axios = require('axios');
+const jwt = require('jsonwebtoken');
+const sha = require('js-sha256');
 const paypal = require('paypal-rest-sdk');
 paypal.configure({
     'mode': 'sandbox', //sandbox or live
     'client_id': process.env.PAYPAL_CLIENT_ID,
     'client_secret': process.env.PAYPAL_CLIENT_SECRET
+});
+
+const nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'tanthinh199915@gmail.com',
+        pass: 'al27Phte5'
+    }
 });
 
 const taiKhoan = require('../models/tai_khoan.model');
@@ -94,6 +104,64 @@ module.exports.Index = async function(req, res) {
     }
     params.basketTotal = GetAmountAndPriceInBasket(req);
     res.render('user/index', params);
+}
+
+module.exports.ForgetPassword = async function(req, res) {
+    var username = req.body.uid;
+    var email = req.body.email;
+    var account = await taiKhoan.findOne({username: username, email: email});
+    if(account == undefined) {
+        res.send({err: 'Tên đăng nhập hoặc email không đúng!'});
+    }
+    else {
+        var content = {
+            uid: username
+        }
+        var mailOptions = {
+            from: 'tanthinh199915@gmail.com',
+            to: email,
+            subject: 'Good Hotel. Có yêu cầu đổi mật khẩu từ bạn',
+            html: ''
+        }
+        try {
+            var token = jwt.sign(content, process.env.PASS_EMAIL_SYSTEM, {expiresIn: 600});
+            mailOptions.html = '<p>Thân chào bạn</p>\
+                                <p>Bạn đã có yêu cầu đổi mật khẩu mới, nên chúng tôi gửi email này đến bạn.</p>\
+                                <p>Dưới đây là <b>chuỗi mã hóa</b>. Thời hạn của chuỗi này là 10 phút.</p>\
+                                <p style="border-top:3px solid lime; border-bottom:3px solid lime; padding: 12px;">\
+                                    '+ token +'\
+                                </p>\
+                                <p>Thân chào bạn</p>\
+                                <p><b>Good Hotel</b></p>';
+            transporter.sendMail(mailOptions, function(err, info) {
+                if(err) {
+                    console.log(err);
+                    res.send({err: 'Hệ thống gửi email có lỗi. Quý khách vui lòng thử lại sau!'});
+                }
+                else {
+                    res.send({err: ''});
+                }
+            });
+        } catch (error) {
+            console.log(err);
+        }
+    }
+}
+
+module.exports.ConfirmNewPassword = async function(req, res) {
+    var token = req.body.token;
+    var password = req.body.password;
+    try {
+        var decode = jwt.verify(token, process.env.PASS_EMAIL_SYSTEM);
+        var username = decode.uid;
+        var account = await taiKhoan.findOne({username: username});
+        account.password = sha(password);
+        account.save();
+        res.send({err: ''});
+    } catch (error) {
+        console.log(error);
+        res.send({err: 'Chuỗi mã hóa đã hết hạn hoặc không hợp lệ'});
+    }
 }
 
 module.exports.Account = async function(req, res) {

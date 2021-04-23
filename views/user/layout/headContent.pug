@@ -8,15 +8,6 @@
         a(href='#')
             img(src='/img/good_hotel.png' alt='')
     .humberger__menu__widget
-        .header__top__right__language
-            img(src='/img/language.png' alt='')
-            div English
-            span.arrow_carrot-down
-            ul
-                li
-                    a(href='#') Spanis
-                li
-                    a(href='#') English
         .header__top__right__auth
             a(href='#' data-toggle='modal' data-target='#exampleModal')
                 i.fa.fa-user
@@ -36,7 +27,7 @@
             li
                 i.fa.fa-envelope
                 |  good-hotel@gmail.com
-            li Ch&#x1EA5;t l&#x1B0;&#x1EE3;ng thay l&#x1EDD;i n&oacute;i
+            li Chất lượng thay lời nói
 // Humberger End
 // Header Section Begin
 header.header
@@ -61,20 +52,13 @@ header.header
                                 i.fa.fa-linkedin
                             a(href='#')
                                 i.fa.fa-pinterest-p
-                        .header__top__right__language
-                            img(src='/img/language.png' alt='')
-                            div English
-                            span.arrow_carrot-down
-                            ul
-                                li
-                                    a(href='#') Spanis
-                                li
-                                    a(href='#') English
-                        .header__top__right__auth
+                        .header__top__right__auth.header__top__right__language
                             if username
-                                a(href='/account')
+                                a(style='display:inline;' href='/account')
                                     i.fa.fa-user
                                     |  #{username}
+                                a.ml-3(style='display:inline;' href='/logout' title='Đăng xuất')
+                                    i.fa.fa-sign-out(style='font-size: 18px; margin-right: 0px;' aria-hidden="true")
                             else 
                                 a(href='#' data-toggle='modal' data-target='#exampleModal')
                                     i.fa.fa-user
@@ -111,7 +95,7 @@ header.header
 // Modal
 #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
     .modal-dialog
-        .modal-content
+        .modal-content(style='width:104%;')
             .modal-header
                 h5#exampleModalLabel.modal-title Xin chào Quý khách
                 button.close(type='button' data-dismiss='modal' aria-label='Close')
@@ -119,9 +103,13 @@ header.header
             .modal-body
                 ul.nav.nav-pills(style='padding: 7px 0px 21px 3%;')
                     li.nav-item
-                        a.nav-link.active(style='margin-right: 5px;' href='#' onclick="CustomerLogin(this, 'loginTabPane')") &Dstrok;&abreve;ng nh&#x1EAD;p
+                        a.nav-link.active(href='#' onclick="CustomerLogin(this, 'loginTabPane')") Đăng nhập
                     li.nav-item
-                        a.nav-link(href='#' onclick="CustomerLogin(this, 'regTabPane')") &Dstrok;&abreve;ng k&yacute;
+                        a.nav-link.ml-1(href='#' onclick="CustomerLogin(this, 'regTabPane')") Đăng ký
+                    li.nav-item
+                        a.nav-link.ml-1(href='#' onclick="CustomerLogin(this, 'forgetPasswordTabPane')") Quên mật khẩu
+                    li.nav-item
+                        a.nav-link.ml-1(id='savePassNavItem' href='#' onclick="CustomerLogin(this, 'saveNewPasswordTabPane')") Mật khẩu mới
                 .tab-content
                     #loginTabPane.tab-pane.active
                         .form-group
@@ -136,7 +124,7 @@ header.header
                             .col-sm-10
                                 button.btn.btn-primary.btn-radius.btn-brd.grd1(onclick='Login()')
                                     | Đăng nhập
-                                a.for-pwd.btn.btn-link(href='javascript:;') Quên mật khẩu?
+                    
                     #regTabPane.tab-pane
                         form.form-horizontal(role='form')
                             .form-group
@@ -169,6 +157,43 @@ header.header
                                         | Đăng ký
                                     button.btn.btn-light.btn-radius.btn-brd.grd1(type='reset')
                                         | Làm lại
+                    
+                    #forgetPasswordTabPane.tab-pane
+                        .form-group
+                            .col-sm-12
+                                label(for='uidFP') Tên đăng nhập
+                                input#uidFP.form-control(placeholder='Nhập tên đăng nhập ...' type='text')
+                        .form-group
+                            .col-sm-12
+                                label(for='emailFP') Email
+                                input#emailFP.form-control(placeholder='Nhập email ...' type='email')
+                        .form-group(style='margin-top: 27px;')
+                            .col-sm-10
+                                button.btn.btn-primary.btn-radius.btn-brd.grd1(onclick='CheckAccountInfo()')
+                                    | Xác nhận tài khoản
+
+                    #saveNewPasswordTabPane.tab-pane
+                        .form-group 
+                            .col-sm-12(style='color: #969696; text-align: justify;')
+                                i.fa.fa-exclamation-circle.mr-1(style='font-size: 20px;' aria-hidden="true")
+                                | Quý khách cần xác nhận tài khoản tại mục Quên mật khẩu trước, sau đó hệ thống gửi chuỗi mã hóa đến email của quý khách, sau đó quý khách dùng chức năng này để đổi mật khẩu mới !!
+                        .form-group
+                            .col-sm-12
+                                label(for='tokenFP') Chuỗi mã hóa
+                                input#tokenFP.form-control(placeholder='Nhập chuỗi mã hóa trong email' autocomplete='off' type='text')
+                        .form-group
+                            .col-sm-12
+                                label(for='pass1FP') Mật khẩu mới
+                                input#pass1FP.form-control(placeholder='Nhập mật khẩu mới ...' type='password')
+                        .form-group
+                            .col-sm-12
+                                label(for='pass2FP') Nhập lại mật khẩu mới
+                                input#pass2FP.form-control(placeholder='Nhập lại mật khẩu mới ...' type='password')
+                        .form-group(style='margin-top: 27px;')
+                            .col-sm-10
+                                button.btn.btn-primary.btn-radius.btn-brd.grd1(onclick='SaveNewPassword()')
+                                    | Lưu mật khẩu
+                    
             .modal-footer
                 button#closeLoginModal.btn.btn-secondary(type='button' data-dismiss='modal') Đóng
 // Modal End

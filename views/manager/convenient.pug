@@ -37,7 +37,7 @@ block content
                                     button.btn-icon-clipboard.convenient(type='button')
                                         div
                                             i.fa(class=conven.ma_tien_nghi.hinh_anh aria-hidden='true')
-                                            span #{conven.ma_tien_nghi.ten}
+                                            span.convenientName #{conven.ma_tien_nghi.ten}
                                             span.deleteBtn(onclick='DestroyConvenient("'+ conven._id +'")')
                                                 i.fa.fa-trash(aria-hidden='true')
                                 
@@ -50,10 +50,10 @@ block content
                             input(type="hidden", id="convenSelected")
                             each conven in notConvens
                                 .col-lg-3.col-md-6
-                                    button.btn-icon-clipboard(type='button' id='conven'+conven._id onclick='ChooseConvenient("'+ conven._id +'")')
+                                    button.btn-icon-clipboard.convenient(type='button' id='conven'+conven._id onclick='ChooseConvenient("'+ conven._id +'")')
                                         div
                                             i.fa(class=conven.hinh_anh aria-hidden='true')
-                                            span #{conven.ten}
+                                            span.convenientName #{conven.ten}
                         button.btn.btn-success.mt-3(onclick='AddConvenient()')
                             i.fa.fa-plus.mr-1(aria-hidden='true')
                             | Thêm mới

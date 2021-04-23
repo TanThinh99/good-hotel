@@ -15,6 +15,7 @@ document.getElementById('roleSelect').onchange = function() {
 
 function ShowUserDetail(userID) {
     var avatar = document.getElementById('avatar'+userID).src;
+    var username = document.getElementById('username'+userID).innerHTML;
     var hoTen = document.getElementById('hoTen'+userID).innerHTML;
     var maVaiTro = document.getElementById('maVaiTro'+userID).value;
     var gioiTinh = document.getElementById('gioiTinh'+userID).value;
@@ -22,7 +23,7 @@ function ShowUserDetail(userID) {
     var sdt = document.getElementById('sdt'+userID).value;
 
     document.getElementById('avatarModal').src = avatar;
-    document.getElementById('idModal').innerHTML = userID;
+    document.getElementById('usernameModal').innerHTML = username;
     document.getElementById('hoTenModal').innerHTML = hoTen;
     document.getElementById('gioiTinhModal').innerHTML = gioiTinh;
     document.getElementById('emailModal').innerHTML = email;

@@ -2,6 +2,10 @@
     position: relative;
 }
 
+.convenient .convenientName {
+    white-space: normal;
+}
+
 .convenient .deleteBtn {
     position: absolute;
     top: 4px;

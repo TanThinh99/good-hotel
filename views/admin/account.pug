@@ -49,8 +49,8 @@ block content
                                     div
                                         img.user-avatar(id="avatar"+acc._id src='/uploads/'+acc.avatar alt='')
                                     p
-                                        b ID: 
-                                        span #{acc._id}
+                                        b Tên đăng nhập: 
+                                        span(id="username"+acc._id) #{acc.username}
                                     p
                                         b Tên: 
                                         span(id="hoTen"+acc._id) #{acc.ho_ten}
@@ -94,11 +94,11 @@ block content
                                 img(id='avatarModal' src='https://hinhanhdep.net/wp-content/uploads/2016/01/avatar-hoat-hinh-anime-chibi-10.jpg' alt='')
                             .col-7
                                 .info
-                                    span.title ID: 
-                                        span(id='idModal') sldksmaldkfldss
+                                    span.title Tên đăng nhập: 
+                                        span(id='usernameModal') abc
                                 .info
                                     span.title Họ tên: 
-                                        span(id='hoTenModal') Nguy&#x1EC5;n T&#x1EA5;n Th&#x1ECB;nh
+                                        span(id='hoTenModal') Nguyễn Tấn Thịnh
                                 .info
                                     span.title Giới tính: 
                                         span(id='gioiTinhModal') Nam

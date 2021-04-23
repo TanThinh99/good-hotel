@@ -61,9 +61,12 @@ block content
         .container
             .row
                 .col-6
-                    h4(style='font-weight: 700;color: #1c1c1c; font-size: 26px; margin-bottom: 34px;')
+                    h4(style='font-weight: 700;color: #1c1c1c; font-size: 26px; margin-bottom: 34px; font-family:system-ui;')
                         i.fa.fa-home.mr-1(style='color: greenyellow; font-size: 40px;')
-                        | Đánh giá cao
+                        if foundByKey
+                            | Kết quả tìm kiếm theo "#{foundByKey}"
+                        else 
+                            | Các khách sạn
                 .col-6.form-inline(style=' margin-bottom: 34px;')
                     input(type="hidden", id="foundByKey" value=foundByKey)
                     input(type="hidden", id="filterType" value=filterType)

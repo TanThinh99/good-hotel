@@ -147,7 +147,7 @@ module.exports.CheckRoom = async function(req, res) {
         ma_loai_phong: {$in: roomTypeIDArr},
         ngay_tra_phong: {$gte: today},
         da_tra_phong: false
-    }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({da_thanh_toan: 1});
+    }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({da_thanh_toan: 1, ngay_dat_phong: -1});
     
     var billKey = req.query.key;
     if(billKey != undefined) {
@@ -232,7 +232,7 @@ module.exports.ReplyComment = async function(req, res) {
 
 module.exports.Bill = async function(req, res) {
     var decode = req.session.decode;
-    var account = await taiKhoan.findById(decode.id).exec();
+    var account = await taiKhoan.findById(decode.id);
     var params = {
         account: account
     }
@@ -247,20 +247,19 @@ module.exports.Bill = async function(req, res) {
         bills = await hoaDon.find({
             ma_loai_phong: {$in: roomTypeIDArr},
             da_tra_phong: true
-        }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({ngay_dat_phong: 1});
+        }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({ngay_dat_phong: -1});
     }
     else {
         bills = await hoaDon.find({
             ma_loai_phong: {$in: roomTypeIDArr},
-            da_tra_phong: true
-        }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({ngay_dat_phong: 1});
+            da_tra_phong: true,
+        }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({ngay_dat_phong: -1});
         var tempArr = [];
         params.foundByKey = billKey;
         billKey = billKey.toLowerCase();
         for(var i=0; i<bills.length; i++) {
-            var billID = (bills[i]._id +'').toLowerCase();
             var ho_ten = bills[i].ma_tai_khoan.ho_ten.toLowerCase();
-            if((billID.indexOf(billKey) != -1) || (ho_ten.indexOf(billKey) != -1)) {
+            if(ho_ten.indexOf(billKey) != -1) {
                 tempArr.push(bills[i]);
             }
         }
@@ -465,19 +464,18 @@ module.exports.GetBillForPagination = async function(req, res) {
         bills = await hoaDon.find({
             ma_loai_phong: {$in: roomTypeIDArr},
             da_tra_phong: true
-        }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({ngay_dat_phong: 1});
+        }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({ngay_dat_phong: -1});
     }
     else {
         bills = await hoaDon.find({
             ma_loai_phong: {$in: roomTypeIDArr},
             da_tra_phong: true
-        }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({ngay_dat_phong: 1});
+        }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({ngay_dat_phong: -1});
         var tempArr = [];
         billKey = billKey.toLowerCase();
         for(var i=0; i<bills.length; i++) {
-            var billID = (bills[i]._id +'').toLowerCase();
             var ho_ten = bills[i].ma_tai_khoan.ho_ten.toLowerCase();
-            if((billID.indexOf(billKey) != -1) || (ho_ten.indexOf(billKey) != -1)) {
+            if(ho_ten.indexOf(billKey) != -1) {
                 tempArr.push(bills[i]);
             }
         }
@@ -522,13 +520,13 @@ module.exports.GetBillForPagination = async function(req, res) {
                         <div class="row">\
                             <div class="col-md-6">\
                                 <h3 class="title">Thông tin hóa đơn</h3>\
-                                <p class="info">Mã hóa đơn: '+ billArr[i]._id +'</p>\
                                 <p class="info">Loại phòng: '+ billArr[i].ma_loai_phong.ten +'</p>\
+                                <p class="info">Giá đặt phòng: '+ billArr[i].gia_dat_phong +' VND</p>\
                                 <p class="info">Ngày đặt phòng: <em>'+ billArr[i].ngay_dat_phong +'</em></p>\
                             </div>\
                             <div class="col-md-6">\
                                 <h3 class="title">Thông tin khách hàng</h3>\
-                                <p class="info">Mã tài khoản: '+ billArr[i].ma_tai_khoan._id +'</p>\
+                                <p class="info">Tên đăng nhập: '+ billArr[i].ma_tai_khoan.username +'</p>\
                                 <p class="info">Họ tên: '+ billArr[i].ma_tai_khoan.ho_ten +'</p>\
                                 <p class="info">Số điện thoại: '+ billArr[i].ma_tai_khoan.so_dien_thoai +'</p>\
                             </div>\

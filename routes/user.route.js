@@ -7,8 +7,10 @@ var userCtrl = require('./../controllers/user.controller');
 router.get('', userCtrl.Index);
 router.get('/account', mid.GoToAccountUser, userCtrl.Account);
 router.get('/logout', userCtrl.Logout);
-router.get('/detail/:hotelID', userCtrl.HotelDetail);
+router.post('/forgetPassword', userCtrl.ForgetPassword);
+router.post('/confirmNewPassword', userCtrl.ConfirmNewPassword);
 
+router.get('/detail/:hotelID', userCtrl.HotelDetail);
 router.get('/basket', userCtrl.Basket);
 router.get('/checkout', userCtrl.Checkout);
 router.post('/onlinePayment', userCtrl.OnlinePayment);

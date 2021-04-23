@@ -10,7 +10,13 @@ function CustomerLogin(t, type) {
     if(type == 'loginTabPane') {
         document.getElementById(type).classList.add('active');
     }
-    else {
+    else if(type == 'regTabPane'){
+        document.getElementById(type).classList.add('active');
+    }
+    else if(type == 'forgetPasswordTabPane'){
+        document.getElementById(type).classList.add('active');
+    }
+    else if(type == 'saveNewPasswordTabPane'){
         document.getElementById(type).classList.add('active');
     }
     t.classList.add('active');
@@ -87,4 +93,72 @@ function Login() {
             console.log(err);
         });
     }
+}
+
+function CheckAccountInfo() {
+    var uid = document.getElementById('uidFP').value;
+    var email = document.getElementById('emailFP').value;
+    if((uid == '') || (email == '')) {
+        alert('Tên đăng nhập và email không được rỗng!');
+        return;
+    }
+    axios({
+        method: 'POST',
+        url: 'http://localhost:8000/forgetPassword',
+        data: {
+            uid: uid,
+            email: email
+        }
+    })
+    .then(function(response) {
+        var err = response.data.err;
+        if(err == '') {
+            var itemNav = document.getElementById('savePassNavItem');
+            CustomerLogin(itemNav, 'saveNewPasswordTabPane');
+            alert('Xác nhận tài khoản thành công. Hệ thống đã gửi mail đến email của quý khách!');
+        }
+        else {
+            alert(err);
+        }
+    })
+    .catch(function(err) {
+        console.log(err);
+        alert('Có lỗi hệ thống. Quý khách vui lòng thử lại sau!');
+    })
+}
+
+function SaveNewPassword() {
+    var token = document.getElementById('tokenFP').value.trim();
+    if(token == '') {
+        alert('Chuỗi mã hóa không được rỗng!');
+        return;
+    }
+    var pass1 = document.getElementById('pass1FP').value.trim();
+    var pass2 = document.getElementById('pass2FP').value.trim();
+    if((pass1 == '') || (pass2 == '') || (pass1 != pass2)) {
+        alert('Mật khẩu không được rỗng, và mật khẩu nhập lại phải trùng khớp với mật khẩu trên!');
+        return;
+    }   
+    axios({
+        method: 'POST',
+        url: 'http://localhost:8000/confirmNewPassword',
+        data: {
+            token: token,
+            password: pass1
+        }
+    })
+    .then(function(response) {
+        var err = response.data.err;
+        if(err == '') {
+            alert('Quý khách đã đổi mật khẩu thành công!');
+            location.reload();
+        }
+        else {
+            alert(err);
+        }
+    })
+    .catch(function(err) {
+        console.log(err);
+        alert('Có lỗi hệ thống. Quý khách vui lòng thử lại sau!');
+    })
 }
