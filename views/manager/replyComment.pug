@@ -74,6 +74,9 @@ block content
                             .col-md-11.col-md-6.mx-auto.text-center
                                 textarea.form-control(id='replyContent' rows='8' style='width: 100%;')
                                     | #{comment.noi_dung_phan_hoi}
+                                span(style='color:red; display:none; text-align:left;')#contentReplyErr
+                                    b.mr-1(style='font-size:20px;') !
+                                    | Phản hồi không được rỗng
                             .col-md-11.col-md-6.mx-auto.mt-md-3
                                 button.btn.btn-success(onclick='UpdateReply()')
                                     i.fa.fa-pencil-square-o.update-icon(aria-hidden='true')

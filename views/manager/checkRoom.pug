@@ -38,19 +38,27 @@ block content
                                 .col-lg-11.col-md-6.btn-icon-clipboard.mx-auto(id='bill'+ bill._id)
                                     .row
                                         .col-md-6
-                                            h4 Thông tin loại phòng
-                                            p Loại phòng: #{bill.ma_loai_phong.ten}
+                                            h3.mb-3 Thông tin loại phòng
+                                            p 
+                                                b Loại phòng: 
+                                                | #{bill.ma_loai_phong.ten}
                                             p
-                                                | Ngày đặt phòng: 
+                                                b Ngày đặt phòng: 
                                                 em #{bill.ngay_dat_phong}
                                             p
-                                                | Ngày nhận phòng: 
+                                                b Ngày nhận phòng: 
                                                 em #{bill.ngay_nhan_phong}
                                         .col-md-6
-                                            h4 Thông tin khách hàng
-                                            p Tên đăng nhập: #{bill.ma_tai_khoan.username}
-                                            p Họ tên: #{bill.ma_tai_khoan.ho_ten}
-                                            p Số điện thoại: #{bill.ma_tai_khoan.so_dien_thoai}
+                                            h3.mb-3 Thông tin khách hàng
+                                            p 
+                                                b Tên đăng nhập: 
+                                                | #{bill.ma_tai_khoan.username}
+                                            p 
+                                                b Họ tên: 
+                                                | #{bill.ma_tai_khoan.ho_ten}
+                                            p 
+                                                b Số điện thoại: 
+                                                | #{bill.ma_tai_khoan.so_dien_thoai}
                                     div
                                         a(href="./bill/"+ bill._id class="mr-2") 
                                             button.btn.btn-info 
@@ -60,6 +68,9 @@ block content
                                         - var receiveDate = new Date(bill.ngay_nhan_phong);
                                         - var now = new Date(today);
                                         if bill.da_thanh_toan == false
+                                            button.btn.btn-warning(onclick='PaidBill("'+ bill._id +'")')
+                                                i.fa.fa-money.mr-1(style='color:white;' aria-hidden="true")
+                                                | Đã thanh toán
                                             if receiveDate.getTime() <= now.getTime()
                                                 button.btn.btn-danger(onclick='DestroyBill("'+ bill._id +'")')
                                                     i.fa.fa-ban.mr-1(style='color:white;' aria-hidden="true")

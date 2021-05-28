@@ -42,16 +42,28 @@ block content
                                         .col-md-6
                                             h3.title Thông tin hóa đơn
                                             
-                                            p.info Loại phòng: #{bill.ma_loai_phong.ten}
-                                            p.info Giá đặt phòng: #{bill.gia_dat_phong} VND
+                                            p.info 
+                                                b Loại phòng: 
+                                                | #{bill.ma_loai_phong.ten}
+                                            p.info 
+                                                b Giá đặt phòng: 
+                                                span.ml-1.mr-1.showMoney(style='line-height: inherit; font-size: 16px; vertical-align: inherit; display: inline;')
+                                                    | #{bill.gia_dat_phong}
+                                                | VND
                                             p.info
-                                                | Ngày đặt phòng: 
+                                                b Ngày đặt phòng: 
                                                 em #{bill.ngay_dat_phong}
                                         .col-md-6
                                             h3.title Thông tin khách hàng
-                                            p.info Tên đăng nhập: #{bill.ma_tai_khoan.username}
-                                            p.info Họ tên: #{bill.ma_tai_khoan.ho_ten}
-                                            p.info Số điện thoại: #{bill.ma_tai_khoan.so_dien_thoai}
+                                            p.info 
+                                                b Tên đăng nhập: 
+                                                | #{bill.ma_tai_khoan.username}
+                                            p.info 
+                                                b Họ tên: 
+                                                | #{bill.ma_tai_khoan.ho_ten}
+                                            p.info 
+                                                b Số điện thoại: 
+                                                | #{bill.ma_tai_khoan.so_dien_thoai}
                                     .mt-md-3
                                         a(href="./bill/"+ bill._id)
                                             button.btn.btn-success Xem chi tiết
@@ -77,5 +89,6 @@ block content
         
 block script 
     script(src="/assets_manager/js/myjs/bill.js") 
+    script(src="/js/myjs/updateFormatMoney.js") 
     script.
         document.getElementById('billNav').classList.add('active');

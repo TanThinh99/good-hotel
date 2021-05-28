@@ -20,34 +20,25 @@ block content
                         .carousel-inner
                             .carousel-item.active.banner-item
                                 img.d-block.w-100(src='./img/NhaTrangTP.jpg' alt='...')
-                                .hero__text.banner-text(style='top:10%; right: 10%;')
-                                    span FRUIT FRESH
-                                    h2
-                                        | Vegetable 
-                                        br
-                                        | 100% Organic
-                                    p Free Pickup and Delivery Available
-                                    a.primary-btn(href='#') SHOP NOW
+                                .hero__text.banner-text(style='top:17%; right: 10%;')
+                                    span(style='font-family:system-ui; letter-spacing: 2px; color: red;') DỊCH VỤ ÂN CẦN
+                                    h2(style='font-family:system-ui; color: #0d51ae;')
+                                        | Bãi biển tuyệt đẹp
+                                    p(style='color: #0053a2') Những bãi cát trắng mịn, nước biển trong xanh
                             .carousel-item.banner-item
                                 img.d-block.w-100(src='./img/thanhpho.jpg' alt='...')
                                 .hero__text.banner-text(style='top:10%; right: 10%;')
-                                    span FRUIT FRESH
-                                    h2
-                                        | Vegetable 
-                                        br
-                                        | 100% Organic
-                                    p Free Pickup and Delivery Available
-                                    a.primary-btn(href='#') SHOP NOW
+                                    span(style='font-family:system-ui; color:greenyellow; letter-spacing: 2px;') TRẢI NGHIỆM THÚ VỊ
+                                    h2(style='font-family:system-ui; color:#f4f4f4;')
+                                        | Thành phố rực rỡ
+                                    p(style='color: white;') Nhịp sống năng động, cảm nhận đầy cuốn hút
                             .carousel-item.banner-item
                                 img.d-block.w-100(src='./img/sapa.jpg' alt='...')
-                                .hero__text.banner-text(style='top:10%; right: 10%;')
-                                    span FRUIT FRESH
-                                    h2
-                                        | Vegetable 
-                                        br
-                                        | 100% Organic
-                                    p Free Pickup and Delivery Available
-                                    a.primary-btn(href='#') SHOP NOW
+                                .hero__text.banner-text(style='bottom:16%; left: 10%;')
+                                    span(style='font-family:system-ui;color: #c7ffc5; letter-spacing: 2px;') GẦN GŨI VỚI THIÊN NHIÊN
+                                    h2(style='font-family:system-ui; color:white;')
+                                        | Núi rừng hùng vĩ
+                                    p(style='color:white;') Không khí trong lành, cảnh quang tuyệt đẹp
                         a.carousel-control-prev(href='#carouselExampleIndicators' role='button' data-slide='prev')
                             span.carousel-control-prev-icon(aria-hidden='true')
                             span.sr-only Previous
@@ -87,8 +78,7 @@ block content
                             .latest-product__item__text
                                 h5.hotelName #{hotel.ten}
                                 p
-                                    span.score #{hotel.diem_trung_binh}
-                                    span.level Rất tốt 
+                                    span.score.mr-2 #{hotel.diem_trung_binh}
                                     | (#{hotel.so_luong_binh_luan} đánh giá)
                                 p
                                     b Giá:

@@ -1,5 +1,5 @@
 .hotelList {
-    height: 440px;
+    max-height: 440px;
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -42,4 +42,13 @@
 .result .title i {
     margin-right: 7px;
     font-size: 27px;
+}
+
+.result p {
+    font-weight: bold;
+    color: black;
+}
+
+#statisticContent {
+    color: black;
 }

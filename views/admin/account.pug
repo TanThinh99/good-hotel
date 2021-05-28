@@ -47,7 +47,10 @@ block content
                             each acc in accounts
                                 .col-lg-4.col-md-6.account
                                     div
-                                        img.user-avatar(id="avatar"+acc._id src='/uploads/'+acc.avatar alt='')
+                                        if acc.avatar == ''
+                                            img.user-avatar(id="avatar"+acc._id src='/img/avatardefault.png' alt='')
+                                        else
+                                            img.user-avatar(id="avatar"+acc._id src='/uploads/'+acc.avatar alt='')
                                     p
                                         b Tên đăng nhập: 
                                         span(id="username"+acc._id) #{acc.username}
@@ -93,6 +96,7 @@ block content
                             .col-5
                                 img(id='avatarModal' src='https://hinhanhdep.net/wp-content/uploads/2016/01/avatar-hoat-hinh-anime-chibi-10.jpg' alt='')
                             .col-7
+                                input(type="hidden", id="idModal" value='')
                                 .info
                                     span.title Tên đăng nhập: 
                                         span(id='usernameModal') abc
@@ -119,7 +123,7 @@ block content
                                     label(for="newHotel" class='custom-control-label') Tạo một khách sạn mới 
                     .modal-footer
                         button.btn.btn-success(type='button' onclick='UpdateRole()') Cập nhật
-                        button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng
+                        button.btn.btn-secondary(id='closeModal' type='button' data-dismiss='modal') Đóng
         
         // Footer
         include layout/footer.pug

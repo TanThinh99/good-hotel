@@ -22,21 +22,60 @@ function CustomerLogin(t, type) {
     t.classList.add('active');
 }
 
+function ShowMoney(money) {
+    money = money +'';
+    if(money.length <= 3) {
+        return money;
+    }   
+    else {
+        var newMoney = '';
+        while(money.length > 3) {
+            var temp = money.substring(money.length-3);
+            newMoney = '.'+ temp + newMoney;
+            money = money.substring(0, money.length-3);
+        }
+        newMoney = money + newMoney;
+        return newMoney;
+    }
+}
+
 function CloseModal() {
     document.getElementById('closeLoginModal').click();
 }
 
+function OpenLoading() {
+    document.getElementById('loadingDiv').style.display = 'block';
+}
+
+function CloseLoading() {
+    document.getElementById('loadingDiv').style.display = 'none';
+}
+
 function Register() {
+    var hoTen = document.getElementById('hoTen').value.trim();
+    var sdt = document.getElementById('sdt').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var username = document.getElementById('username').value.trim();
     var pass1 = document.getElementById('pass1').value;
     var pass2 = document.getElementById('pass2').value;
-    if((pass1 != pass2) || (pass1 == '')) {
-        alert('Mật khẩu không được rỗng, mật khẩu xác nhận phải trùng khớp với mật khẩu!');
+    var displayStatus = '';
+
+    displayStatus = hoTen == '' ? 'block' : 'none';
+    document.getElementById('nameRegErr').style.display = displayStatus;
+    displayStatus = /^\d{10,11}$/.test(sdt) ? 'none' : 'block';
+    document.getElementById('phoneInvalidRegErr').style.display = displayStatus;
+    displayStatus = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(email) ? 'none' : 'block';
+    document.getElementById('emailInvalidRegErr').style.display = displayStatus;
+    displayStatus = username == '' ? 'block' : 'none';
+    document.getElementById('uidRegErr').style.display = displayStatus;
+    displayStatus = pass1 == '' ? 'block' : 'none';
+    document.getElementById('passRegErr').style.display = displayStatus;
+    displayStatus = pass1 != pass2 ? 'block' : 'none';
+    document.getElementById('passAgainRegErr').style.display = displayStatus;
+    if((hoTen == '') || !(/^\d{10,11}$/.test(sdt)) || !(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(email)) || (username == '') || (pass1 == '') || (pass1 != pass2)) {
         return;
     }
-    var hoTen = document.getElementById('hoTen').value;
-    var sdt = document.getElementById('sdt').value;
-    var email = document.getElementById('email').value;
-    var username = document.getElementById('username').value;
+
     axios({
         method: 'POST',
         url: 'http://localhost:8000/api/tai_khoan',
@@ -49,24 +88,34 @@ function Register() {
         }
     })
     .then(function(response) {
-        alert('Quý khách đăng ký tài khoản thành công!');
+        if(response.data == 'success') {
+            alert('Quý khách đăng ký tài khoản thành công!');
+            location.reload();
+        }
+        else {
+            alert('Tên đăng nhập này đã tồn tại!');
+        }
     })
     .catch(function(err) {
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
-
-    CloseModal();
 }
 
 function Login() {
-    var uid = document.getElementById('uid').value;
+    var uid = document.getElementById('uid').value.trim();
     var pass = document.getElementById('pass').value;
+    var displayStatus = '';
 
+    displayStatus = uid == '' ? 'block' : 'none';
+    document.getElementById('uidLoginErr').style.display = displayStatus;
+    displayStatus = pass == '' ? 'block' : 'none';
+    document.getElementById('passLoginErr').style.display = displayStatus;
     if(uid == '' || pass == '') {
-        alert('Quý khách vui lòng nhập tên đăng nhập và mật khẩu!');
+        return;
     }
     else {
+        OpenLoading();
         axios({
             method: 'POST',
             url: 'http://localhost:8000/api/postLogin',
@@ -76,6 +125,7 @@ function Login() {
             }
         })
         .then(function(response) {
+            CloseLoading();
             if(response.data.access == '0') {
                 alert('Opp!! Quý khách đăng nhập thất bại!');
             }
@@ -89,6 +139,7 @@ function Login() {
             }
         })
         .catch(function(err) {
+            CloseLoading();
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });

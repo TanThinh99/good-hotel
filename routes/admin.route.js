@@ -6,7 +6,7 @@ var adminCtrl = require('./../controllers/admin.controller');
 
 router.use(mid.GoToAdminPage);
 
-router.get('', adminCtrl.Statistic);
+router.get('', adminCtrl.Index);
 router.get('/account', adminCtrl.Account);
 
 router.get('/convenient', adminCtrl.Convenient);
@@ -27,5 +27,8 @@ router.get('/getAccountForPagination', adminCtrl.GetAccountForPagination);
     // For grant hotel manager
 router.get('/findHotelByKey', adminCtrl.FindHotelByKey);
 router.get('/findManagerByKey', adminCtrl.FindManagerByKey);
+
+    // Statistic
+router.post('/statistic', adminCtrl.Statistic);
 
 module.exports = router;

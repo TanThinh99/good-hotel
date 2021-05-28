@@ -7,7 +7,7 @@ module.exports.List = async function(req, res) {
 }
 
 module.exports.Add = async function(req, res) {
-    var decode = res.locals.decode;
+    var decode = req.session.decode;
     var account = await taiKhoanModel.findById(decode.id).exec();
     var obj = {
         ma_tien_nghi: req.body.ma_tien_nghi,

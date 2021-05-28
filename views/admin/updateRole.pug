@@ -37,6 +37,9 @@ block content
                                 .form-group
                                     label(for='roleName') Tên vai trò
                                     input#roleName.form-control(type='text' value=role.ten aria-describedby='emailHelp')
+                                    span(style='color:red; display:none;')#nameRoleErr
+                                        b.mr-1(style='font-size:20px;') !
+                                        | Tên vai trò không được rỗng
                             .col-md-11.col-md-6.mx-auto
                                 .custom-control.custom-switch.form-group.ml-4
                                     if role.disabled

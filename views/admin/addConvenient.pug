@@ -36,16 +36,21 @@ block content
                                 .form-group
                                     label(for='convenName') Tên tiện nghi
                                     input#convenName.form-control(type='text' aria-describedby='emailHelp')
+                                    span.infoError#nameInfoErr
+                                        b.mr-1 !
+                                        | Tên tiện nghi không được rỗng
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
-                                    label
-                                        | Chọn Icon
+                                    label Chọn Icon
                                     .icons.row
                                         input(type="hidden", id="iconSelected" value='')
                                         each icon in fa47
                                             .icon-item.col-1(id='icon'+icon onclick='ChooseIcon("'+ icon +'")')
                                                 i.fa(class=icon)
-                                        
+                                    span.infoError#iconErr
+                                        b.mr-1 !
+                                        | Bạn phải chọn một Icon
+
                             .col-md-11.col-md-6.mx-auto
                                 button.btn.btn-success(onclick='CreateConvenient()')
                                     i.fa.fa-plus.mr-1(aria-hidden='true')

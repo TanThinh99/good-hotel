@@ -34,17 +34,17 @@ module.exports.Add = async function(req, res) {
             ngay_dat_phong: time,
             ngay_nhan_phong: basket[i].fromDate,
             ngay_tra_phong: basket[i].toDate,
-            gia_dat_phong: basket[i].roomTypePrice,
+            gia_dat_phong: basket[i].roomType.gia,
             so_luong_phong: basket[i].amountRoom,
             da_thanh_toan: false,
             da_tra_phong: false,
             ma_tai_khoan: decode.id,
-            ma_loai_phong: basket[i].roomTypeID
+            ma_loai_phong: basket[i].roomType._id
         }
         objArr.push(obj);
 
         // reduce amountRoom in roomType and hotel
-        var roomType = await loaiPhong.findById(basket[i].roomTypeID);
+        var roomType = await loaiPhong.findById(basket[i].roomType._id);
         roomType.so_luong_con_lai = roomType.so_luong_con_lai - basket[i].amountRoom;
         roomType.save();
         var hotel = await khachSan.findById(roomType.ma_khach_san);

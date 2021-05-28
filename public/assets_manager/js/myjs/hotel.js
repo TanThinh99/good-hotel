@@ -114,6 +114,16 @@ function ChooseWard(id, name) {
 }
 
 function UpdateHotel() {
+    var name = document.getElementById('name').value.trim();
+    var phone = document.getElementById('phone').value.trim();
+    var displayStatus = name == '' ? 'block' : 'none';
+    document.getElementById('nameInfoErr').style.display = displayStatus;
+    displayStatus = /^\d{10,11}$/.test(phone) ? 'none' : 'block';
+    document.getElementById('phoneInfoErr').style.display = displayStatus;
+    if((name == '') || !(/^\d{10,11}$/.test(phone))) {
+        return;
+    }
+
     var wardID = document.getElementById('wardChosen').value;
     var address = '';
     if(wardID != '') {
@@ -125,8 +135,6 @@ function UpdateHotel() {
         streetName = streetName==''?'':streetName+', ';
         address = streetName + wardName +', '+ distName +', '+ cityName;
     }
-    var name = document.getElementById('name').value;
-    var phone = document.getElementById('phone').value;
     var googleMap = document.getElementById('googleMap').value;
 
     var hotelID = document.getElementById('hotelID').value;

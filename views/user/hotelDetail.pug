@@ -40,9 +40,9 @@ block content
                 .col-lg-6.col-md-6
                     input(type="hidden", id="hotelID" value=hotel._id)
                     input(type="hidden", id="token" value=token)
-                    if username
-                        input(type="hidden", id="yourName" value=username)
-                        input(type="hidden", id="yourAvatar" value=avatar)
+                    if account
+                        input(type="hidden", id="yourName" value=account.ho_ten)
+                        input(type="hidden", id="yourAvatar" value=account.avatar)
                     .product__details__text
                         h3.font-system-ui #{hotel.ten}
                         .product__details__rating
@@ -92,23 +92,26 @@ block content
                                     each roomType in roomTypes
                                         .row.roomType
                                             .col-lg-4.col-md-6
-                                                ul
-                                                    li
+                                                .row 
+                                                    .col-4.info
                                                         b Loại phòng
+                                                    .col-8.info
                                                         span #{roomType.ten}
-                                                    li
+                                                    .col-4.info
                                                         b Giá
+                                                    .col-8.info
                                                         span.price
                                                             span.showMoney.mr-1 #{roomType.gia}
                                                             | VND
-                                                    li
+                                                    .col-12 
                                                         if roomType.so_luong_con_lai == 0
                                                             button.btn.btn-success(class='mt-3' disabled) Hết phòng
                                                         else
                                                             button.btn.btn-success(class='mt-3' data-toggle='modal' data-target='#datPhongModal' onclick='ChooseRoomType("'+ roomType._id +'", "'+ roomType.so_luong_con_lai +'")') Đặt phòng
                                                         if roomType.hinh_anh_360 != ''
                                                             button.btn.btn-info(class='mt-3 ml-2' onclick='OpenImage360("'+ roomType.hinh_anh_360 +'")') Ảnh 360 độ
-                                            .col-lg-8.col-md-6
+                                                
+                                            .col-lg-8.col-md-6(style='margin: auto;')
                                                 .roomImageFrame
                                                     .roomImages(style='width: '+ (roomType.amountImagesRoomType*185) +'px;')
                                                         -   var roomImages = ''; 
@@ -149,8 +152,8 @@ block content
                                                                     span.text-right.review-time(id='time'+cm._id) #{cm.thoi_gian}
                                                                 p.star
                                                                     span(id='score'+cm._id) #{cm.diem}.0
-                                                                    if userID
-                                                                        if userID == cm.ma_tai_khoan.id
+                                                                    if account
+                                                                        if account._id == cm.ma_tai_khoan.id
                                                                             span.ml-3
                                                                                 i.fa.fa-pencil(aria-hidden='true' title='Chỉnh sửa' style="cursor:pointer;" data-toggle='modal' data-target='#commentModal' onclick='OpenUpdateComment("'+ cm._id +'")')
                                                                             span.ml-1
@@ -192,21 +195,10 @@ block content
                                             .col-md-3
                                                 .rating-wrap
                                                     h3.mb-4 Tỉ lệ điểm đánh giá
-                                                    p.star
-                                                        span.score 8.0
-                                                        span (98%) 20 Reviews
-                                                    p.star
-                                                        span.score 7.0
-                                                        span (85%) 10 Reviews
-                                                    p.star
-                                                        span.score 6.0
-                                                        span (98%) 5 Reviews
-                                                    p.star
-                                                        span.score 5.0
-                                                        span (98%) 0 Reviews
-                                                    p.star
-                                                        span.score 4.0
-                                                        span (98%) 0 Reviews
+                                                    each ratio in scoreRatioArr
+                                                        p.star
+                                                            span.score #{ratio.score}.0
+                                                            span (#{ratio.ratio}%) #{ratio.amount} đánh giá
     
     // Product Details Section End
 
@@ -217,24 +209,33 @@ block content
                 .modal-header
                     input(type="hidden", id="commentUpdating" value=false)
                     h5#exampleModalLabel.modal-title Viết bình luận
-                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                    button.close(type='button' id='closeTopCommentModal' data-dismiss='modal' aria-label='Close')
                         span(aria-hidden='true') &times;
                 .modal-body.row.custom-modal
-                    .col-6.form-group.ml-3
+                    .col-11.form-group.ml-3
                         label.title.score(for='commentScore')
                             i.fa.fa-star-o(aria-hidden='true')
                             | Điểm đánh giá
-                        input.form-control(type='number' id='commentScore' min='0' max='10' step='1' value='8')
+                        input.form-control(type='number' id='commentScore' min='0' max='10' step='1' value='8' style='width:50%;')
+                        span.commentError#scoreCommentErr
+                            b.mr-1 !
+                            | Điểm đánh giá không được rỗng và có giá trị 0-10
                     .col-11.form-group.mx-auto
                         label.title.good(for='good-review')
                             i.fa.fa-smile-o(aria-hidden='true')
                             | Đánh giá tốt
                         textarea#good-review.form-control(style='width:100%' rows='4')
+                        span.commentError#goodCommentErr
+                            b.mr-1 !
+                            | Nội dung đánh giá không được rỗng
                     .col-11.form-group.mx-auto
                         label.title.bad(for='bad-review')
                             i.fa.fa-frown-o(aria-hidden='true')
                             | Góp ý
                         textarea#bad-review.form-control(style='width:100%' rows='4')
+                        span.commentError#badCommentErr
+                            b.mr-1 !
+                            | Nội dung góp ý không được rỗng
                 .modal-footer
                     button.btn.btn-success(type='button' onclick='SaveComment()')
                         i.fa.fa-pencil.mr-1(aria-hidden='true')
@@ -300,216 +301,78 @@ block content
             .row
                 .col-lg-12
                     .section-title.related__product__title
-                        h2.font-system-ui C&aacute;c kh&aacute;ch s&#x1EA1;n li&ecirc;n quan
+                        h2.font-system-ui Các khách sạn liên quan
             .row
                 .col-lg-12
                     .product__details__tab.hotelRelated
                         ul.nav.nav-tabs(role='tablist')
                             li.nav-item
-                                a.nav-link.active(data-toggle='tab' href='#tabs-a1' role='tab' aria-selected='true') &Dstrok;i&#x1EC3;m &dstrok;&aacute;nh gi&aacute;
+                                a.nav-link.active(data-toggle='tab' href='#tabs-a1' role='tab' aria-selected='true') Điểm đánh giá
                             li.nav-item
-                                a.nav-link(data-toggle='tab' href='#tabs-a2' role='tab' aria-selected='false') Gi&aacute; c&#x1EA3;
+                                a.nav-link(data-toggle='tab' href='#tabs-a2' role='tab' aria-selected='false') Giá cả
                             li.nav-item
-                                a.nav-link(data-toggle='tab' href='#tabs-a3' role='tab' aria-selected='false') &Dstrok;&#x1ECB;a ch&#x1EC9;
+                                a.nav-link(data-toggle='tab' href='#tabs-a3' role='tab' aria-selected='false') Địa chỉ
                         .tab-content
                             #tabs-a1.tab-pane.active(role='tabpanel')
-                                .product__details__tab__desc.row
-                                    .col-lg-6.col-md-6
-                                        a.latest-product__item.hotel-item(href='#')
-                                            .latest-product__item__pic
-                                                img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
-                                            .latest-product__item__text
-                                                h5.hotelName Crab Pool Security
-                                                p
-                                                    span.score 8.2
-                                                    span.level R&#x1EA5;t t&#x1ED1;t 
-                                                    | (100 &dstrok;&aacute;nh gi&aacute;)
-                                                p
-                                                    b Gi&aacute;:
-                                                    |  30.00 &Dstrok;&#x1ED3;ng
-                                                p
-                                                    b &Dstrok;&#x1ECB;a ch&#x1EC9;:
-                                                    |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
-                                    .col-lg-6.col-md-6
-                                        a.latest-product__item.hotel-item(href='#')
-                                            .latest-product__item__pic
-                                                img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
-                                            .latest-product__item__text
-                                                h5.hotelName Crab Pool Security
-                                                p
-                                                    span.score 8.2
-                                                    span.level R&#x1EA5;t t&#x1ED1;t 
-                                                    | (100 &dstrok;&aacute;nh gi&aacute;)
-                                                p
-                                                    b Gi&aacute;:
-                                                    |  30.00 &Dstrok;&#x1ED3;ng
-                                                p
-                                                    b &Dstrok;&#x1ECB;a ch&#x1EC9;:
-                                                    |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
-                                    .col-lg-6.col-md-6
-                                        a.latest-product__item.hotel-item(href='#')
-                                            .latest-product__item__pic
-                                                img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
-                                            .latest-product__item__text
-                                                h5.hotelName Crab Pool Security
-                                                p
-                                                    span.score 8.2
-                                                    span.level R&#x1EA5;t t&#x1ED1;t 
-                                                    | (100 &dstrok;&aacute;nh gi&aacute;)
-                                                p
-                                                    b Gi&aacute;:
-                                                    |  30.00 &Dstrok;&#x1ED3;ng
-                                                p
-                                                    b &Dstrok;&#x1ECB;a ch&#x1EC9;:
-                                                    |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
-                                    .col-lg-6.col-md-6
-                                        a.latest-product__item.hotel-item(href='#')
-                                            .latest-product__item__pic
-                                                img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
-                                            .latest-product__item__text
-                                                h5.hotelName Crab Pool Security
-                                                p
-                                                    span.score 8.2
-                                                    span.level R&#x1EA5;t t&#x1ED1;t 
-                                                    | (100 &dstrok;&aacute;nh gi&aacute;)
-                                                p
-                                                    b Gi&aacute;:
-                                                    |  30.00 &Dstrok;&#x1ED3;ng
-                                                p
-                                                    b &Dstrok;&#x1ECB;a ch&#x1EC9;:
-                                                    |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
+                                .row.mt-4
+                                    each hotel in scoreRelatedHotel
+                                        .col-lg-6.col-md-6
+                                            a.latest-product__item.hotel-item(href='/detail/'+hotel._id)
+                                                .latest-product__item__pic
+                                                    img(src='/uploads/'+hotel.image alt='')
+                                                .latest-product__item__text
+                                                    h5.hotelName #{hotel.ten}
+                                                    p
+                                                        span.mr-2.score #{hotel.diem_trung_binh}
+                                                        | (#{hotel.so_luong_binh_luan} đánh giá)
+                                                    p
+                                                        b Giá:
+                                                        span.ml-2.mr-1.showMoney #{hotel.gia}
+                                                        span(style='color:red; font-size:18px;') VND
+                                                    p
+                                                        b.mr-2 Địa chỉ:
+                                                        | #{hotel.dia_chi}
+                            
                             #tabs-a2.tab-pane(role='tabpanel')
-                                .product__details__tab__desc.row
-                                    .col-lg-6.col-md-6
-                                        a.latest-product__item.hotel-item(href='#')
-                                            .latest-product__item__pic
-                                                img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
-                                            .latest-product__item__text
-                                                h5.hotelName Crab Pool Security
-                                                p
-                                                    span.score 8.3
-                                                    span.level R&#x1EA5;t t&#x1ED1;t 
-                                                    | (100 &dstrok;&aacute;nh gi&aacute;)
-                                                p
-                                                    b Gi&aacute;:
-                                                    |  30.00 &Dstrok;&#x1ED3;ng
-                                                p
-                                                    b &Dstrok;&#x1ECB;a ch&#x1EC9;:
-                                                    |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
-                                    .col-lg-6.col-md-6
-                                        a.latest-product__item.hotel-item(href='#')
-                                            .latest-product__item__pic
-                                                img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
-                                            .latest-product__item__text
-                                                h5.hotelName Crab Pool Security
-                                                p
-                                                    span.score 8.2
-                                                    span.level R&#x1EA5;t t&#x1ED1;t 
-                                                    | (100 &dstrok;&aacute;nh gi&aacute;)
-                                                p
-                                                    b Gi&aacute;:
-                                                    |  30.00 &Dstrok;&#x1ED3;ng
-                                                p
-                                                    b &Dstrok;&#x1ECB;a ch&#x1EC9;:
-                                                    |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
-                                    .col-lg-6.col-md-6
-                                        a.latest-product__item.hotel-item(href='#')
-                                            .latest-product__item__pic
-                                                img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
-                                            .latest-product__item__text
-                                                h5.hotelName Crab Pool Security
-                                                p
-                                                    span.score 8.2
-                                                    span.level R&#x1EA5;t t&#x1ED1;t 
-                                                    | (100 &dstrok;&aacute;nh gi&aacute;)
-                                                p
-                                                    b Gi&aacute;:
-                                                    |  30.00 &Dstrok;&#x1ED3;ng
-                                                p
-                                                    b &Dstrok;&#x1ECB;a ch&#x1EC9;:
-                                                    |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
-                                    .col-lg-6.col-md-6
-                                        a.latest-product__item.hotel-item(href='#')
-                                            .latest-product__item__pic
-                                                img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
-                                            .latest-product__item__text
-                                                h5.hotelName Crab Pool Security
-                                                p
-                                                    span.score 8.2
-                                                    span.level R&#x1EA5;t t&#x1ED1;t 
-                                                    | (100 &dstrok;&aacute;nh gi&aacute;)
-                                                p
-                                                    b Gi&aacute;:
-                                                    |  30.00 &Dstrok;&#x1ED3;ng
-                                                p
-                                                    b &Dstrok;&#x1ECB;a ch&#x1EC9;:
-                                                    |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
+                                .row.mt-4
+                                    each hotel in priceRelatedHotel
+                                        .col-lg-6.col-md-6
+                                            a.latest-product__item.hotel-item(href='/detail/'+hotel._id)
+                                                .latest-product__item__pic
+                                                    img(src='/uploads/'+hotel.image alt='')
+                                                .latest-product__item__text
+                                                    h5.hotelName #{hotel.ten}
+                                                    p
+                                                        span.mr-2.score #{hotel.diem_trung_binh}
+                                                        | (#{hotel.so_luong_binh_luan} đánh giá)
+                                                    p
+                                                        b Giá:
+                                                        span.ml-2.mr-1.showMoney #{hotel.gia}
+                                                        span(style='color:red; font-size:18px;') VND
+                                                    p
+                                                        b.mr-2 Địa chỉ:
+                                                        | #{hotel.dia_chi}
+                                    
                             #tabs-a3.tab-pane(role='tabpanel')
-                                .product__details__tab__desc.row
-                                    .col-lg-6.col-md-6
-                                        a.latest-product__item.hotel-item(href='#')
-                                            .latest-product__item__pic
-                                                img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
-                                            .latest-product__item__text
-                                                h5.hotelName Crab Pool Security
-                                                p
-                                                    span.score 8.4
-                                                    span.level R&#x1EA5;t t&#x1ED1;t 
-                                                    | (100 &dstrok;&aacute;nh gi&aacute;)
-                                                p
-                                                    b Gi&aacute;:
-                                                    |  30.00 &Dstrok;&#x1ED3;ng
-                                                p
-                                                    b &Dstrok;&#x1ECB;a ch&#x1EC9;:
-                                                    |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
-                                    .col-lg-6.col-md-6
-                                        a.latest-product__item.hotel-item(href='#')
-                                            .latest-product__item__pic
-                                                img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
-                                            .latest-product__item__text
-                                                h5.hotelName Crab Pool Security
-                                                p
-                                                    span.score 8.2
-                                                    span.level R&#x1EA5;t t&#x1ED1;t 
-                                                    | (100 &dstrok;&aacute;nh gi&aacute;)
-                                                p
-                                                    b Gi&aacute;:
-                                                    |  30.00 &Dstrok;&#x1ED3;ng
-                                                p
-                                                    b &Dstrok;&#x1ECB;a ch&#x1EC9;:
-                                                    |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
-                                    .col-lg-6.col-md-6
-                                        a.latest-product__item.hotel-item(href='#')
-                                            .latest-product__item__pic
-                                                img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
-                                            .latest-product__item__text
-                                                h5.hotelName Crab Pool Security
-                                                p
-                                                    span.score 8.2
-                                                    span.level R&#x1EA5;t t&#x1ED1;t 
-                                                    | (100 &dstrok;&aacute;nh gi&aacute;)
-                                                p
-                                                    b Gi&aacute;:
-                                                    |  30.00 &Dstrok;&#x1ED3;ng
-                                                p
-                                                    b &Dstrok;&#x1ECB;a ch&#x1EC9;:
-                                                    |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
-                                    .col-lg-6.col-md-6
-                                        a.latest-product__item.hotel-item(href='#')
-                                            .latest-product__item__pic
-                                                img(src='https://media-cdn.tripadvisor.com/media/photo-s/17/d7/40/08/chau-pho-hotel.jpg' alt='')
-                                            .latest-product__item__text
-                                                h5.hotelName Crab Pool Security
-                                                p
-                                                    span.score 8.2
-                                                    span.level R&#x1EA5;t t&#x1ED1;t 
-                                                    | (100 &dstrok;&aacute;nh gi&aacute;)
-                                                p
-                                                    b Gi&aacute;:
-                                                    |  30.00 &Dstrok;&#x1ED3;ng
-                                                p
-                                                    b &Dstrok;&#x1ECB;a ch&#x1EC9;:
-                                                    |  117 &dstrok;&#x1B0;&#x1EDD;ng 3/2, ph&#x1B0;&#x1EDD;ng H&#x1B0;ng L&#x1EE3;i, qu&#x1EAD;n Ninh Ki&#x1EC1;u, Th&agrave;nh ph&#x1ED1; C&#x1EA7;n Th&#x1A1;
+                                .row.mt-4
+                                    each hotel in addressRelatedHotel
+                                        .col-lg-6.col-md-6
+                                            a.latest-product__item.hotel-item(href='/detail/'+hotel._id)
+                                                .latest-product__item__pic
+                                                    img(src='/uploads/'+hotel.image alt='')
+                                                .latest-product__item__text
+                                                    h5.hotelName #{hotel.ten}
+                                                    p
+                                                        span.mr-2.score #{hotel.diem_trung_binh}
+                                                        | (#{hotel.so_luong_binh_luan} đánh giá)
+                                                    p
+                                                        b Giá:
+                                                        span.ml-2.mr-1.showMoney #{hotel.gia}
+                                                        span(style='color:red; font-size:18px;') VND
+                                                    p
+                                                        b.mr-2 Địa chỉ:
+                                                        | #{hotel.dia_chi}
+
     // Related Product Section End
 
 block script 

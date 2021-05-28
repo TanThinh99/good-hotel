@@ -53,15 +53,18 @@ header.header
                             a(href='#')
                                 i.fa.fa-pinterest-p
                         .header__top__right__auth.header__top__right__language
-                            if username
+                            if account
                                 a(style='display:inline;' href='/account')
-                                    i.fa.fa-user
-                                    |  #{username}
+                                    if account.avatar == ''
+                                        img(src="/img/avatardefault.png" alt="Avatar" style="height: 24px;")
+                                    else
+                                        img(src="/uploads/"+account.avatar alt="Avatar" style="height: 24px; border-radius: 40px;")
+                                    |  #{account.ho_ten}
                                 a.ml-3(style='display:inline;' href='/logout' title='Đăng xuất')
                                     i.fa.fa-sign-out(style='font-size: 18px; margin-right: 0px;' aria-hidden="true")
                             else 
                                 a(href='#' data-toggle='modal' data-target='#exampleModal')
-                                    i.fa.fa-user
+                                    img(src="/img/avatardefault.png" alt="Avatar" style="height: 24px;")
                                     |  Login
     .container
         .row
@@ -116,10 +119,16 @@ header.header
                             .col-sm-12
                                 label(for='uid') Tên đăng nhập
                                 input#uid.form-control(placeholder='Nhập tên đăng nhập ...' type='text')
+                                span.formError#uidLoginErr
+                                    b.mr-1 !
+                                    | Tên đăng nhập không được rỗng
                         .form-group
                             .col-sm-12
                                 label(for='pass') Mật khẩu
                                 input#pass.form-control(placeholder='Nhập mật khẩu ...' type='password')
+                                span.formError#passLoginErr
+                                    b.mr-1 !
+                                    | Mật khẩu không được rỗng
                         .form-group(style='margin-top: 27px;')
                             .col-sm-10
                                 button.btn.btn-primary.btn-radius.btn-brd.grd1(onclick='Login()')
@@ -131,26 +140,50 @@ header.header
                                 .col-sm-12
                                     label(for='hoTen') Họ tên
                                     input#hoTen.form-control(placeholder='Nhập tên ...' type='text')
+                                    span.formError#nameRegErr
+                                        b.mr-1 !
+                                        | Họ tên không được rỗng
                             .form-group
                                 .col-sm-12
                                     label(for='sdt') Số điện thoại
                                     input#sdt.form-control(placeholder='Nhập số điện thoại ...' type='text')
+                                    span.formError#phoneRegErr
+                                        b.mr-1 !
+                                        | Số điện thoại không được rỗng
+                                    span.formError#phoneInvalidRegErr
+                                        b.mr-1 !
+                                        | Số điện thoại không hợp lệ (Là dãy số 10-11 số)
                             .form-group
                                 .col-sm-12
                                     label(for='email') Email
                                     input#email.form-control(placeholder='Nhập email ...' type='email')
+                                    span.formError#emailRegErr
+                                        b.mr-1 !
+                                        | Email không được rỗng
+                                    span.formError#emailInvalidRegErr
+                                        b.mr-1 !
+                                        | Email không hợp lệ
                             .form-group
                                 .col-sm-12
                                     label(for='username') Tên đăng nhập
                                     input#username.form-control(placeholder='Nhập tên đăng nhập ...' type='text')
+                                    span.formError#uidRegErr
+                                        b.mr-1 !
+                                        | Tên đăng nhập không được rỗng
                             .form-group
                                 .col-sm-12
                                     label(for='pass1') Mật khẩu
                                     input#pass1.form-control(placeholder='Nhập mật khẩu ...' type='password')
+                                    span.formError#passRegErr
+                                        b.mr-1 !
+                                        | Mật khẩu không được rỗng
                             .form-group
                                 .col-sm-12
                                     label(for='pass2') Xác nhận mật khẩu
                                     input#pass2.form-control(placeholder='Nhập lại mật khẩu ...' type='password')
+                                    span.formError#passAgainRegErr
+                                        b.mr-1 !
+                                        | Mật khẩu xác nhận phải trùng khớp với mật khẩu ở trên
                             .form-group(style='margin-top: 27px;')
                                 .col-sm-12
                                     button.btn.btn-primary.btn-radius.btn-brd.grd1.mr-1(type='button' onclick='Register()')
@@ -197,3 +230,8 @@ header.header
             .modal-footer
                 button#closeLoginModal.btn.btn-secondary(type='button' data-dismiss='modal') Đóng
 // Modal End
+
+// Loading
+#loadingDiv
+    .spinner-border.text-info.mr-2(role="status")
+    span.loading-text Chờ tí ...

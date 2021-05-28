@@ -8,8 +8,15 @@ function ChooseIcon(name) {
 }
 
 function CreateConvenient() {
-    var name = document.getElementById('convenName').value;
+    var name = document.getElementById('convenName').value.trim();
     var icon = document.getElementById('iconSelected').value;
+    var displayStatus = name == '' ? 'block' : 'none';
+    document.getElementById('nameInfoErr').style.display = displayStatus;
+    displayStatus = icon == '' ? 'block' : 'none';
+    document.getElementById('iconErr').style.display = displayStatus;
+    if((name == '') || (icon == '')) {
+        return;
+    }
     var token = document.getElementById('token').value;
     axios({
         method: 'POST',
@@ -23,8 +30,8 @@ function CreateConvenient() {
         }                
     })
     .then(function(response) {
-        console.log(response);
-        alert('Tao tien nghi thanh cong!');
+        alert('Thêm mới tiện nghi thành công!');
+        window.location.href = 'http://localhost:8000/admin/convenient';
     })
     .catch(function(err) {
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
@@ -33,8 +40,13 @@ function CreateConvenient() {
 }
 
 function UpdateConvenient() {
+    var name = document.getElementById('convenName').value.trim();
+    var displayStatus = name == '' ? 'block' : 'none';
+    document.getElementById('nameInfoErr').style.display = displayStatus;
+    if(name == '') {
+        return;
+    }
     var convenID = document.getElementById('convenID').value;
-    var name = document.getElementById('convenName').value;
     var icon = document.getElementById('iconSelected').value;
     var token = document.getElementById('token').value;
     axios({
@@ -49,8 +61,7 @@ function UpdateConvenient() {
         }                
     })
     .then(function(response) {
-        console.log(response);
-        alert('Cap nhat tien nghi thanh cong!');
+        alert('Cập nhật tiện nghi thành công!');
     })
     .catch(function(err) {
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
@@ -69,16 +80,11 @@ function DeleteConvenient(convenID) {
             }                
         })
         .then(function(response) {
-            console.log(response);
             document.getElementById('div'+ convenID).hidden = true;
-            return true;
         })
         .catch(function(err) {
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });
-    }
-    else {
-        return false;
     }
 }

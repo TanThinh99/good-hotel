@@ -69,6 +69,15 @@
   width: 25%;
 }
 
+.infoError {
+  color: red;
+  display: none;
+}
+
+.infoError b {
+  font-size: 20px;
+}
+
 .bill {
   margin: 7px auto;
   padding: 22px 40px;
@@ -90,6 +99,14 @@
   font-weight: bold;
   font-size: 21px;
   margin-bottom: 17px;
+}
+
+.bill p {
+  font-size: 17px;
+}
+
+.bill p .titleInfo {
+  color: #c30000;
 }
 
 /* Bill Detail */

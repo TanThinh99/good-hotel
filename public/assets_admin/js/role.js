@@ -1,5 +1,11 @@
 function AddRole() {
-    var ten = document.getElementById('roleName').value;
+    var ten = document.getElementById('roleName').value.trim();
+    var displayStatus = ten == '' ? 'block' : 'none';
+    document.getElementById('nameRoleErr').style.display = displayStatus;
+    if(ten == '') {
+        return;
+    }
+
     var token = document.getElementById('token').value;
     axios({
         method: 'POST',
@@ -13,6 +19,7 @@ function AddRole() {
     })
     .then(function(response) {
         alert('Thêm vai trò thành công!');
+        window.location.href = 'http://localhost:8000/admin/role';
     })
     .catch(function(err) {
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
@@ -21,9 +28,14 @@ function AddRole() {
 }
 
 function UpdateRole() {
+    var ten = document.getElementById('roleName').value.trim();
+    var displayStatus = ten == '' ? 'block' : 'none';
+    document.getElementById('nameRoleErr').style.display = displayStatus;
+    if(ten == '') {
+        return;
+    }
     var token = document.getElementById('token').value;
     var roleID = document.getElementById('roleID').value;
-    var ten = document.getElementById('roleName').value;
     var roleStatus = document.getElementById('roleStatus').checked;
     axios({
         method: 'PUT',

@@ -17,6 +17,25 @@ function DestroyBill(billID) {
     }
 }
 
+function PaidBill(billID) {
+    if(confirm('Khách hàng đã thanh toán cho đơn đặt phòng này?')) {
+        axios({
+            method: 'PUT',
+            url: 'http://localhost:8000/manager/paidBill',
+            data: {
+                billID: billID
+            }
+        })
+        .then(function(response) {
+            location.reload();
+        })
+        .catch(function(err) {
+            alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+            console.log(err);
+        });
+    }
+}
+
 function ReturnRoom(billID) {
     if(confirm('Các phòng của hóa đơn này được trả lại?')) {
         axios({

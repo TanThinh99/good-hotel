@@ -39,11 +39,19 @@ block content
                                 .col-lg-12.col-md-6.btn-icon-clipboard
                                     .row
                                         .col-md-4
-                                            p Tên phòng: #{room.ten}
-                                            p Giá: #{room.gia} VND
-                                            p Số lượng phòng: #{room.so_luong} phòng
+                                            p 
+                                                b Tên phòng: 
+                                                | #{room.ten}
+                                            p 
+                                                b Giá: 
+                                                span.mr-1.ml-1.showMoney(style='line-height: inherit; font-size: 16px; vertical-align: inherit; display: inline;')
+                                                    | #{room.gia}
+                                                | VND
+                                            p 
+                                                b Số lượng phòng: 
+                                                | #{room.so_luong} phòng
                                             p
-                                                | Trạng thái phòng: 
+                                                b Trạng thái phòng: 
                                                 if room.disabled
                                                     b(style='color: red') Không phục vụ
                                                 else 
@@ -75,6 +83,7 @@ block content
         include layout/footer.pug
 
 block script
-    script(src="/assets_manager/js/myjs/roomType.js") 
+    script(src="/assets_manager/js/myjs/roomType.js")
+    script(src="/js/myjs/updateFormatMoney.js") 
     script.
         document.getElementById('roomTypeNav').classList.add('active');

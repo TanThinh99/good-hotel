@@ -63,6 +63,9 @@ block content
                                             label(for='name') Họ và tên
                                         td
                                             input#name.form-control(type='text' name='name' value=account.ho_ten)
+                                            span.infoError#nameInfoErr
+                                                b.mr-1 !
+                                                | Họ tên không được rỗng
                                     tr
                                         td.infoTitle Giới tính
                                         td
@@ -83,6 +86,9 @@ block content
                                             label(for='phone') Số điện thoại
                                         td
                                             input#phone.form-control(type='text' name='phone' value=account.so_dien_thoai)
+                                            span.infoError#phoneInfoErr
+                                                b.mr-1 !
+                                                | Số điện thoại không hợp lệ (Là dãy số 10-11 số)
                                     tr
                                         td.infoTitle(style='vertical-align: top;')
                                             label(for='address') Địa chỉ
@@ -171,6 +177,9 @@ block content
                                             label(for='emailInfo') Email
                                         td
                                             input#emailInfo.form-control(type='text' name='email' value=account.email)
+                                            span.infoError#emailInfoErr
+                                                b.mr-1 !
+                                                | Email không hợp lệ
                                     tr
                                         td.infoTitle
                                             label(for='usernameInfo') Tên đăng nhập
@@ -186,6 +195,9 @@ block content
                                             label(for='pass2Info') Nhập lại mật khẩu
                                         td
                                             input#pass2Info.form-control(type='password' name='pass2')
+                                            span.infoError#passAgainInfoErr
+                                                b.mr-1 !
+                                                | Mật khẩu không trùng khớp với mật khẩu ở trên
                                     tr
                                         td
                                         td(style='text-align: right;')
@@ -200,17 +212,25 @@ block content
                                     .row
                                         .col-md-7
                                             h4.title Thông tin khách sạn
-                                            p Tên: #{bill.ma_loai_phong.ma_khach_san.ten}
-                                            p Số điện thoại: #{bill.ma_loai_phong.ma_khach_san.so_dien_thoai}
-                                            p Địa chỉ: #{bill.ma_loai_phong.ma_khach_san.dia_chi}
+                                            p 
+                                                span.titleInfo Tên: 
+                                                | #{bill.ma_loai_phong.ma_khach_san.ten}
+                                            p 
+                                                span.titleInfo Số điện thoại: 
+                                                | #{bill.ma_loai_phong.ma_khach_san.so_dien_thoai}
+                                            p 
+                                                span.titleInfo Địa chỉ: 
+                                                | #{bill.ma_loai_phong.ma_khach_san.dia_chi}
                                         .col-md-5
                                             h4.title Thông tin loại phòng
-                                            p Loại phòng: #{bill.ma_loai_phong.ten}
+                                            p 
+                                                span.titleInfo Loại phòng: 
+                                                | #{bill.ma_loai_phong.ten}
                                             p
-                                                | Ngày đặt phòng: 
+                                                span.titleInfo Ngày đặt phòng: 
                                                 em #{bill.ngay_dat_phong}
                                             p
-                                                | Ngày nhận phòng: 
+                                                span.titleInfo Ngày nhận phòng: 
                                                 em #{bill.ngay_nhan_phong}
                                     .mt-2
                                         button.btn.btn-info.mr-2(onclick='GetBillDetail("'+ bill._id +'")')
@@ -248,7 +268,7 @@ block content
                                     .col-md-6
                                         p 
                                             span.title.mr-1 Khách sạn: 
-                                            span(id='hotelName') &Dstrok;&#x1EC7; nh&#x1EA5;t kh&aacute;ch s&#x1EA1;n
+                                            span(id='hotelName') Tên khách sạn
                                         p 
                                             span.title.mr-1 Loại phòng: 
                                             span(id='roomTypeName') VIP
@@ -265,7 +285,7 @@ block content
                                             em(id='receiveRoomDate') 2020-08-09
                                         p
                                             span.title.mr-1 Ngày trả phòng: 
-                                            em(id='returnRoomDate') 2020-08-12 11:12:44
+                                            em(id='returnRoomDate') 2020-08-17
                                         p
                                             span.title.mr-1 Số lượng phòng: 
                                             span.mr-1(id='roomAmount') 8 

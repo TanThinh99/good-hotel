@@ -6,7 +6,7 @@ var khachSanSchema = new mongoose.Schema({
     so_dien_thoai: String,
     google_map: String,
     gia: Number,
-    diem_trung_binh: Number,
+    diem_trung_binh: String,
     so_luong_binh_luan: Number,
     so_phong_con_lai: Number,
     maxp: String

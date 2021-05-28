@@ -11,22 +11,30 @@ module.exports.List = async function(req, res) {
 }
 
 module.exports.Add = async function(req, res) {
-    var memberRoleID = '603fa4dd21cda10ea4419cc4';
-    var obj = {
-        ho_ten: req.body.ho_ten,
-        gioi_tinh: true,
-        email: req.body.email,
-        so_dien_thoai: req.body.so_dien_thoai,
-        dia_chi: '',
-        avatar: '',
-        username: req.body.username,
-        password: sha(req.body.password),
-        ma_vai_tro: memberRoleID,
-        ma_khach_san: '',
-        maxp: ''
+    // check username existed?
+    var username = req.body.username;
+    var account = await taiKhoanModel.findOne({username: username});
+    if(account == undefined) {
+        var memberRoleID = '603fa4dd21cda10ea4419cc4';
+        var obj = {
+            ho_ten: req.body.ho_ten,
+            gioi_tinh: true,
+            email: req.body.email,
+            so_dien_thoai: req.body.so_dien_thoai,
+            dia_chi: '',
+            avatar: '',
+            username: req.body.username,
+            password: sha(req.body.password),
+            ma_vai_tro: memberRoleID,
+            ma_khach_san: '',
+            maxp: ''
+        }
+        var doc = await taiKhoanModel.insertMany([obj]);
+        res.send('success');
     }
-    var doc = await taiKhoanModel.insertMany([obj]);
-    res.send('success');
+    else {
+        res.send('Username existed !!!');
+    }
 }
 
 module.exports.Detail = async function(req, res) {
@@ -65,7 +73,9 @@ module.exports.UpdateAccount = function(req, res) {
     var id = req.params.id;
     taiKhoanModel.findById(id, function(err, doc) {
         doc.email = req.body.email;
-        doc.password = sha(req.body.password);
+        if(req.body.password != '') {
+            doc.password = sha(req.body.password);
+        }
         doc.save();
         res.send('Update account success!');
     });

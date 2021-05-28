@@ -39,6 +39,7 @@ document.getElementById('avatar').onchange = function(event) {
         } 
         else {
             alert(file.name + " is not a valid image file.");
+            document.getElementById('avatar').value = '';
             document.getElementById('avatarImg').src = "";
         }
     }
@@ -128,6 +129,15 @@ function ChooseWard(id, name) {
 }
 
 function UpdateInfo() {
+    var hoTen = document.getElementById('name').value.trim();
+    var sdt = document.getElementById('phone').value.trim();
+    var displayStatus = hoTen == '' ? 'block' : 'none';
+    document.getElementById('nameInfoErr').style.display = displayStatus;
+    displayStatus = /^\d{10,11}$/.test(sdt) ? 'none' : 'block';
+    document.getElementById('phoneInfoErr').style.display = displayStatus;
+    if((hoTen == '') || !(/^\d{10,11}$/.test(sdt))) {
+        return;
+    }
     var wardID = document.getElementById('wardChosen').value;
     var address = '';
     if(wardID != '') {
@@ -139,9 +149,7 @@ function UpdateInfo() {
         streetName = streetName.trim() == '' ? '' : streetName+', ';
         address = streetName + wardName +', '+ distName +', '+ cityName;
     }
-    var hoTen = document.getElementById('name').value;
     var gioiTinh = document.getElementById('namRadio').checked ? true : false;
-    var sdt = document.getElementById('phone').value;
     var avatar = document.getElementById('avatar');
     var formData = new FormData();
     if(avatar.files.length != 0) {
@@ -175,37 +183,38 @@ function UpdateInfo() {
 }
 
 function UpdateAccount() {
+    var email = document.getElementById('emailInfo').value.trim();
     var pass1 = document.getElementById('pass1Info').value;
     var pass2 = document.getElementById('pass2Info').value;
-    if((pass1 == pass2) && (pass1 != '')) {
-        // Save account info
-        var email = document.getElementById('emailInfo').value;
-        var accountID = document.getElementById('accountID').value;
-        var token = document.getElementById('token').value;
-        var csrfToken = document.getElementById('csrf_token').value;
-        axios({
-            method: 'PUT',
-            url: 'http://localhost:8000/api/tai_khoan/updateAccount/'+ accountID,
-            data: {
-                email: email,
-                password: pass1
-            },
-            headers: {
-                'Authorization': 'bearer '+ token,
-                'CSRF-Token': csrfToken
-            }                
-        })
-        .then(function(response) {
-            alert('Quý khách đã cập nhật tài khoản thành công!')
-        })
-        .catch(function(err) {
-            alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
-            console.log(err);
-        });
+    var displayStatus = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(email) ? 'none' : 'block';
+    document.getElementById('emailInfoErr').style.display = displayStatus;
+    displayStatus = pass1 != pass2 ? 'block' : 'none';
+    document.getElementById('passAgainInfoErr').style.display = displayStatus;
+    if(!(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(email)) || (pass1 != pass2)) {
+        return;
     }
-    else {
-        alert('Quý khách cần nhập mật khẩu mới và mật khẩu nhập lại giống nhau và không được rỗng!');
-    }
+    var accountID = document.getElementById('accountID').value;
+    var token = document.getElementById('token').value;
+    var csrfToken = document.getElementById('csrf_token').value;
+    axios({
+        method: 'PUT',
+        url: 'http://localhost:8000/api/tai_khoan/updateAccount/'+ accountID,
+        data: {
+            email: email,
+            password: pass1
+        },
+        headers: {
+            'Authorization': 'bearer '+ token,
+            'CSRF-Token': csrfToken
+        }                
+    })
+    .then(function(response) {
+        alert('Quý khách đã cập nhật tài khoản thành công!')
+    })
+    .catch(function(err) {
+        alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+        console.log(err);
+    });
 }
 
     // For Bill
@@ -238,7 +247,7 @@ function GetBillDetail(billID) {
         var data = response.data;
         document.getElementById('hotelName').innerHTML = data.ma_loai_phong.ma_khach_san.ten;
         document.getElementById('roomTypeName').innerHTML = data.ma_loai_phong.ten;
-        document.getElementById('roomTypePrice').innerHTML = data.gia_dat_phong;
+        document.getElementById('roomTypePrice').innerHTML = ShowMoney(data.gia_dat_phong);
         document.getElementById('checkRoomDate').innerHTML = data.ngay_dat_phong;
         document.getElementById('receiveRoomDate').innerHTML = data.ngay_nhan_phong;
         document.getElementById('returnRoomDate').innerHTML = data.ngay_tra_phong;

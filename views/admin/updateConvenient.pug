@@ -37,6 +37,9 @@ block content
                                 .form-group
                                     label(for='convenName') Tên tiện nghi
                                     input#convenName.form-control(type='text' aria-describedby='emailHelp' value=conven.ten)
+                                    span.infoError#nameInfoErr
+                                        b.mr-1 !
+                                        | Tên tiện nghi không được rỗng
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
                                     label Chọn Icon

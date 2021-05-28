@@ -145,7 +145,7 @@ module.exports.CheckRoom = async function(req, res) {
     params.today = today;
     var bills = await hoaDon.find({
         ma_loai_phong: {$in: roomTypeIDArr},
-        ngay_tra_phong: {$gte: today},
+        // ngay_tra_phong: {$gte: today},
         da_tra_phong: false
     }).populate('ma_loai_phong').populate('ma_tai_khoan').sort({da_thanh_toan: 1, ngay_dat_phong: -1});
     
@@ -299,6 +299,24 @@ module.exports.BillDetail = async function(req, res) {
     res.render('manager/billDetail', params);
 }
 
+// Đổi định dạng chuỗi tiền: 1000000 => 1.000.000
+function ShowMoney(money) {
+    money = money +'';
+    if(money.length <= 3) {
+        return money;
+    }   
+    else {
+        var newMoney = '';
+        while(money.length > 3) {
+            var temp = money.substring(money.length-3);
+            newMoney = '.'+ temp + newMoney;
+            money = money.substring(0, money.length-3);
+        }
+        newMoney = money + newMoney;
+        return newMoney;
+    }
+}
+
 // ================= A J A X =================
     // Check Room
 module.exports.DestroyBill = async function(req, res) {
@@ -312,6 +330,14 @@ module.exports.DestroyBill = async function(req, res) {
     var hotel = await khachSan.findById(roomType.ma_khach_san);
     hotel.so_phong_con_lai = hotel.so_phong_con_lai + bill.so_luong_phong;
     hotel.save();
+    res.sendStatus(200);
+}
+
+module.exports.PaidBill = async function(req, res) {
+    var billID = req.body.billID;
+    var bill = await hoaDon.findById(billID);
+    bill.da_thanh_toan = true;
+    bill.save();
     res.sendStatus(200);
 }
 
@@ -520,15 +546,15 @@ module.exports.GetBillForPagination = async function(req, res) {
                         <div class="row">\
                             <div class="col-md-6">\
                                 <h3 class="title">Thông tin hóa đơn</h3>\
-                                <p class="info">Loại phòng: '+ billArr[i].ma_loai_phong.ten +'</p>\
-                                <p class="info">Giá đặt phòng: '+ billArr[i].gia_dat_phong +' VND</p>\
-                                <p class="info">Ngày đặt phòng: <em>'+ billArr[i].ngay_dat_phong +'</em></p>\
+                                <p class="info"><b>Loại phòng:</b> '+ billArr[i].ma_loai_phong.ten +'</p>\
+                                <p class="info"><b>Giá đặt phòng:</b> '+ ShowMoney(billArr[i].gia_dat_phong) +' VND</p>\
+                                <p class="info"><b>Ngày đặt phòng:</b> <em>'+ billArr[i].ngay_dat_phong +'</em></p>\
                             </div>\
                             <div class="col-md-6">\
                                 <h3 class="title">Thông tin khách hàng</h3>\
-                                <p class="info">Tên đăng nhập: '+ billArr[i].ma_tai_khoan.username +'</p>\
-                                <p class="info">Họ tên: '+ billArr[i].ma_tai_khoan.ho_ten +'</p>\
-                                <p class="info">Số điện thoại: '+ billArr[i].ma_tai_khoan.so_dien_thoai +'</p>\
+                                <p class="info"><b>Tên đăng nhập:</b> '+ billArr[i].ma_tai_khoan.username +'</p>\
+                                <p class="info"><b>Họ tên:</b> '+ billArr[i].ma_tai_khoan.ho_ten +'</p>\
+                                <p class="info"><b>Số điện thoại:</b> '+ billArr[i].ma_tai_khoan.so_dien_thoai +'</p>\
                             </div>\
                         </div>\
                         <div class="mt-md-3">\

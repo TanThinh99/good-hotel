@@ -12,7 +12,7 @@ var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'tanthinh199915@gmail.com',
-        pass: 'al27Phte5'
+        pass: process.env.PASS_EMAIL_SYSTEM
     }
 });
 
@@ -100,7 +100,7 @@ module.exports.Index = async function(req, res) {
     if(decode != undefined) {
         var accountID = decode.id;
         var account = await taiKhoan.findById(accountID).exec();
-        params.username = account.ho_ten;
+        params.account = account;
     }
     params.basketTotal = GetAmountAndPriceInBasket(req);
     res.render('user/index', params);
@@ -124,7 +124,7 @@ module.exports.ForgetPassword = async function(req, res) {
             html: ''
         }
         try {
-            var token = jwt.sign(content, process.env.PASS_EMAIL_SYSTEM, {expiresIn: 600});
+            var token = jwt.sign(content, process.env.FORGET_PASS_CODE_SECRET, {expiresIn: 600});
             mailOptions.html = '<p>Thân chào bạn</p>\
                                 <p>Bạn đã có yêu cầu đổi mật khẩu mới, nên chúng tôi gửi email này đến bạn.</p>\
                                 <p>Dưới đây là <b>chuỗi mã hóa</b>. Thời hạn của chuỗi này là 10 phút.</p>\
@@ -152,7 +152,7 @@ module.exports.ConfirmNewPassword = async function(req, res) {
     var token = req.body.token;
     var password = req.body.password;
     try {
-        var decode = jwt.verify(token, process.env.PASS_EMAIL_SYSTEM);
+        var decode = jwt.verify(token, process.env.FORGET_PASS_CODE_SECRET);
         var username = decode.uid;
         var account = await taiKhoan.findOne({username: username});
         account.password = sha(password);
@@ -168,7 +168,6 @@ module.exports.Account = async function(req, res) {
     var params = {};
     var decode = req.session.decode;
     var account = await taiKhoan.findById(decode.id).exec();
-    params.username = account.ho_ten;
     params.account = account;
 
     var cities = await tinhThanh.find();
@@ -243,10 +242,7 @@ module.exports.HotelDetail = async function(req, res) {
     var decode = req.session.decode;
     if(decode != undefined) {
         var accountID = decode.id;
-        var account = await taiKhoan.findById(accountID);
-        params.username = account.ho_ten;
-        params.avatar = account.avatar;
-        params.userID = account._id;
+        params.account = await taiKhoan.findById(accountID);
     }
     var roomTypes = await loaiPhong.find({ma_khach_san: hotelID}).sort({gia: 1});
     params.roomTypes = roomTypes;
@@ -280,6 +276,161 @@ module.exports.HotelDetail = async function(req, res) {
     params.comments = commentArr;
     params.token = req.session.token;
     params.basketTotal = GetAmountAndPriceInBasket(req);
+
+    // Tỉ lệ điểm đánh giá
+    var commentScore = await binhLuan.find({ma_khach_san: hotelID}).sort({diem: -1});
+    var scoreRatioArr = [];
+    var countScore = 0;
+    var score = -1;
+    for(var i=0; i<commentScore.length; i++) {
+        if(score == commentScore[i].diem) {
+            // giong
+            countScore++;
+        }
+        else {
+            //khac
+            if(i != 0) {
+                var ratio = parseInt((countScore / commentScore.length) * 100);
+                var obj = {
+                    score: score,
+                    amount: countScore,
+                    ratio: ratio
+                }
+                scoreRatioArr.push(obj);
+            }            
+            score = commentScore[i].diem;
+            countScore = 1;
+        }
+        if(i == commentScore.length-1) {
+            var ratio = parseInt((countScore / commentScore.length) * 100);
+            var obj = {
+                score: score,
+                amount: countScore,
+                ratio: ratio
+            }
+            scoreRatioArr.push(obj);
+        }
+    }
+    var countPercent = 0;
+    for(var i=0; i<scoreRatioArr.length; i++) {
+        countPercent += scoreRatioArr[i].ratio;
+    }
+    if((countPercent != 100) && (commentScore.length != 0)) {
+        scoreRatioArr[0].ratio++;
+    }
+    params.scoreRatioArr = scoreRatioArr;
+
+    // Related hotels
+        // score
+    var scoreRelatedHotel = [];
+    var countHotel = 0;
+    var hotels = await khachSan.find({
+        diem_trung_binh: {$gte: hotel.diem_trung_binh},
+        _id: {$ne: hotel._id}
+    }).sort({diem_trung_binh: 1}).limit(4);
+    for(var i=0; i<hotels.length; i++) {
+        scoreRelatedHotel.push(hotels[i]);
+        countHotel++;
+    }
+    if(countHotel < 4) {
+        var hotels = await khachSan.find({
+            diem_trung_binh: {$lt: hotel.diem_trung_binh}
+        }).sort({diem_trung_binh: -1}).limit(4);
+        for(var i=0; i<hotels.length; i++) {
+            scoreRelatedHotel.push(hotels[i]);
+            countHotel++;
+            if(countHotel == 4) {
+                break;
+            }
+        }
+    }
+    for(var i=0; i<scoreRelatedHotel.length; i++) {
+        var hotelImage = await hinhAnh.findOne({ma_khach_san: scoreRelatedHotel[i]._id});
+        scoreRelatedHotel[i].image = hotelImage == undefined ? '' : hotelImage.ten;
+    }
+    params.scoreRelatedHotel = scoreRelatedHotel;
+
+        // price
+    var priceRelatedHotel = [];
+    countHotel = 0;
+    var hotels = await khachSan.find({
+        gia: {$gte: hotel.gia},
+        _id: {$ne: hotel._id}
+    }).sort({gia: 1}).limit(4);
+    for(var i=0; i<hotels.length; i++) {
+        priceRelatedHotel.push(hotels[i]);
+        countHotel++;
+    }
+    if(countHotel < 4) {
+        var hotels = await khachSan.find({
+            gia: {$lt: hotel.gia}
+        }).sort({gia: -1}).limit(4);
+        for(var i=0; i<hotels.length; i++) {
+            priceRelatedHotel.push(hotels[i]);
+            countHotel++;
+            if(countHotel == 4) {
+                break;
+            }
+        }
+    }
+    for(var i=0; i<priceRelatedHotel.length; i++) {
+        var hotelImage = await hinhAnh.findOne({ma_khach_san: priceRelatedHotel[i]._id});
+        priceRelatedHotel[i].image = hotelImage == undefined ? '' : hotelImage.ten;
+    }
+    params.priceRelatedHotel = priceRelatedHotel;
+
+        // address
+    var addressRelatedHotel = [];
+    var hotelIDArr = [];
+    hotelIDArr.push(hotel.id)
+    countHotel = 0;
+    var hotels = await khachSan.find({
+        maxp: hotel.maxp,
+        _id: {$nin: hotelIDArr}
+    }).limit(4);
+    for(var i=0; i<hotels.length; i++) {
+        addressRelatedHotel.push(hotels[i]);
+        countHotel++;
+        hotelIDArr.push(hotels[i].id);
+    }
+    if(countHotel < 4) {
+        var distAndCity = hotel.dia_chi;
+        var arr = distAndCity.split(',');
+        distAndCity = arr[arr.length-2] +', '+ arr[arr.length-1];
+        var hotels = await khachSan.find({
+            dia_chi: {$regex: distAndCity, $options: 'i'},
+            _id: {$nin: hotelIDArr}
+        }).limit(4);
+        for(var i=0; i<hotels.length; i++) {
+            addressRelatedHotel.push(hotels[i]);
+            countHotel++;
+            hotelIDArr.push(hotels[i].id);
+            if(countHotel == 4) {
+                break;
+            }
+        }
+    }
+    if(countHotel < 4) {
+        var city = hotel.dia_chi;
+        var arr = distAndCity.split(',');
+        city = arr[arr.length-1];
+        var hotels = await khachSan.find({
+            dia_chi: {$regex: city, $options: 'i'},
+            _id: {$nin: hotelIDArr}
+        }).limit(4);
+        for(var i=0; i<hotels.length; i++) {
+            addressRelatedHotel.push(hotels[i]);
+            countHotel++;
+            if(countHotel == 4) {
+                break;
+            }
+        }
+    }
+    for(var i=0; i<addressRelatedHotel.length; i++) {
+        var hotelImage = await hinhAnh.findOne({ma_khach_san: addressRelatedHotel[i]._id});
+        addressRelatedHotel[i].image = hotelImage == undefined ? '' : hotelImage.ten;
+    }
+    params.addressRelatedHotel = addressRelatedHotel;
     res.render('user/hotelDetail', params);
 }
 
@@ -336,7 +487,6 @@ module.exports.Basket = async function(req, res) {
     if(decode != undefined) {
         var account = await taiKhoan.findById(decode.id);
         params.account = account;
-        params.username = account.ho_ten;
     }
     params.token = req.session.token;
     params.basketTotal = GetAmountAndPriceInBasket(req);
@@ -350,8 +500,7 @@ module.exports.Checkout = async function(req, res) {
     }
     var decode = req.session.decode;
     if(decode != undefined) {
-        var account = await taiKhoan.findById(decode.id);
-        params.username = account.ho_ten;
+        params.account = await taiKhoan.findById(decode.id);
     }
     res.render('user/checkout', params);
 }
@@ -832,16 +981,7 @@ module.exports.SuccessPaymentOfBill = async function(req, res) {
         else {
             var bill = await hoaDon.findById(billID);
             bill.da_thanh_toan = true;
-            bill.save();
-
-            // reduce amountRoom in roomType and hotel
-            var roomType = await loaiPhong.findById(bill.ma_loai_phong);
-            roomType.so_luong_con_lai = roomType.so_luong_con_lai - bill.so_luong_phong;
-            roomType.save();
-            var hotel = await khachSan.findById(roomType.ma_khach_san);
-            hotel.so_phong_con_lai = hotel.so_phong_con_lai - bill.so_luong_phong;
-            hotel.save();
-            
+            bill.save();            
             var str = '<script>\
                             alert("Thanh toán thành công, chúc quý khách có những trải nghiệm vui vẻ ^^");\
                             window.location.href = "http://localhost:8000/account";\
@@ -946,13 +1086,12 @@ module.exports.GetHotelForPagination = async function(req, res) {
                                 <div class="latest-product__item__text">\
                                     <h5 class="hotelName">'+ hotelArr[i].ten +'</h5>\
                                     <p>\
-                                        <span class="score">'+ hotelArr[i].diem_trung_binh +'</span>\
-                                        <span class="level">Rất tốt</span>\
+                                        <span class="score mr-1">'+ hotelArr[i].diem_trung_binh +'</span>\
                                         ('+ hotelArr[i].so_luong_binh_luan +' đánh giá)\
                                     </p>\
                                     <p>\
                                         <b>Giá:</b>\
-                                        <span class="showMoney ml-2 mr-1">'+ ShowMoney(hotelArr[i].gia) +'</span>\
+                                        <span class="showMoney ml-1">'+ ShowMoney(hotelArr[i].gia) +'</span>\
                                         <b style="color: red; font-size: 18px;">VND</b>\
                                     </p>\
                                     <p>\

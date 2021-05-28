@@ -35,6 +35,9 @@ block content
                                 .form-group
                                     label(for='roleName') Tên vai trò
                                     input#roleName.form-control(type='text' aria-describedby='emailHelp')
+                                    span(style='color:red; display:none;')#nameRoleErr
+                                        b.mr-1(style='font-size:20px;') !
+                                        | Tên vai trò không được rỗng
                             .col-md-11.col-md-6.mx-auto
                                 button.btn.btn-success(onclick='AddRole()')
                                     i.fa.fa-pencil-square-o.mr-1(aria-hidden='true')

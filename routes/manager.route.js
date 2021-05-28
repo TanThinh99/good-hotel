@@ -13,6 +13,7 @@ router.get('/addRoomType', mid.GoToManagerPage, managerCtrl.AddRoomType);
 
 router.get('/checkRoom', mid.GoToManagerPage, managerCtrl.CheckRoom);
 router.delete('/destroyBill', mid.GoToManagerPage, managerCtrl.DestroyBill);
+router.put('/paidBill', mid.GoToManagerPage, managerCtrl.PaidBill);
 router.put('/returnRoom', mid.GoToManagerPage, managerCtrl.ReturnRoom);
 
 router.get('/comment', mid.GoToManagerPage, managerCtrl.Comment);

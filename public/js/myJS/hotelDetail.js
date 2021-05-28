@@ -145,6 +145,24 @@ function SaveComment() {
         alert('Bạn cần phải đăng nhập để tạo bình luận!');
         return;
     }
+    var score = document.getElementById('commentScore').value.trim();
+    var goodReview = document.getElementById('good-review').value.trim();
+    var badReview = document.getElementById('bad-review').value.trim();
+    var displayStatus = score == '' ? 'block' : 'none';
+    document.getElementById('scoreCommentErr').style.display = displayStatus;
+    displayStatus = goodReview == '' ? 'block' : 'none';
+    document.getElementById('goodCommentErr').style.display = displayStatus;
+    displayStatus = badReview == '' ? 'block' : 'none';
+    document.getElementById('badCommentErr').style.display = displayStatus;
+    if((score == '') || (goodReview == '') || (badReview == '')) {
+        return;
+    }
+    score = parseInt(score);
+    displayStatus = (score < 0) || (10 < score) ? 'block' : 'none';
+    document.getElementById('scoreCommentErr').style.display = displayStatus;
+    if((score < 0) || (10 < score)) {
+        return;
+    }
     var commentID = document.getElementById('commentUpdating').value;
     if(commentID == '') {
         CreateComment();
@@ -157,9 +175,9 @@ function SaveComment() {
 
 function CreateComment() {
     var token = document.getElementById('token').value;
-    var score = document.getElementById('commentScore').value;
-    var goodReview = document.getElementById('good-review').value;
-    var badReview = document.getElementById('bad-review').value;
+    var score = parseInt(document.getElementById('commentScore').value.trim());
+    var goodReview = document.getElementById('good-review').value.trim();
+    var badReview = document.getElementById('bad-review').value.trim();
     var hotelID = document.getElementById('hotelID').value;
     axios({
         method: 'POST',
@@ -175,33 +193,38 @@ function CreateComment() {
         }
     })
     .then(function(response) {
-        var yourName = document.getElementById('yourName').value;
-        var avatar = document.getElementById('yourAvatar').value;
-        var data = response.data[0];
-        var str = '<div class="review">\
-                    <img src="/uploads/'+ avatar +'" style="width:80px; border-radius:50%; float:left;">\
-                    <div class="desc">\
-                        <h4>\
-                            <span class="text-left review-name">'+ yourName +'</span>\
-                            <span class="text-right review-time" id="time'+ data._id +'">'+ data.thoi_gian +'</span>\
-                        </h4>\
-                        <p class="star">\
-                            <span id="score'+ data._id +'">'+ data.diem +'.0</span>\
-                            <span class="ml-3">\
-                                <i class="fa fa-pencil aria-hidden="true" title="Chỉnh sửa" style="cursor:pointer;" data-toggle="modal" data-target="#commentModal" onclick=\'OpenUpdateComment("'+ data._id +'")\'></i>\
-                            </span>\
-                            <span class="ml-1">\
-                                <i class="fa fa-trash-o aria-hidden="true" title="Xóa" style="cursor:pointer;" onclick=\'DeleteComment("'+ data._id +'")\'></i>\
-                            </span>\
-                        </p>\
-                        <div>\
-                            <p><b class="good">Tốt:</b> <span id="goodReview'+ data._id +'">'+ data.noi_dung_tot +'</span></p>\
-                            <p><b class="bad">Góp ý:</b> <span id="badReview'+ data._id +'">'+ data.noi_dung_xau +'</span></p>\
+        if(response.data.err != '') {
+            alert(response.data.err)
+        }
+        else {
+            var yourName = document.getElementById('yourName').value;
+            var avatar = document.getElementById('yourAvatar').value;
+            var data = response.data.comment;
+            var str = '<div class="review">\
+                        <img src="/uploads/'+ avatar +'" style="width:80px; border-radius:50%; float:left;">\
+                        <div class="desc">\
+                            <h4>\
+                                <span class="text-left review-name">'+ yourName +'</span>\
+                                <span class="text-right review-time" id="time'+ data._id +'">'+ data.thoi_gian +'</span>\
+                            </h4>\
+                            <p class="star">\
+                                <span id="score'+ data._id +'">'+ data.diem +'.0</span>\
+                                <span class="ml-3">\
+                                    <i class="fa fa-pencil aria-hidden="true" title="Chỉnh sửa" style="cursor:pointer;" data-toggle="modal" data-target="#commentModal" onclick=\'OpenUpdateComment("'+ data._id +'")\'></i>\
+                                </span>\
+                                <span class="ml-1">\
+                                    <i class="fa fa-trash-o aria-hidden="true" title="Xóa" style="cursor:pointer;" onclick=\'DeleteComment("'+ data._id +'")\'></i>\
+                                </span>\
+                            </p>\
+                            <div>\
+                                <p><b class="good">Tốt:</b> <span id="goodReview'+ data._id +'">'+ data.noi_dung_tot +'</span></p>\
+                                <p><b class="bad">Góp ý:</b> <span id="badReview'+ data._id +'">'+ data.noi_dung_xau +'</span></p>\
+                            </div>\
                         </div>\
-                    </div>\
-                </div>';
-        var frame = document.getElementById('commentFrame');
-        frame.innerHTML = str + frame.innerHTML;
+                    </div>';
+            var frame = document.getElementById('commentFrame');
+            frame.innerHTML = str + frame.innerHTML;
+        }
     })
     .catch(function(err) {
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
@@ -210,7 +233,7 @@ function CreateComment() {
 }
 
 function OpenUpdateComment(commentID) {
-    var score = document.getElementById('score'+ commentID).innerHTML;
+    var score = document.getElementById('score'+ commentID).innerHTML *1;
     var goodReview = document.getElementById('goodReview'+ commentID).innerHTML;
     var badReview = document.getElementById('badReview'+ commentID).innerHTML;
     document.getElementById('commentScore').value = score;
@@ -222,9 +245,9 @@ function OpenUpdateComment(commentID) {
 
 function UpdateComment(commentID) {
     var token = document.getElementById('token').value;
-    var score = document.getElementById('commentScore').value;
-    var goodReview = document.getElementById('good-review').value;
-    var badReview = document.getElementById('bad-review').value;
+    var score = parseInt(document.getElementById('commentScore').value.trim());
+    var goodReview = document.getElementById('good-review').value.trim();
+    var badReview = document.getElementById('bad-review').value.trim();
     axios({
         method: 'PUT',
         url: 'http://localhost:8000/api/binh_luan/member/'+ commentID,
@@ -271,9 +294,16 @@ function DeleteComment(commentID) {
 }
 
 function CloseCommentModal() {
+    document.getElementById('commentScore').value = 8;
     document.getElementById('good-review').value = '';
     document.getElementById('bad-review').value = '';
     document.getElementById('closeCommentModal').click();
+}
+
+document.getElementById('closeTopCommentModal').onclick = function() {
+    document.getElementById('commentScore').value = 8;
+    document.getElementById('good-review').value = '';
+    document.getElementById('bad-review').value = '';
 }
 
 function ChoosePaginateItem(pageSelected) {

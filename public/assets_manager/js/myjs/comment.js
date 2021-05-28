@@ -1,25 +1,33 @@
 function DaXem(commentID) {
-    var token = document.getElementById('token').value;
-    axios({
-        method: 'PUT',
-        url: 'http://localhost:8000/api/binh_luan/confirmSeen/'+ commentID,
-        headers: {
-            'Authorization': 'bearer '+ token
-        }
-    })
-    .then(function(response) {
-        location.reload();
-    })
-    .catch(function(err) {
-        alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
-        console.log(err);
-    });
+    if(confirm('Bạn đã xem bình luận này rồi?')) {
+        var token = document.getElementById('token').value;
+        axios({
+            method: 'PUT',
+            url: 'http://localhost:8000/api/binh_luan/confirmSeen/'+ commentID,
+            headers: {
+                'Authorization': 'bearer '+ token
+            }
+        })
+        .then(function(response) {
+            location.reload();
+        })
+        .catch(function(err) {
+            alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+            console.log(err);
+        });
+    }
 }
 
 function UpdateReply() {
+    var content = document.getElementById('replyContent').value.trim();
+    var displayStatus = content == '' ? 'block' : 'none';
+    document.getElementById('contentReplyErr').style.display = displayStatus;
+    if(content == '') {
+        return;
+    }
     var token = document.getElementById('token').value;
     var commentID = document.getElementById('commentID').value;
-    var content = document.getElementById('replyContent').value;
+    
     axios({
         method: 'PUT',
         url: 'http://localhost:8000/api/binh_luan/manager/'+ commentID,

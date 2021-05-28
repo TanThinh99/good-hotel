@@ -76,7 +76,10 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
                         a.nav-link.pr-0(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
                             .media.align-items-center
                                 span.avatar.avatar-sm.rounded-circle
-                                    img(alt='Avatar Image' src='/uploads/'+ userAccount.avatar)
+                                    if userAccount.avatar == ''
+                                        img(alt='Avatar Image' src='/img/avatardefault.png')
+                                    else
+                                        img(alt='Avatar Image' src='/uploads/'+ userAccount.avatar)
                                 .media-body.ml-2.d-none.d-lg-block
                                     span.mb-0.text-sm.font-weight-bold #{userAccount.ho_ten}
                         .dropdown-menu.dropdown-menu-right

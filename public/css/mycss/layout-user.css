@@ -39,6 +39,32 @@
     background-color: greenyellow;
 }
 
+/* LOADING */
+#loadingDiv {
+    display: none;
+    position: fixed;
+    bottom: 40px;
+    right: 20px;
+    background: #defdff;
+    padding: 10px 28px;
+    border-radius: 30px;
+    opacity: 85%;
+    z-index:1;
+}
+
+#loadingDiv .loading-text {
+    font-weight: bold;
+}
+
+.formError {
+    color: red;
+    display: none;
+}
+
+.formError b {
+    font-size: 20px;
+}
+
 /* FOOTER */
 .footer {
     padding-top: 38px;

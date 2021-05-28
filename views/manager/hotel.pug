@@ -40,10 +40,17 @@ block content
                                 .form-group
                                     label(for='name') Tên khách sạn
                                     input#name.form-control(type='text' value=''+ hotel.ten)
+                                    span.infoError#nameInfoErr
+                                        b.mr-1 !
+                                        | Tên khách sạn không được rỗng
+
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
                                     label(for='phone') Số điện thoại
                                     input#phone.form-control(type='text' value=''+ hotel.so_dien_thoai)
+                                    span.infoError#phoneInfoErr
+                                        b.mr-1 !
+                                        | Số điện thoại không hợp lệ (Là dãy số 10-11 số)
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
                                     label Địa chỉ

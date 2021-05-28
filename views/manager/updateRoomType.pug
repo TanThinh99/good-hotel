@@ -38,14 +38,23 @@ block content
                                 .form-group
                                     label(for='name') Tên loại phòng
                                     input#name.form-control(type='text' value=roomType.ten aria-describedby='emailHelp')
+                                    span.infoError#nameInfoErr
+                                        b.mr-1 !
+                                        | Tên loại phòng không được rỗng
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
                                     label(for='price') Giá (VND)
                                     input#price.form-control(type='number' value=roomType.gia aria-describedby='emailHelp')
+                                    span.infoError#priceInfoErr
+                                        b.mr-1 !
+                                        | Giá loại phòng không được rỗng và phải lớn hơn 0
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
                                     label(for='amountRoom') Số lượng phòng
                                     input#amountRoom.form-control(type='number' value=roomType.so_luong min='0' step='1' aria-describedby='emailHelp')
+                                    span.infoError#amountRoomInfoErr
+                                        b.mr-1 !
+                                        | Số lượng phòng không được rỗng và phải lớn hơn 0
                             .col-md-11.col-md-6.mx-auto
                                 .form-group
                                     label(for='image360') Liên kết hình ảnh 360

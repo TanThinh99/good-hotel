@@ -50,8 +50,10 @@ block content
                                             | #{bill.ngay_tra_phong}
                                     .col-md-6
                                         p 
-                                            span.title Giá đặt phòng: 
-                                            | #{bill.gia_dat_phong} VND
+                                            span.title Giá đặt phòng:
+                                            span.ml-1.mr-1.showMoney(style='line-height: inherit; font-size: 16px; vertical-align: inherit; display: inline;')
+                                                | #{bill.gia_dat_phong}
+                                            | VND
                                         p 
                                             span.title Số lượng phòng: 
                                             | #{bill.so_luong_phong} phòng
@@ -102,5 +104,6 @@ block content
         include layout/footer.pug
         
 block script 
+    script(src="/js/myjs/updateFormatMoney.js") 
     script.
         document.getElementById('billNav').classList.add('active');

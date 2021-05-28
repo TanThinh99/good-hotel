@@ -22,6 +22,7 @@ function ShowUserDetail(userID) {
     var email = document.getElementById('email'+userID).value;
     var sdt = document.getElementById('sdt'+userID).value;
 
+    document.getElementById('idModal').value = userID;
     document.getElementById('avatarModal').src = avatar;
     document.getElementById('usernameModal').innerHTML = username;
     document.getElementById('hoTenModal').innerHTML = hoTen;
@@ -36,7 +37,7 @@ function ShowUserDetail(userID) {
 }
 
 function UpdateRole() {
-    var userID = document.getElementById('idModal').innerHTML;
+    var userID = document.getElementById('idModal').value;
     var roleSelected = document.getElementById('roleSelect').value;
     var token = document.getElementById('token').value;
     var data = {
@@ -62,6 +63,7 @@ function UpdateRole() {
         var roleName = document.getElementById('option'+ roleSelected).innerHTML;
         document.getElementById('maVaiTro'+ userID).value = roleSelected;
         document.getElementById('vaiTro'+ userID).innerHTML = roleName;
+        document.getElementById('closeModal').click();
     })
     .catch(function(err) {
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
