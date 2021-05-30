@@ -550,10 +550,9 @@ module.exports.OnlinePayment = async function(req, res) {
             // Items in basket
         for(var i=0; i<basket.length; i++) {
             var price = (basket[i].amountRoom * basket[i].amountDate * basket[i].roomType.gia) / usdPrice;
-            basketTotalPrice += price;
             var priceArr = (price+'').split('.');
             if(priceArr.length == 1) {
-                price = priceArr[0] +'00';
+                price = priceArr[0] +'.00';
             }
             else {
                 var duoi = priceArr[1].length >= 3 ? priceArr[1].substring(0, 2) : priceArr[1];
@@ -569,16 +568,7 @@ module.exports.OnlinePayment = async function(req, res) {
                 "quantity": basket[i].amountRoom
             }
             itemsArr.push(obj);
-        }
-            // Udate format for basketTotalPrice
-        var priceArr = (basketTotalPrice+'').split('.');
-        if(priceArr.length == 1) {
-            basketTotalPrice = priceArr[0] +'00';
-        }
-        else {
-            var duoi = priceArr[1].length >= 3 ? priceArr[1].substring(0, 2) : priceArr[1];
-            duoi = duoi.length == 1 ? duoi+'0' : duoi;
-            basketTotalPrice = priceArr[0] +'.'+ duoi;
+            basketTotalPrice += price * 1;
         }
         var create_payment_json = {
             "intent": "sale",
@@ -643,17 +633,18 @@ module.exports.SuccessPayment = function(req, res) {
     var basketTotalPrice = 0;
     for(var i=0; i<basket.length; i++) {
         var price = (basket[i].amountRoom * basket[i].amountDate * basket[i].roomType.gia) / usdPrice;
-        basketTotalPrice += price;
+        var priceArr = (price+'').split('.');
+        if(priceArr.length == 1) {
+            price = priceArr[0] +'.00';
+        }
+        else {
+            var duoi = priceArr[1].length >= 3 ? priceArr[1].substring(0, 2) : priceArr[1];
+            duoi = duoi.length == 1 ? duoi+'0' : duoi;
+            price = priceArr[0] +'.'+ duoi;
+        }
+        basketTotalPrice += price * 1;
     }
-    var priceArr = (basketTotalPrice+'').split('.');
-    if(priceArr.length == 1) {
-        basketTotalPrice = priceArr[0] +'00';
-    }
-    else {
-        var duoi = priceArr[1].length >= 3 ? priceArr[1].substring(0, 2) : priceArr[1];
-        duoi = duoi.length == 1 ? duoi+'0' : duoi;
-        basketTotalPrice = priceArr[0] +'.'+ duoi;
-    }
+    
     var execute_payment_json = {
         "payer_id": payerID,
         "transactions": [{
@@ -886,7 +877,7 @@ module.exports.PayBill = async function(req, res) {
     
     var priceArr = (price+'').split('.');
     if(priceArr.length == 1) {
-        price = priceArr[0] +'00';
+        price = priceArr[0] +'.00';
     }
     else {
         var duoi = priceArr[1].length >= 3 ? priceArr[1].substring(0, 2) : priceArr[1];
@@ -953,7 +944,7 @@ module.exports.SuccessPaymentOfBill = async function(req, res) {
     
     var priceArr = (price+'').split('.');
     if(priceArr.length == 1) {
-        price = priceArr[0] +'00';
+        price = priceArr[0] +'.00';
     }
     else {
         var duoi = priceArr[1].length >= 3 ? priceArr[1].substring(0, 2) : priceArr[1];
