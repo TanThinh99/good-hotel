@@ -108,35 +108,37 @@ function CheckRoom() {
     }
     if(fromDate > toDate) {
         alert('Ngày nhận phòng phải trước ngày trả phòng!!');
+        return;
     }
-    else {
-        var roomTypeID = document.getElementById('roomTypeIDSelected').value;
-        axios({
-            method: 'POST',
-            url: 'http://localhost:8000/addToBasket',
-            data: {
-                roomTypeID: roomTypeID,
-                amountRoom: amountRoom,
-                fromDate: fromDate,
-                toDate: toDate
-            }            
-        })
-        .then(function(response) {
-            alert('Đã thêm đơn đặt phòng vào giỏ hàng!');
-            document.getElementById('amountRoom').value = '';
-            document.getElementById('fromDate').value = '';
-            document.getElementById('toDate').value = '';
-            document.getElementById('closeCheckRoom').click();
+    ToggleLoading();
+    var roomTypeID = document.getElementById('roomTypeIDSelected').value;
+    axios({
+        method: 'POST',
+        url: '/addToBasket',
+        data: {
+            roomTypeID: roomTypeID,
+            amountRoom: amountRoom,
+            fromDate: fromDate,
+            toDate: toDate
+        }            
+    })
+    .then(function(response) {
+        ToggleLoading();
+        alert('Đã thêm đơn đặt phòng vào giỏ hàng!');
+        document.getElementById('amountRoom').value = '';
+        document.getElementById('fromDate').value = '';
+        document.getElementById('toDate').value = '';
+        document.getElementById('closeCheckRoom').click();
 
-            var basketInfo = response.data.basketInfo;
-            document.getElementById('amountInBasketHeader').innerHTML = basketInfo.amount;
-            document.getElementById('basketPriceHeader').innerHTML = basketInfo.price +' VND';
-        })
-        .catch(function(err) {
-            alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
-            console.log(err);
-        });
-    }
+        var basketInfo = response.data.basketInfo;
+        document.getElementById('amountInBasketHeader').innerHTML = basketInfo.amount;
+        document.getElementById('basketPriceHeader').innerHTML = basketInfo.price +' VND';
+    })
+    .catch(function(err) {
+        ToggleLoading();
+        alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
+        console.log(err);
+    });
 }
 
 function SaveComment() {
@@ -174,6 +176,7 @@ function SaveComment() {
 }
 
 function CreateComment() {
+    ToggleLoading();
     var token = document.getElementById('token').value;
     var score = parseInt(document.getElementById('commentScore').value.trim());
     var goodReview = document.getElementById('good-review').value.trim();
@@ -181,7 +184,7 @@ function CreateComment() {
     var hotelID = document.getElementById('hotelID').value;
     axios({
         method: 'POST',
-        url: 'http://localhost:8000/api/binh_luan/member',
+        url: '/api/binh_luan/member',
         data: {
             noi_dung_tot: goodReview,
             noi_dung_xau: badReview,
@@ -193,6 +196,7 @@ function CreateComment() {
         }
     })
     .then(function(response) {
+        ToggleLoading();
         if(response.data.err != '') {
             alert(response.data.err)
         }
@@ -200,7 +204,7 @@ function CreateComment() {
             var yourName = document.getElementById('yourName').value;
             var avatar = document.getElementById('yourAvatar').value;
             var data = response.data.comment;
-            var str = '<div class="review">\
+            var str = '<div class="review" id="review'+ data._id +'">\
                         <img src="/uploads/'+ avatar +'" style="width:80px; border-radius:50%; float:left;">\
                         <div class="desc">\
                             <h4>\
@@ -227,6 +231,7 @@ function CreateComment() {
         }
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
@@ -244,13 +249,14 @@ function OpenUpdateComment(commentID) {
 }
 
 function UpdateComment(commentID) {
+    ToggleLoading();
     var token = document.getElementById('token').value;
     var score = parseInt(document.getElementById('commentScore').value.trim());
     var goodReview = document.getElementById('good-review').value.trim();
     var badReview = document.getElementById('bad-review').value.trim();
     axios({
         method: 'PUT',
-        url: 'http://localhost:8000/api/binh_luan/member/'+ commentID,
+        url: '/api/binh_luan/member/'+ commentID,
         data: {
             noi_dung_tot: goodReview,
             noi_dung_xau: badReview,
@@ -261,6 +267,7 @@ function UpdateComment(commentID) {
         }
     })
     .then(function(response) {
+        ToggleLoading();
         var data = response.data;
         document.getElementById('time'+ commentID).innerHTML = data.thoi_gian;
         document.getElementById('score'+ commentID).innerHTML = data.diem +'.0';
@@ -268,6 +275,7 @@ function UpdateComment(commentID) {
         document.getElementById('badReview'+ commentID).innerHTML = data.noi_dung_xau;
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
@@ -276,17 +284,20 @@ function UpdateComment(commentID) {
 function DeleteComment(commentID) {
     if(confirm('Quý khách sẽ xóa bình luận này?')) {
         var token = document.getElementById('token').value;
+        ToggleLoading();
         axios({
             method: 'DELETE',
-            url: 'http://localhost:8000/api/binh_luan/member/'+ commentID,
+            url: '/api/binh_luan/member/'+ commentID,
             headers: {
                 'Authorization': 'bearer '+ token
             }
         })
         .then(function(response) {
+            ToggleLoading();
             document.getElementById('review'+ commentID).hidden = true;
         })
         .catch(function(err) {
+            ToggleLoading();
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });
@@ -307,16 +318,19 @@ document.getElementById('closeTopCommentModal').onclick = function() {
 }
 
 function ChoosePaginateItem(pageSelected) {
+    ToggleLoading();
     var hotelID = document.getElementById('hotelID').value;
     axios({
         method: 'GET',
-        url: 'http://localhost:8000/getCommentHotelForPagination?hotelID='+ hotelID +'&pageSelected='+ pageSelected,
+        url: '/getCommentHotelForPagination?hotelID='+ hotelID +'&pageSelected='+ pageSelected,
     })
     .then(function(response) {
+        ToggleLoading();
         document.getElementById('commentFrame').innerHTML = response.data.commentData;
         document.getElementById('containerPagiItem').innerHTML = response.data.paginateData;
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });

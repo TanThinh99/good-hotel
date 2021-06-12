@@ -1,16 +1,19 @@
 function DestroyBill(billID) {
     if(confirm('Bạn sẽ hủy đơn đặt phòng này?')) {
+        ToggleLoading();
         axios({
             method: 'DELETE',
-            url: 'http://localhost:8000/manager/destroyBill',
+            url: '/manager/destroyBill',
             data: {
                 billID: billID
             }
         })
         .then(function(response) {
+            ToggleLoading();
             document.getElementById('bill'+ billID).hidden = true;
         })
         .catch(function(err) {
+            ToggleLoading();
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });
@@ -19,17 +22,20 @@ function DestroyBill(billID) {
 
 function PaidBill(billID) {
     if(confirm('Khách hàng đã thanh toán cho đơn đặt phòng này?')) {
+        ToggleLoading();
         axios({
             method: 'PUT',
-            url: 'http://localhost:8000/manager/paidBill',
+            url: '/manager/paidBill',
             data: {
                 billID: billID
             }
         })
         .then(function(response) {
+            ToggleLoading();
             location.reload();
         })
         .catch(function(err) {
+            ToggleLoading();
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });
@@ -38,17 +44,20 @@ function PaidBill(billID) {
 
 function ReturnRoom(billID) {
     if(confirm('Các phòng của hóa đơn này được trả lại?')) {
+        ToggleLoading();
         axios({
             method: 'PUT',
-            url: 'http://localhost:8000/manager/returnRoom',
+            url: '/manager/returnRoom',
             data: {
                 billID: billID
             }
         })
         .then(function(response) {
+            ToggleLoading();
             document.getElementById('bill'+ billID).hidden = true;
         })
         .catch(function(err) {
+            ToggleLoading();
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });

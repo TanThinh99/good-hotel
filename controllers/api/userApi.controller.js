@@ -1,5 +1,6 @@
 var sha = require('js-sha256');
 var jwt = require('jsonwebtoken');
+const vaiTro = require('../../models/vai_tro.model');
 const vaiTroCoQuyen = require('../../models/vai_tro_co_quyen.model');
 var taiKhoanModel = require('./../../models/tai_khoan.model');
 
@@ -38,18 +39,21 @@ module.exports.PostLogin = async function(req, res) {
         // id của quyền: Vao trang quan ly khach san
         var managerPageID = '6056be0baeec781fe47d7c55';
 
+        var role = await vaiTro.findById(rs.ma_vai_tro);
         var allow = '';
-        var hasPermiss = await vaiTroCoQuyen.findOne({ma_vai_tro: rs.ma_vai_tro, ma_quyen: adminPageID}).exec();
-        if(hasPermiss != null) {
-            allow = 'Vao trang admin';
-        }
-        else {
-            var hasPermiss = await vaiTroCoQuyen.findOne({ma_vai_tro: rs.ma_vai_tro, ma_quyen: managerPageID}).exec();
-            if((hasPermiss != null) && (rs.ma_khach_san != '')) {
-                allow = 'Vao trang quan ly khach san';
+        if(role.disabled ==  false) {
+            var hasPermiss = await vaiTroCoQuyen.findOne({ma_vai_tro: rs.ma_vai_tro, ma_quyen: adminPageID}).exec();
+            if(hasPermiss != null) {
+                allow = 'Vao trang admin';
+            }
+            else {
+                var hasPermiss = await vaiTroCoQuyen.findOne({ma_vai_tro: rs.ma_vai_tro, ma_quyen: managerPageID}).exec();
+                if((hasPermiss != null) && (rs.ma_khach_san != '')) {
+                    allow = 'Vao trang quan ly khach san';
+                }
             }
         }
-
+        
         var content = {
             id: rs._id,
             role: rs.ma_vai_tro,

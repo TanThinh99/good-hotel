@@ -1,13 +1,16 @@
 document.getElementById('findHotelBtn').onclick = function() {
     var key = document.getElementById('hotelKey').value;
+    ToggleLoading();
     axios({
         method: 'GET',
-        url: 'http://localhost:8000/admin/findHotelByKey?key='+ key,
+        url: '/admin/findHotelByKey?key='+ key,
     })
     .then(function(response) {
+        ToggleLoading();
         document.getElementById('containerHotels').innerHTML = response.data.hotelData;
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
@@ -15,14 +18,17 @@ document.getElementById('findHotelBtn').onclick = function() {
 
 document.getElementById('findManagerBtn').onclick = function() {
     var key = document.getElementById('managerKey').value;
+    ToggleLoading();
     axios({
         method: 'GET',
-        url: 'http://localhost:8000/admin/findManagerByKey?key='+ key,
+        url: '/admin/findManagerByKey?key='+ key,
     })
     .then(function(response) {
+        ToggleLoading();
         document.getElementById('containerManager').innerHTML = response.data.managerData;
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
@@ -57,9 +63,10 @@ document.getElementById('grantManagerBtn').onclick = function() {
         return;
     }
     var token = document.getElementById('token').value;
+    ToggleLoading();
     axios({
         method: 'POST',
-        url: 'http://localhost:8000/api/tai_khoan/grantManager',
+        url: '/api/tai_khoan/grantManager',
         data: {
             hotelID: hotelID,
             managerID: managerID
@@ -69,9 +76,11 @@ document.getElementById('grantManagerBtn').onclick = function() {
         }
     })
     .then(function(response) {
+        ToggleLoading();
         alert('Cấp quyền quản lý khách sạn thành công!');
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });

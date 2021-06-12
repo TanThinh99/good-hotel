@@ -18,9 +18,10 @@ function CreateConvenient() {
         return;
     }
     var token = document.getElementById('token').value;
+    ToggleLoading();
     axios({
         method: 'POST',
-        url: 'http://localhost:8000/api/tien_nghi',
+        url: '/api/tien_nghi',
         data: {
             ten: name,
             hinh_anh: icon
@@ -30,10 +31,12 @@ function CreateConvenient() {
         }                
     })
     .then(function(response) {
+        ToggleLoading();
         alert('Thêm mới tiện nghi thành công!');
-        window.location.href = 'http://localhost:8000/admin/convenient';
+        window.location.href = '/admin/convenient';
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
@@ -49,9 +52,10 @@ function UpdateConvenient() {
     var convenID = document.getElementById('convenID').value;
     var icon = document.getElementById('iconSelected').value;
     var token = document.getElementById('token').value;
+    ToggleLoading();
     axios({
         method: 'PUT',
-        url: 'http://localhost:8000/api/tien_nghi/'+ convenID,
+        url: '/api/tien_nghi/'+ convenID,
         data: {
             ten: name,
             hinh_anh: icon
@@ -61,9 +65,11 @@ function UpdateConvenient() {
         }                
     })
     .then(function(response) {
+        ToggleLoading();
         alert('Cập nhật tiện nghi thành công!');
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
@@ -72,17 +78,20 @@ function UpdateConvenient() {
 function DeleteConvenient(convenID) {
     if(confirm('Bạn sẽ xóa tiện nghi này?')) {
         var token = document.getElementById('token').value;
+        ToggleLoading();
         axios({
             method: 'DELETE',
-            url: 'http://localhost:8000/api/tien_nghi/'+ convenID,
+            url: '/api/tien_nghi/'+ convenID,
             headers: {
                 'Authorization': 'bearer '+ token
             }                
         })
         .then(function(response) {
+            ToggleLoading();
             document.getElementById('div'+ convenID).hidden = true;
         })
         .catch(function(err) {
+            ToggleLoading();
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });

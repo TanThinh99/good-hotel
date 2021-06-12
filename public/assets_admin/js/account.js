@@ -48,15 +48,17 @@ function UpdateRole() {
         // Tạo khách sạn mới
         data.ma_khach_san = 'new';
     }
+    ToggleLoading();
     axios({
         method: 'PUT',
-        url: 'http://localhost:8000/api/tai_khoan/grantRole/'+ userID,
+        url: '/api/tai_khoan/grantRole/'+ userID,
         data: data,
         headers: {
             'Authorization': 'bearer '+ token
         }                
     })
     .then(function(response) {
+        ToggleLoading();
         alert('Đã cập nhật lại vai trò cho tài khoản!');
 
         // update user view
@@ -66,6 +68,7 @@ function UpdateRole() {
         document.getElementById('closeModal').click();
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
@@ -73,15 +76,18 @@ function UpdateRole() {
 
 function ChoosePaginateItem(pageSelected) {
     var key = document.getElementById('foundByKey').value;
+    ToggleLoading();
     axios({
         method: 'GET',
-        url: 'http://localhost:8000/admin/getAccountForPagination?key='+ key +'&pageSelected='+ pageSelected,
+        url: '/admin/getAccountForPagination?key='+ key +'&pageSelected='+ pageSelected,
     })
     .then(function(response) {
+        ToggleLoading();
         document.getElementById('containerAccount').innerHTML = response.data.accountData;
         document.getElementById('containerPagiItem').innerHTML = response.data.paginateData;
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });

@@ -110,6 +110,10 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
 
     block content
               
+    #loadingDiv
+        .spinner-border.text-info.mr-2(role="status")
+        span.loading-text Chờ tí ...
+
 // Argon Scripts
 // Core
 script(src='/assets_manager/vendor/jquery/dist/jquery.min.js')
@@ -127,3 +131,4 @@ script(src='/assets_manager/vendor/chart.js/dist/Chart.extension.js')
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 block script
+script(src='/assets_manager/js/myjs/layout.js')

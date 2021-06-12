@@ -1,17 +1,20 @@
 function DaXem(commentID) {
     if(confirm('Bạn đã xem bình luận này rồi?')) {
         var token = document.getElementById('token').value;
+        ToggleLoading();
         axios({
             method: 'PUT',
-            url: 'http://localhost:8000/api/binh_luan/confirmSeen/'+ commentID,
+            url: '/api/binh_luan/confirmSeen/'+ commentID,
             headers: {
                 'Authorization': 'bearer '+ token
             }
         })
         .then(function(response) {
+            ToggleLoading();
             location.reload();
         })
         .catch(function(err) {
+            ToggleLoading();
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });
@@ -27,10 +30,10 @@ function UpdateReply() {
     }
     var token = document.getElementById('token').value;
     var commentID = document.getElementById('commentID').value;
-    
+    ToggleLoading();
     axios({
         method: 'PUT',
-        url: 'http://localhost:8000/api/binh_luan/manager/'+ commentID,
+        url: '/api/binh_luan/manager/'+ commentID,
         data: {
             noi_dung_phan_hoi: content.trim()
         },
@@ -39,9 +42,11 @@ function UpdateReply() {
         }
     })
     .then(function(response) {
+        ToggleLoading();
         alert('Đã lưu lại phản hồi cho khách hàng!');
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
@@ -49,15 +54,18 @@ function UpdateReply() {
 
 function ChoosePaginateItem(pageSelected) {
     var key = document.getElementById('foundByKey').value;
+    ToggleLoading();
     axios({
         method: 'GET',
-        url: 'http://localhost:8000/manager/getCommentForPagination?key='+ key +'&pageSelected='+ pageSelected,
+        url: '/manager/getCommentForPagination?key='+ key +'&pageSelected='+ pageSelected,
     })
     .then(function(response) {
+        ToggleLoading();
         document.getElementById('containerComments').innerHTML = response.data.commentData;
         document.getElementById('containerPagiItem').innerHTML = response.data.paginateData;
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });

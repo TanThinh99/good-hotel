@@ -76,7 +76,7 @@ function ChooseCity(id, name) {
 function DistrictAjax(cityID) {
     axios({
         method: 'GET',
-        url: 'http://localhost:8000/district_of_city/'+ cityID
+        url: '/district_of_city/'+ cityID
     })
     .then(function(response) {
         document.getElementById('containDistContent').innerHTML = response.data.distStr;
@@ -105,7 +105,7 @@ function ChooseDist(id, name) {
 function WardAjax(distID) {
     axios({
         method: 'GET',
-        url: 'http://localhost:8000/wards_of_district/'+ distID
+        url: '/wards_of_district/'+ distID
     })
     .then(function(response) {
         document.getElementById('containWardContent').innerHTML = response.data;
@@ -164,9 +164,10 @@ function UpdateInfo() {
     var accountID = document.getElementById('accountID').value;
     var token = document.getElementById('token').value;
     var csrfToken = document.getElementById('csrf_token').value;
+    ToggleLoading();
     axios({
         method: 'PUT',
-        url: 'http://localhost:8000/api/tai_khoan/'+ accountID,
+        url: '/api/tai_khoan/'+ accountID,
         data: formData,
         headers: {
             'Authorization': 'bearer '+ token,
@@ -174,9 +175,11 @@ function UpdateInfo() {
         }                
     })
     .then(function(response) {
+        ToggleLoading();
         alert('Quý khách đã cập nhật thông tin thành công!')
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
@@ -196,9 +199,10 @@ function UpdateAccount() {
     var accountID = document.getElementById('accountID').value;
     var token = document.getElementById('token').value;
     var csrfToken = document.getElementById('csrf_token').value;
+    ToggleLoading();
     axios({
         method: 'PUT',
-        url: 'http://localhost:8000/api/tai_khoan/updateAccount/'+ accountID,
+        url: '/api/tai_khoan/updateAccount/'+ accountID,
         data: {
             email: email,
             password: pass1
@@ -209,9 +213,11 @@ function UpdateAccount() {
         }                
     })
     .then(function(response) {
+        ToggleLoading();
         alert('Quý khách đã cập nhật tài khoản thành công!')
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
@@ -219,15 +225,18 @@ function UpdateAccount() {
 
     // For Bill
 function ChoosePaginateItem(pageSelected) {
+    ToggleLoading();
     axios({
         method: 'GET',
-        url: 'http://localhost:8000/getBillForPagination?pageSelected='+ pageSelected,
+        url: '/getBillForPagination?pageSelected='+ pageSelected,
     })
     .then(function(response) {
+        ToggleLoading();
         document.getElementById('containBills').innerHTML = response.data.billData;
         document.getElementById('containerPagiItem').innerHTML = response.data.paginateData;
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
@@ -236,7 +245,7 @@ function ChoosePaginateItem(pageSelected) {
 function GetBillDetail(billID) {
     axios({
         method: 'GET',
-        url: 'http://localhost:8000/getBillDetail/'+ billID
+        url: '/getBillDetail/'+ billID
     })
     .then(function(response) {
             // Appear bill detail
@@ -270,22 +279,25 @@ function GetBillDetail(billID) {
 }
 
 function PayBill(billID) {
-    window.location.href = 'http://localhost:8000/payBill?billID='+ billID;
+    window.location.href = '/payBill?billID='+ billID;
 }
 
 function DestroyBill(billID) {
     if(confirm('Bạn sẽ xóa đơn đặt phòng này?')) {
+        ToggleLoading();
         axios({
             method: 'DELETE',
-            url: 'http://localhost:8000/destroyBill',
+            url: '/destroyBill',
             data: {
                 billID: billID
             }                
         })
         .then(function(response) {
+            ToggleLoading();
             document.getElementById('bill'+ billID).hidden = true;
         })
         .catch(function(err) {
+            ToggleLoading();
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });

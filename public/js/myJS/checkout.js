@@ -11,19 +11,22 @@ function CreateBill() {
     if(CheckLogin() == false) {
         return;
     }
+    ToggleLoading();
     var token = document.getElementById('token').value;
     axios({
         method: 'POST',
-        url: 'http://localhost:8000/api/hoa_don',
+        url: '/api/hoa_don',
         headers: {
             'Authorization': 'bearer '+ token
         }            
     })
     .then(function(response) {
+        ToggleLoading();
         alert('Cảm ơn quý khách đã đặt phòng trên website ^^');
         location.reload();
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });            

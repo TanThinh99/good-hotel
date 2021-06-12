@@ -26,9 +26,10 @@ function AddRoomType() {
     var ma_khach_san = document.getElementById('hotelID').value;
     var token = document.getElementById('token').value;
     var csrfToken = document.getElementById('csrfToken').value;
+    ToggleLoading();
     axios({
         method: 'POST',
-        url: 'http://localhost:8000/api/loai_phong',
+        url: '/api/loai_phong',
         data: {
             ten: name,
             gia: price,
@@ -42,10 +43,12 @@ function AddRoomType() {
         }                                  
     })
     .then(function(response) {
+        ToggleLoading();
         alert('Thêm loại phòng thành công!');
-        window.location.href = 'http://localhost:8000/manager/roomType';
+        window.location.href = '/manager/roomType';
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });

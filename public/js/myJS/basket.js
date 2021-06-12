@@ -1,13 +1,15 @@
 function DeleteItem(itemID) {
     if(confirm('Bạn sẽ xóa đơn đặt phòng này?')) {
+        ToggleLoading();
         axios({
             method: 'DELETE',
-            url: 'http://localhost:8000/deleteInBasket',
+            url: '/deleteInBasket',
             data: {
                 itemID: itemID
             }            
         })
         .then(function(response) {
+            ToggleLoading();
             document.getElementById('item'+ itemID).hidden = true;
 
             // Update basket price total
@@ -24,6 +26,7 @@ function DeleteItem(itemID) {
             document.getElementById('basketPriceHeader').innerHTML = basketInfo.price +' VND';
         })
         .catch(function(err) {
+            ToggleLoading();
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });                
@@ -86,9 +89,10 @@ function UpdateItem(itemID) {
     var d2 = new Date(toDate);
     var amountDate = (d2-d1)/(24 * 3600 * 1000);
     amountDate = amountDate == 0 ? 1: amountDate;
+    ToggleLoading();
     axios({
         method: 'PUT',
-        url: 'http://localhost:8000/updateInBasket',
+        url: '/updateInBasket',
         data: {
             itemID: itemID,
             amountRoom: amountRoom,
@@ -98,6 +102,7 @@ function UpdateItem(itemID) {
         }            
     })
     .then(function(response) {
+        ToggleLoading();
         var basketInfo = response.data.basketInfo;
         document.getElementById('amountInBasketHeader').innerHTML = basketInfo.amount;
         document.getElementById('basketPriceHeader').innerHTML = basketInfo.price +' VND';
@@ -105,6 +110,7 @@ function UpdateItem(itemID) {
         UpdatePrice(itemID, amountDate, amountRoom);
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });                

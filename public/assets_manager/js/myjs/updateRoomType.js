@@ -60,9 +60,10 @@ function UpdateRoomType() {
     var roomTypeID = document.getElementById('roomTypeID').value;
     var token = document.getElementById('token').value;
     var csrfToken = document.getElementById('csrfToken').value;
+    ToggleLoading();
     axios({
         method: 'PUT',
-        url: 'http://localhost:8000/api/loai_phong/'+ roomTypeID,
+        url: '/api/loai_phong/'+ roomTypeID,
         data: {
             ten: name,
             gia: price,
@@ -76,9 +77,11 @@ function UpdateRoomType() {
         }                
     })
     .then(function(response) {
+        ToggleLoading();
         alert('Cập nhật thành công!');
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
@@ -110,9 +113,10 @@ function UploadImage() {
         for(i=0; i<images.length; i++) {
             formData.append('files', images[i]);
         }
+        ToggleLoading();
         axios({
             method: 'POST',
-            url: 'http://localhost:8000/api/hinh_anh',
+            url: '/api/hinh_anh',
             data: formData,
             headers: {
                 'Authorization': 'bearer '+ token,
@@ -120,10 +124,12 @@ function UploadImage() {
             }                                  
         })
         .then(function(response) {
+            ToggleLoading();
             alert('Tải hình ảnh thành công!')
             location.reload();
         })
         .catch(function(err) {
+            ToggleLoading();
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });
@@ -134,24 +140,24 @@ function DeleteImage() {
     if(confirm('Bạn sẽ xóa hình ảnh này?')) {
         var imageID = document.getElementById('imageSelected').value;
         var token = document.getElementById('token').value;
+        ToggleLoading();
         axios({
             method: 'DELETE',
-            url: 'http://localhost:8000/api/hinh_anh/'+ imageID,
+            url: '/api/hinh_anh/'+ imageID,
             headers: {
                 'Authorization': 'bearer '+ token
             }                                  
         })
         .then(function(response) {
+            ToggleLoading();
             document.getElementById(imageID).hidden = true;
             CloseImageBox();
             return true;
         })
         .catch(function(err) {
+            ToggleLoading();
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });                
-    }
-    else {
-        return false;
     }
 }

@@ -538,7 +538,7 @@ module.exports.OnlinePayment = async function(req, res) {
         errorStr += ' Quý khách vui lòng điều chỉnh lại các đơn phòng!';
         var announce = '<script>\
                             alert("'+ errorStr +'");\
-                            window.location.href = "http://localhost:8000/basket";\
+                            window.location.href = "/basket";\
                         </script>';
         res.send(announce);
     }
@@ -549,16 +549,8 @@ module.exports.OnlinePayment = async function(req, res) {
         var basketTotalPrice = 0;
             // Items in basket
         for(var i=0; i<basket.length; i++) {
-            var price = (basket[i].amountRoom * basket[i].amountDate * basket[i].roomType.gia) / usdPrice;
-            var priceArr = (price+'').split('.');
-            if(priceArr.length == 1) {
-                price = priceArr[0] +'.00';
-            }
-            else {
-                var duoi = priceArr[1].length >= 3 ? priceArr[1].substring(0, 2) : priceArr[1];
-                duoi = duoi.length == 1 ? duoi+'0' : duoi;
-                price = priceArr[0] +'.'+ duoi;
-            }
+            var price = (basket[i].amountDate * basket[i].roomType.gia) / usdPrice;
+            price = price.toFixed(2);
             
             var obj = {
                 "name": "phòng "+ basket[i].roomType.ten,
@@ -568,8 +560,9 @@ module.exports.OnlinePayment = async function(req, res) {
                 "quantity": basket[i].amountRoom
             }
             itemsArr.push(obj);
-            basketTotalPrice += price * 1;
+            basketTotalPrice += (price * 1) * basket[i].amountRoom;
         }
+        basketTotalPrice = basketTotalPrice.toFixed(2)
         var create_payment_json = {
             "intent": "sale",
             "payer": {
@@ -632,19 +625,11 @@ module.exports.SuccessPayment = function(req, res) {
     var usdPrice = 23000;
     var basketTotalPrice = 0;
     for(var i=0; i<basket.length; i++) {
-        var price = (basket[i].amountRoom * basket[i].amountDate * basket[i].roomType.gia) / usdPrice;
-        var priceArr = (price+'').split('.');
-        if(priceArr.length == 1) {
-            price = priceArr[0] +'.00';
-        }
-        else {
-            var duoi = priceArr[1].length >= 3 ? priceArr[1].substring(0, 2) : priceArr[1];
-            duoi = duoi.length == 1 ? duoi+'0' : duoi;
-            price = priceArr[0] +'.'+ duoi;
-        }
-        basketTotalPrice += price * 1;
+        var price = (basket[i].amountDate * basket[i].roomType.gia) / usdPrice;
+        price = price.toFixed(2);
+        basketTotalPrice += (price * 1) * basket[i].amountRoom;
     }
-    
+    basketTotalPrice = basketTotalPrice.toFixed(2);
     var execute_payment_json = {
         "payer_id": payerID,
         "transactions": [{
@@ -873,17 +858,8 @@ module.exports.PayBill = async function(req, res) {
     var returnRoomDate = new Date(bill.ngay_tra_phong);
     var amountDate = (returnRoomDate.getTime() - receiveRoomDate.getTime()) / (24*60*60*1000);
     amountDate = amountDate == 0 ? 1 : amountDate;
-    var price = (bill.so_luong_phong * bill.gia_dat_phong * amountDate) / usdPrice;
-    
-    var priceArr = (price+'').split('.');
-    if(priceArr.length == 1) {
-        price = priceArr[0] +'.00';
-    }
-    else {
-        var duoi = priceArr[1].length >= 3 ? priceArr[1].substring(0, 2) : priceArr[1];
-        duoi = duoi.length == 1 ? duoi+'0' : duoi;
-        price = priceArr[0] +'.'+ duoi;
-    }
+    var price = (bill.gia_dat_phong * amountDate) / usdPrice;
+    price = price.toFixed(2);
     var obj = {
         "name": "phòng "+ roomType.ten,
         "sku": "Khách sạn "+ hotel.ten,
@@ -891,6 +867,8 @@ module.exports.PayBill = async function(req, res) {
         "currency": "USD",
         "quantity": bill.so_luong_phong
     }
+    var priceTotal = (price * 1) * bill.so_luong_phong;
+    priceTotal = priceTotal.toFixed(2);
     var create_payment_json = {
         "intent": "sale",
         "payer": {
@@ -906,7 +884,7 @@ module.exports.PayBill = async function(req, res) {
             },
             "amount": {
                 "currency": "USD",
-                "total": price
+                "total": priceTotal
             },
             "description": "Hóa đơn đặt phòng"
         }]
@@ -916,7 +894,7 @@ module.exports.PayBill = async function(req, res) {
             console.log(error);
             var str = '<script>\
                             alert("Thanh toán trực tuyến gặp vấn đề, quý khách vui lòng thử lại sau!");\
-                            window.location.href = "http://localhost:8000/account";\
+                            window.location.href = "/account";\
                         </script>';
             res.send(str);
         } else {
@@ -941,16 +919,7 @@ module.exports.SuccessPaymentOfBill = async function(req, res) {
     var amountDate = (returnRoomDate.getTime() - receiveRoomDate.getTime()) / (24*60*60*1000);
     amountDate = amountDate == 0 ? 1 : amountDate;
     var price = (bill.so_luong_phong * bill.gia_dat_phong * amountDate) / usdPrice;
-    
-    var priceArr = (price+'').split('.');
-    if(priceArr.length == 1) {
-        price = priceArr[0] +'.00';
-    }
-    else {
-        var duoi = priceArr[1].length >= 3 ? priceArr[1].substring(0, 2) : priceArr[1];
-        duoi = duoi.length == 1 ? duoi+'0' : duoi;
-        price = priceArr[0] +'.'+ duoi;
-    }
+    price = price.toFixed(2);
     var execute_payment_json = {
         "payer_id": payerID,
         "transactions": [{
@@ -965,7 +934,7 @@ module.exports.SuccessPaymentOfBill = async function(req, res) {
             console.log(error);
             var str = '<script>\
                             alert("Thanh toán không thành công, quý khách vui lòng thử lại!");\
-                            window.location.href = "http://localhost:8000/account";\
+                            window.location.href = "/account";\
                         </script>';
             res.send(str);
         }
@@ -975,7 +944,7 @@ module.exports.SuccessPaymentOfBill = async function(req, res) {
             bill.save();            
             var str = '<script>\
                             alert("Thanh toán thành công, chúc quý khách có những trải nghiệm vui vẻ ^^");\
-                            window.location.href = "http://localhost:8000/account";\
+                            window.location.href = "/account";\
                         </script>';
             res.send(str);
         }
@@ -1305,15 +1274,15 @@ module.exports.GetBillForPagination = async function(req, res) {
                         <div class="row">\
                             <div class="col-md-7">\
                                 <h4 class="title">Thông tin khách sạn</h4>\
-                                <p>Tên: '+ billArr[i].ma_loai_phong.ma_khach_san.ten +'</p>\
-                                <p>Số điện thoại: '+ billArr[i].ma_loai_phong.ma_khach_san.so_dien_thoai +'</p>\
-                                <p>Địa chỉ: '+ billArr[i].ma_loai_phong.ma_khach_san.dia_chi +'</p>\
+                                <p><span class="titleInfo">Tên: </span>'+ billArr[i].ma_loai_phong.ma_khach_san.ten +'</p>\
+                                <p><span class="titleInfo">Số điện thoại: </span>'+ billArr[i].ma_loai_phong.ma_khach_san.so_dien_thoai +'</p>\
+                                <p><span class="titleInfo">Địa chỉ: </span>'+ billArr[i].ma_loai_phong.ma_khach_san.dia_chi +'</p>\
                             </div>\
                             <div class="col-md-5">\
                                 <h4 class="title">Thông tin loại phòng</h4>\
-                                <p>Loại phòng: '+ billArr[i].ma_loai_phong.ten +'</p>\
-                                <p>Ngày đặt phòng: <em>'+ billArr[i].ngay_dat_phong +'</em></p>\
-                                <p>Ngày nhận phòng: <em>'+ billArr[i].ngay_nhan_phong +'</em></p>\
+                                <p><span class="titleInfo">Loại phòng: </span>'+ billArr[i].ma_loai_phong.ten +'</p>\
+                                <p><span class="titleInfo">Ngày đặt phòng: </span><em>'+ billArr[i].ngay_dat_phong +'</em></p>\
+                                <p><span class="titleInfo">Ngày nhận phòng: </span><em>'+ billArr[i].ngay_nhan_phong +'</em></p>\
                             </div>\
                         </div>\
                         <div class="mt-2">\

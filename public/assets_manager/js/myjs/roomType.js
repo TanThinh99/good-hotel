@@ -13,42 +13,45 @@ function DeleteImage(roomID) {
     if(confirm('Bạn sẽ xóa hình ảnh này?')) {
         var imageID = document.getElementById('imageSelected'+ roomID).value;
         var token = document.getElementById('token').value;
+        ToggleLoading();
         axios({
             method: 'DELETE',
-            url: 'http://localhost:8000/api/hinh_anh/'+ imageID,
+            url: '/api/hinh_anh/'+ imageID,
             headers: {
                 'Authorization': 'bearer '+ token
             }                                  
         })
         .then(function(response) {
+            ToggleLoading();
             document.getElementById(imageID).hidden = true;
             CloseImageBox(roomID);
             return true;
         })
         .catch(function(err) {
+            ToggleLoading();
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });                
-    }
-    else {
-        return false;
     }
 }
 
 function DeleteRoomType(roomID) {
     if(confirm('Bạn sẽ xóa loại phòng này? (Loại phòng này sẽ bị vô hiệu hóa nếu đã từng có khách đặt loại phòng này, ngược lại thì bị xóa hoàn toàn.)')) {
         var token = document.getElementById('token').value;
+        ToggleLoading();
         axios({
             method: 'DELETE',
-            url: 'http://localhost:8000/api/loai_phong/'+ roomID,
+            url: '/api/loai_phong/'+ roomID,
             headers: {
                 'Authorization': 'bearer '+ token
             }                                  
         })
         .then(function(response) {
+            ToggleLoading();
             location.reload();
         })
         .catch(function(err) {
+            ToggleLoading();
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });

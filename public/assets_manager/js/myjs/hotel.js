@@ -61,7 +61,7 @@ function ChooseCity(id, name) {
 function DistrictAjax(cityID) {
     axios({
         method: 'GET',
-        url: 'http://localhost:8000/district_of_city/'+ cityID
+        url: '/district_of_city/'+ cityID
     })
     .then(function(response) {
         document.getElementById('containDistContent').innerHTML = response.data.distStr;
@@ -90,7 +90,7 @@ function ChooseDist(id, name) {
 function WardAjax(distID) {
     axios({
         method: 'GET',
-        url: 'http://localhost:8000/wards_of_district/'+ distID
+        url: '/wards_of_district/'+ distID
     })
     .then(function(response) {
         document.getElementById('containWardContent').innerHTML = response.data;
@@ -140,9 +140,10 @@ function UpdateHotel() {
     var hotelID = document.getElementById('hotelID').value;
     var token = document.getElementById('token').value;
     var csrfToken = document.getElementById('csrfToken').value;
+    ToggleLoading();
     axios({
         method: 'PUT',
-        url: 'http://localhost:8000/api/khach_san/'+ hotelID,
+        url: '/api/khach_san/'+ hotelID,
         data: {
             ten: name,
             dia_chi: address,
@@ -156,9 +157,11 @@ function UpdateHotel() {
         }                
     })
     .then(function(response) {
+        ToggleLoading();
         alert('Cập nhật xong thông tin khách sạn!')
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
@@ -190,9 +193,10 @@ function UploadImage() {
         for(i=0; i<images.length; i++) {
             formData.append('files', images[i]);
         }
+        ToggleLoading();
         axios({
             method: 'POST',
-            url: 'http://localhost:8000/api/hinh_anh',
+            url: '/api/hinh_anh',
             data: formData,
             headers: {
                 'Authorization': 'bearer '+ token,
@@ -200,10 +204,12 @@ function UploadImage() {
             }                                  
         })
         .then(function(response) {
+            ToggleLoading();
             alert('Tải hình ảnh thành công!')
             location.reload();
         })
         .catch(function(err) {
+            ToggleLoading();
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });
@@ -214,24 +220,24 @@ function DeleteImage() {
     if(confirm('Bạn sẽ xóa hình ảnh này?')) {
         var imageID = document.getElementById('imageSelected').value;
         var token = document.getElementById('token').value;
+        ToggleLoading();
         axios({
             method: 'DELETE',
-            url: 'http://localhost:8000/api/hinh_anh/'+ imageID,
+            url: '/api/hinh_anh/'+ imageID,
             headers: {
                 'Authorization': 'bearer '+ token
             }                                  
         })
         .then(function(response) {
+            ToggleLoading();
             document.getElementById(imageID).hidden = true;
             CloseImageBox();
             return true;
         })
         .catch(function(err) {
+            ToggleLoading();
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });                
-    }
-    else {
-        return false;
     }
 }

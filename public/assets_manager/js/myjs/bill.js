@@ -1,14 +1,17 @@
 function ChoosePaginateItem(pageSelected) {
     var key = document.getElementById('foundByKey').value;
+    ToggleLoading();
     axios({
         method: 'GET',
-        url: 'http://localhost:8000/manager/getBillForPagination?key='+ key +'&pageSelected='+ pageSelected,
+        url: '/manager/getBillForPagination?key='+ key +'&pageSelected='+ pageSelected,
     })
     .then(function(response) {
+        ToggleLoading();
         document.getElementById('containerBills').innerHTML = response.data.billData;
         document.getElementById('containerPagiItem').innerHTML = response.data.paginateData;
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });

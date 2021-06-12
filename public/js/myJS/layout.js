@@ -43,12 +43,14 @@ function CloseModal() {
     document.getElementById('closeLoginModal').click();
 }
 
-function OpenLoading() {
-    document.getElementById('loadingDiv').style.display = 'block';
-}
-
-function CloseLoading() {
-    document.getElementById('loadingDiv').style.display = 'none';
+function ToggleLoading() {
+    var loadingDiv = document.getElementById('loadingDiv');
+    if(loadingDiv.style.display == 'block') {
+        loadingDiv.style.display = 'none';
+    }
+    else {
+        loadingDiv.style.display = 'block';
+    }
 }
 
 function Register() {
@@ -75,10 +77,10 @@ function Register() {
     if((hoTen == '') || !(/^\d{10,11}$/.test(sdt)) || !(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(email)) || (username == '') || (pass1 == '') || (pass1 != pass2)) {
         return;
     }
-
+    ToggleLoading();
     axios({
         method: 'POST',
-        url: 'http://localhost:8000/api/tai_khoan',
+        url: '/api/tai_khoan',
         data: {
             ho_ten: hoTen,
             so_dien_thoai: sdt,
@@ -88,6 +90,7 @@ function Register() {
         }
     })
     .then(function(response) {
+        ToggleLoading();
         if(response.data == 'success') {
             alert('Quý khách đăng ký tài khoản thành công!');
             location.reload();
@@ -97,6 +100,7 @@ function Register() {
         }
     })
     .catch(function(err) {
+        ToggleLoading();
         alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
         console.log(err);
     });
@@ -115,17 +119,17 @@ function Login() {
         return;
     }
     else {
-        OpenLoading();
+        ToggleLoading();
         axios({
             method: 'POST',
-            url: 'http://localhost:8000/api/postLogin',
+            url: '/api/postLogin',
             data: {
                 uid: uid,
                 pass: pass
             }
         })
         .then(function(response) {
-            CloseLoading();
+            ToggleLoading();
             if(response.data.access == '0') {
                 alert('Opp!! Quý khách đăng nhập thất bại!');
             }
@@ -139,7 +143,7 @@ function Login() {
             }
         })
         .catch(function(err) {
-            CloseLoading();
+            ToggleLoading();
             alert('Có lỗi hệ thống, quý khách vui lòng thử lại!');
             console.log(err);
         });
@@ -153,15 +157,17 @@ function CheckAccountInfo() {
         alert('Tên đăng nhập và email không được rỗng!');
         return;
     }
+    ToggleLoading();
     axios({
         method: 'POST',
-        url: 'http://localhost:8000/forgetPassword',
+        url: '/forgetPassword',
         data: {
             uid: uid,
             email: email
         }
     })
     .then(function(response) {
+        ToggleLoading();
         var err = response.data.err;
         if(err == '') {
             var itemNav = document.getElementById('savePassNavItem');
@@ -173,6 +179,7 @@ function CheckAccountInfo() {
         }
     })
     .catch(function(err) {
+        ToggleLoading();
         console.log(err);
         alert('Có lỗi hệ thống. Quý khách vui lòng thử lại sau!');
     })
@@ -190,15 +197,17 @@ function SaveNewPassword() {
         alert('Mật khẩu không được rỗng, và mật khẩu nhập lại phải trùng khớp với mật khẩu trên!');
         return;
     }   
+    ToggleLoading();
     axios({
         method: 'POST',
-        url: 'http://localhost:8000/confirmNewPassword',
+        url: '/confirmNewPassword',
         data: {
             token: token,
             password: pass1
         }
     })
     .then(function(response) {
+        ToggleLoading();
         var err = response.data.err;
         if(err == '') {
             alert('Quý khách đã đổi mật khẩu thành công!');
@@ -209,6 +218,7 @@ function SaveNewPassword() {
         }
     })
     .catch(function(err) {
+        ToggleLoading();
         console.log(err);
         alert('Có lỗi hệ thống. Quý khách vui lòng thử lại sau!');
     })

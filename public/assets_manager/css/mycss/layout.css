@@ -8,3 +8,20 @@
     margin-top: 15px;
     margin-bottom: 9px;
 }
+
+/* LOADING */
+#loadingDiv {
+    display: none;
+    position: fixed;
+    bottom: 40px;
+    right: 20px;
+    background: #defdff;
+    padding: 10px 28px;
+    border-radius: 30px;
+    opacity: 85%;
+    z-index:1;
+}
+
+#loadingDiv .loading-text {
+    font-weight: bold;
+}
